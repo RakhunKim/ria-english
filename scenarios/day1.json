@@ -1,0 +1,426 @@
+{
+  "meta": {
+    "day": 1,
+    "title": "개강 첫날",
+    "date": "2025.03.03 월",
+    "stage": 1,
+    "total_utterances": 9,
+    "max_intimacy": 19
+  },
+  "utterances": [
+    {
+      "id": "D01_U01",
+      "no": 1,
+      "act": "기",
+      "time": "09:05",
+      "location": "H대 인문관 강의실",
+      "bg": "morning",
+      "ria_image": "ria_curious",
+      "trigger": "I didn't think this class would need, like... actual notes.",
+      "context": "교양 수업 첫날 — 옆자리에 앉은 교환학생",
+      "construction": "Small Clause",
+      "cue": null,
+      "hints": [
+        "out",
+        "pen"
+      ],
+      "correct": [
+        "pen out",
+        "a pen out",
+        "here pen out"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "🌸",
+        "say": "Oh! Thanks. I'm Ria, by the way.",
+        "ria_image": "ria_smile_bright"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Pen out. Got it, thanks.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... out, pen...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Pen out — so you mean pen out?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U02",
+      "no": 2,
+      "act": "기",
+      "time": "10:35",
+      "location": "H대 인문관 복도",
+      "bg": "morning",
+      "ria_image": "ria_warm_flushed",
+      "trigger": "The heating in Korean buildings is... intense.",
+      "context": "수업 끝 — 실내 난방이 세서 더움",
+      "construction": "Small Clause",
+      "cue": null,
+      "hints": [
+        "off",
+        "coat"
+      ],
+      "correct": [
+        "coat off",
+        "your coat off"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "😄",
+        "say": "Oh! You're right. Already March!",
+        "ria_image": "ria_smile_bright"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Coat off. Right, thanks.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... off, coat...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Coat off — so you mean coat off?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U03",
+      "no": 3,
+      "act": "승",
+      "time": "11:10",
+      "location": "H대 캠퍼스 벤치",
+      "bg": "noon",
+      "ria_image": "ria_surprised",
+      "trigger": "Oh — sorry, I didn't hear you at all.",
+      "context": "공강 — 이어폰 양쪽 꽂고 혼자였다",
+      "construction": "Small Clause",
+      "cue": null,
+      "hints": [
+        "out",
+        "earphones"
+      ],
+      "correct": [
+        "earphones out",
+        "both out",
+        "earphone out"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "😆",
+        "say": "Both out! Okay, I'm here. What were you saying?",
+        "ria_image": "ria_smile_bright"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Earphones out. Right.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... out, earphones...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Earphones out — so you mean earphones out?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U04",
+      "no": 4,
+      "act": "승",
+      "time": "12:55",
+      "location": "H대 학생식당 앞",
+      "bg": "noon",
+      "ria_image": "ria_urgent",
+      "trigger": "That line is not happening. And it looks like rain.",
+      "context": "점심 — 줄이 문 밖까지, 먹구름",
+      "construction": "Intransitive Motion",
+      "cue": "Let's ___________!",
+      "hints": [
+        "run",
+        "to"
+      ],
+      "correct": [
+        "let's run to that place",
+        "let's dash to the gate",
+        "let's sprint there",
+        "let's run to the snack bar"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "🏃",
+        "say": "Let's go! Come on, before it pours!",
+        "ria_image": "ria_excited"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Run to that place. Yes, go!",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... let's run...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Run to that place — let's run to that place?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U05",
+      "no": 5,
+      "act": "전",
+      "time": "15:10",
+      "location": "H대 중앙도서관 앞",
+      "bg": "afternoon",
+      "ria_image": "ria_hopeful",
+      "trigger": "These are due today. The drop box is... right there.",
+      "context": "도서관 앞 — 책 가득, 반납함 코앞",
+      "construction": "Caused Motion",
+      "cue": "I'm gonna ___________!",
+      "hints": [
+        "get",
+        "in"
+      ],
+      "correct": [
+        "i'm gonna get them in",
+        "i'm gonna get those books in",
+        "i'll get them in"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "😌",
+        "say": "I'm gonna get them in! There — done.",
+        "ria_image": "ria_relieved"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Get them in. Thanks.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... I'm gonna get them...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Get them in — I'm gonna get them in?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U06",
+      "no": 6,
+      "act": "전",
+      "time": "15:25",
+      "location": "H대 중앙도서관 내부",
+      "bg": "afternoon",
+      "ria_image": "ria_struggling",
+      "trigger": "I literally can't see anything through this.",
+      "context": "도서관 내부 — 안경 렌즈에 지문이 가득",
+      "construction": "VtR Adjectival",
+      "cue": "I'm gonna ___________!",
+      "hints": [
+        "wipe",
+        "clean"
+      ],
+      "correct": [
+        "i'm gonna wipe it clean",
+        "i'll wipe it clean",
+        "i'm gonna wipe the lens clean"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "🥰",
+        "say": "I'm gonna wipe it clean! Here. Better?",
+        "ria_image": "ria_grateful"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Wipe it clean. Yes.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... I'm gonna wipe it...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Wipe it clean — I'm gonna wipe it clean?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U07",
+      "no": 7,
+      "act": "결",
+      "time": "17:40",
+      "location": "H대앞 카페",
+      "bg": "evening",
+      "ria_image": "ria_distracted",
+      "trigger": "Sorry, I keep — it's just a group chat, it's nothing.",
+      "context": "골든아워 카페 — 처음으로 단둘이",
+      "construction": "Small Clause",
+      "cue": null,
+      "hints": [
+        "down",
+        "phone"
+      ],
+      "correct": [
+        "phone down",
+        "phone down i'm here",
+        "just phone down"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "☺️",
+        "say": "Phone down. You're right. What were we saying?",
+        "ria_image": "ria_refocused"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Phone down. Okay.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... down, phone...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Phone down — phone down?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U08",
+      "no": 8,
+      "act": "결",
+      "time": "18:05",
+      "location": "H대앞 카페",
+      "bg": "evening",
+      "ria_image": "ria_happy_menu",
+      "trigger": "The menu here is actually really good. That one looks nice.",
+      "context": "카페 — Ria 빈손, 메뉴판만 보는 중",
+      "construction": "Ditransitive",
+      "cue": "I'm gonna ___________!",
+      "hints": [
+        "get",
+        "one"
+      ],
+      "correct": [
+        "i'm gonna get you one",
+        "i'll get you one",
+        "i'm gonna get you that one"
+      ],
+      "reward_instant": {
+        "delta": 2,
+        "emoji": "🥳",
+        "say": "I'm gonna get you one! Be right back. Don't move.",
+        "ria_image": "ria_excited"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Get you one. Sure.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... I'm gonna get you...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Get you one — I'm gonna get you one?",
+        "ria_image": "ria_smile_soft"
+      }
+    },
+    {
+      "id": "D01_U09",
+      "no": 9,
+      "act": "결",
+      "time": "19:45",
+      "location": "H대앞 카페 출구",
+      "bg": "night",
+      "ria_image": "ria_cold_night",
+      "trigger": "I forgot it gets cold at night here. Spring is weird.",
+      "context": "봄밤 — 카페 출구, 쌀쌀한 밤바람",
+      "construction": "Small Clause",
+      "cue": null,
+      "hints": [
+        "on",
+        "jacket"
+      ],
+      "correct": [
+        "jacket on",
+        "your jacket on",
+        "jacket on it's cold"
+      ],
+      "reward_instant": {
+        "delta": 3,
+        "emoji": "🌙",
+        "say": "Jacket on. ...You're oddly good at this. See you Wednesday?",
+        "ria_image": "ria_smile_warm"
+      },
+      "reward_cf": {
+        "delta": 1,
+        "emoji": "😊",
+        "say": "Jacket on. Thanks. See you.",
+        "ria_image": "ria_smile_soft"
+      },
+      "cf1": {
+        "text": "Excuse me? \"{W}\"? What do you mean by that?",
+        "ria_image": "ria_confused"
+      },
+      "cf2": {
+        "text": "You mean... on, jacket...?",
+        "ria_image": "ria_thinking"
+      },
+      "cf3": {
+        "text": "Jacket on — jacket on?",
+        "ria_image": "ria_smile_soft"
+      }
+    }
+  ]
+}
