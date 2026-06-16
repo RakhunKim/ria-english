@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>RIA English</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#FFF8F0; --peach:#F4A882; --peach-lt:#FDDEC8; --peach-bg:#FEF0E6;
+  --lav:#C4B5F4; --lav-lt:#EDE8FC; --lav-bg:#F5F2FE;
+  --mint:#7ECFB3; --mint-lt:#D4F2E8;
+  --ink:#2D2A35; --ink2:#5A5570; --muted:#9B96AA; --border:#EAE6F0;
+  --success:#5DBF8A; --error:#F07070; --warn:#F5C842;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Nunito','Noto Sans KR',sans-serif;}
+body{background:var(--cream);color:var(--ink);overflow-x:hidden;}
+
+.screen{display:none;min-height:100vh;}
+.screen.active{display:flex;flex-direction:column;}
+
+/* ── LANDING ── */
+#landing{
+  background:linear-gradient(160deg,#FFF8F0 0%,#FEF0E6 40%,#F5F2FE 100%);
+  position:relative;overflow:hidden;
+}
+#landing::before{content:'';position:absolute;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(196,181,244,.25) 0%,transparent 70%);
+  top:-100px;right:-100px;border-radius:50%;pointer-events:none;}
+#landing::after{content:'';position:absolute;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(244,168,130,.2) 0%,transparent 70%);
+  bottom:0;left:-80px;border-radius:50%;pointer-events:none;}
+
+.land-nav{display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 2rem;position:relative;z-index:10;}
+.land-logo{font-size:1.3rem;font-weight:900;letter-spacing:-.03em;color:var(--ink);}
+.land-logo span{color:var(--peach);}
+.land-nav-btns{display:flex;gap:8px;}
+.nav-btn{background:white;border:2px solid var(--border);padding:7px 16px;
+  font-size:13px;font-weight:700;border-radius:50px;cursor:pointer;
+  font-family:inherit;color:var(--ink2);transition:all .2s;}
+.nav-btn:hover{border-color:var(--lav);color:var(--lav);}
+
+.land-hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  gap:2rem;padding:2rem 2rem 3rem;max-width:960px;margin:0 auto;
+  width:100%;position:relative;z-index:5;flex:1;}
+
+.land-eyebrow{display:inline-flex;align-items:center;gap:6px;
+  background:var(--lav-lt);color:var(--lav);font-size:11px;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;
+  border-radius:20px;margin-bottom:1rem;}
+
+.land-title{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.1;
+  letter-spacing:-.03em;margin-bottom:.75rem;}
+.land-title .t1{color:var(--ink);}
+.land-title .t2{color:var(--peach);}
+.land-title .t3{color:var(--lav);}
+
+.land-copy{font-size:15px;line-height:1.75;color:var(--ink2);
+  margin-bottom:2rem;max-width:420px;}
+
+.land-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;}
+.btn-main{background:var(--peach);color:white;border:none;padding:14px 28px;
+  font-size:15px;font-weight:800;border-radius:50px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(244,168,130,.45);transition:all .2s;
+  font-family:inherit;display:flex;align-items:center;gap:8px;}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(244,168,130,.5);}
+.btn-sub{background:white;color:var(--ink2);border:2px solid var(--border);
+  padding:12px 22px;font-size:14px;font-weight:700;border-radius:50px;
+  cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-sub:hover{border-color:var(--lav);color:var(--lav);}
+
+.land-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{background:white;border:1.5px solid var(--border);padding:6px 14px;
+  border-radius:20px;font-size:12px;font-weight:700;color:var(--ink2);}
+.pill.p{border-color:var(--peach-lt);color:var(--peach);background:var(--peach-bg);}
+.pill.l{border-color:var(--lav-lt);color:var(--lav);background:var(--lav-bg);}
+.pill.m{border-color:var(--mint-lt);color:var(--mint);background:var(--mint-lt);}
+
+.land-card{background:white;border-radius:28px;
+  box-shadow:0 20px 60px rgba(196,181,244,.25),0 4px 20px rgba(0,0,0,.06);
+  overflow:hidden;max-width:320px;margin:0 auto;}
+.land-card-img{width:100%;height:300px;
+  background:linear-gradient(180deg,var(--lav-lt) 0%,var(--peach-bg) 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:90px;position:relative;overflow:hidden;}
+.land-card-img img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:top;}
+.land-card-body{padding:1.25rem;}
+.ria-name-big{font-size:1.3rem;font-weight:900;margin-bottom:2px;}
+.ria-desc-sm{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.int-wrap{margin-bottom:10px;}
+.int-top{display:flex;justify-content:space-between;
+  font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:4px;}
+.int-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.int-fill{height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--peach),var(--lav));
+  width:0%;transition:width 1s ease;}
+.preview-bubble{background:var(--lav-bg);border:1.5px solid var(--lav-lt);
+  border-radius:14px 14px 14px 4px;padding:10px 14px;
+  font-size:13px;font-style:italic;line-height:1.5;color:var(--ink2);}
+
+.ad-slot{background:var(--border);border-radius:12px;padding:12px;
+  text-align:center;font-size:11px;color:var(--muted);font-weight:600;
+  letter-spacing:.05em;}
+.land-footer{text-align:center;padding:1rem 2rem;
+  font-size:11px;color:var(--muted);font-weight:600;position:relative;z-index:5;}
+
+/* ── GAME ── */
+#game{background:var(--cream);max-width:600px;margin:0 auto;width:100%;}
+
+/* 투명 PNG 체커보드 방지 */
+#npc-img, .ria-char-img {
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  isolation: isolate;
+}
+@keyframes breathe {
+  0%,100%{transform:scaleY(1) translateY(0);}
+  45%{transform:scaleY(1.008) translateY(-2px);}
+}
+@keyframes hair-sway {
+  0%,100%{transform:rotate(0deg);}
+  30%{transform:rotate(0.4deg);}
+  70%{transform:rotate(-0.3deg);}
+}
+.anim-blink-breathe .ria-char-img{
+  animation:breathe 3.5s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+.anim-blink-hair .ria-char-img{
+  animation:hair-sway 4s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+.anim-blink-full .ria-char-img{
+  animation:breathe 3.5s ease-in-out infinite,hair-sway 4s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+.ria-char-img{
+  height:100%;object-fit:contain;object-position:bottom;
+  filter:drop-shadow(0 4px 20px rgba(196,181,244,.4));
+  transition:opacity .3s ease;
+}
+.ria-char-img.switching{opacity:0;}
+.ria-char-img.blinking{
+  transform:scaleY(0.03)!important;
+  transition:transform 0.05s ease!important;
+}
+.scene-bg-img{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:opacity .8s ease;
+}
+/* ── GAME TOPBAR ── */
+.game-topbar{display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.25rem;background:white;
+  border-bottom:2px solid var(--border);position:sticky;top:0;z-index:50;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.day-badge{background:var(--peach-bg);color:var(--peach);
+  font-size:11px;font-weight:800;letter-spacing:.06em;
+  padding:4px 10px;border-radius:20px;text-transform:uppercase;}
+.prog-dots{display:flex;gap:5px;align-items:center;}
+.pd{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;}
+.pd.done{background:var(--peach);}
+.pd.now{background:var(--lav);transform:scale(1.3);}
+.heart-box{display:flex;align-items:center;gap:5px;
+  background:var(--peach-bg);border-radius:20px;padding:5px 12px;}
+.heart-num{font-size:14px;font-weight:800;color:var(--peach);}
+
+/* state indicator */
+.state-badge{font-size:10px;font-weight:800;padding:3px 8px;
+  border-radius:20px;letter-spacing:.04em;}
+.state-free{background:var(--mint-lt);color:var(--mint);}
+.state-target{background:var(--peach-bg);color:var(--peach);}
+.state-after{background:var(--lav-lt);color:var(--lav);}
+
+.scene-wrap{position:relative;height:clamp(300px,50vw,420px);overflow:hidden;background:#B8D4E8;}
+.scene-bg{position:absolute;inset:0;transition:background 1.2s ease;background:#B8D4E8;background-size:cover;background-position:center;}
+.bg-morning{background:linear-gradient(180deg,#C8E6F5 0%,#E8F4FE 30%,#FFF8F0 65%,#FEF0E6 100%);}
+.bg-noon{background:linear-gradient(180deg,#87CEEB 0%,#C5E8F5 30%,#FFF8E8 65%,#FEF5E0 100%);}
+.bg-afternoon{background:linear-gradient(180deg,#FFD4A0 0%,#FFEACC 35%,#FFF4E8 65%,#FFF8F0 100%);}
+.bg-evening{background:linear-gradient(180deg,#FFB07A 0%,#FFCFA0 30%,#FFE8D0 65%,#FFF5EE 100%);}
+.bg-night{background:linear-gradient(180deg,#6B7FB8 0%,#A0B0D8 30%,#D0D8EE 65%,#EEF0F8 100%);}
+.sakura-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.petal{position:absolute;font-size:14px;opacity:.7;animation:fall linear infinite;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0);opacity:.7}100%{transform:translateY(360px) rotate(360deg);opacity:0}}
+.scene-chips{position:absolute;top:10px;left:12px;z-index:10;display:flex;gap:6px;}
+.chip{background:rgba(255,255,255,.85);border-radius:20px;padding:4px 10px;
+  font-size:11px;font-weight:700;color:var(--ink2);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.9);}
+.chip.time{color:var(--peach);}
+.ria-wrap{position:absolute;bottom:0;right:5%;height:105%;
+  display:flex;align-items:flex-end;z-index:5;transition:transform .4s ease;}
+.ria-wrap img{height:95%;object-fit:contain;object-position:bottom;
+  filter:drop-shadow(0 4px 20px rgba(196,181,244,.4));}
+.ria-ph{height:260px;width:160px;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;}
+.ria-blob{width:130px;height:220px;
+  background:linear-gradient(180deg,var(--lav-lt) 0%,var(--peach-lt) 100%);
+  border-radius:65px 65px 30px 30px;position:relative;
+  box-shadow:0 8px 30px rgba(196,181,244,.35);}
+.ria-blob::before{content:'';position:absolute;top:18px;left:50%;
+  transform:translateX(-50%);width:58px;height:58px;
+  background:var(--peach-lt);border-radius:50%;}
+.expr-tag{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
+  background:white;border:2px solid var(--lav-lt);border-radius:20px;
+  padding:4px 12px;font-size:10px;font-weight:800;color:var(--lav);
+  white-space:nowrap;box-shadow:0 2px 8px rgba(196,181,244,.2);}
+
+/* dialogue */
+.dialogue-section{background:white;border-radius:24px 24px 0 0;
+  margin-top:-16px;position:relative;z-index:10;
+  box-shadow:0 -4px 24px rgba(0,0,0,.06);padding:1.25rem 1.25rem 0;}
+.ria-speech{display:flex;gap:10px;margin-bottom:.75rem;}
+.ria-avatar{width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--peach-lt),var(--lav-lt));
+  border:2px solid var(--peach-lt);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;}
+.ria-avatar img{width:100%;height:100%;object-fit:cover;}
+.ria-bw{flex:1;}
+.ria-name-tag{font-size:11px;font-weight:800;color:var(--peach);
+  letter-spacing:.06em;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.tts-btn{background:var(--peach-bg);border:none;border-radius:50%;
+  width:22px;height:22px;cursor:pointer;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;color:var(--peach);}
+.tts-btn:hover{background:var(--peach-lt);}
+.tts-btn.playing{animation:pls .6s ease infinite alternate;}
+@keyframes pls{from{transform:scale(1)}to{transform:scale(1.15)}}
+.speech-bubble{background:var(--lav-bg);border:1.5px solid var(--lav-lt);
+  border-radius:4px 18px 18px 18px;padding:12px 16px;
+  font-size:14px;line-height:1.65;color:var(--ink);font-style:italic;font-weight:600;}
+.speech-ctx{font-size:11px;color:var(--muted);font-style:normal;
+  font-weight:600;margin-top:4px;}
+
+/* free talk messages */
+.freetalk-area{margin:.5rem 0;display:flex;flex-direction:column;gap:6px;}
+.ft-msg{display:flex;gap:8px;align-items:flex-start;}
+.ft-msg.user{flex-direction:row-reverse;}
+.ft-bubble{max-width:80%;padding:9px 14px;border-radius:18px;
+  font-size:13px;font-weight:600;line-height:1.5;}
+.ft-bubble.ria{background:var(--lav-bg);border:1.5px solid var(--lav-lt);
+  border-radius:4px 18px 18px 18px;color:var(--ink2);font-style:italic;}
+.ft-bubble.player{background:var(--peach-bg);border:1.5px solid var(--peach-lt);
+  border-radius:18px 18px 4px 18px;color:var(--ink);}
+
+/* turn counter */
+.turn-counter{display:flex;align-items:center;gap:6px;
+  padding:.4rem .75rem;margin:0 0 .5rem;
+  font-size:11px;font-weight:700;color:var(--muted);}
+.turn-dot{width:6px;height:6px;border-radius:50%;background:var(--border);}
+.turn-dot.used{background:var(--warn);}
+.turn-dot.warn{background:var(--error);}
+
+/* CF area */
+.cf-area{margin:0 0 .5rem;border-radius:12px;overflow:hidden;
+  border:1.5px solid var(--border);display:none;}
+.cf-area.show{display:block;}
+.cf-row{display:flex;gap:8px;align-items:flex-start;padding:9px 12px;
+  border-bottom:1px solid var(--border);background:white;}
+.cf-row:last-child{border-bottom:none;}
+.cf-pill{font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;
+  white-space:nowrap;flex-shrink:0;margin-top:1px;letter-spacing:.04em;}
+.cf-pill.c1{background:#F0F0F0;color:#888;}
+.cf-pill.c2{background:#FFF3E0;color:#E08000;}
+.cf-pill.c3{background:var(--mint-lt);color:var(--mint);}
+.cf-text-sm{font-size:13px;font-style:italic;color:var(--ink2);
+  line-height:1.5;font-weight:600;}
+
+/* no-response warning */
+.no-resp-bar{background:var(--warn);border-radius:8px;padding:6px 12px;
+  font-size:11px;font-weight:800;color:var(--ink);margin:.25rem 0;
+  display:none;text-align:center;}
+.no-resp-bar.show{display:block;}
+
+/* input zone */
+.input-zone{background:white;padding:.85rem 1.25rem 1.25rem;
+  position:sticky;bottom:0;z-index:20;
+  border-top:1.5px solid var(--border);
+  box-shadow:0 -4px 20px rgba(0,0,0,.05);}
+.cue-disp{font-size:12px;color:var(--muted);font-weight:700;
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.cue-span{background:var(--lav-bg);color:var(--lav);border-radius:8px;
+  padding:3px 10px;font-size:13px;font-weight:800;font-style:italic;}
+.state-hint{font-size:11px;color:var(--muted);font-weight:600;
+  padding:4px 10px;background:var(--border);border-radius:20px;}
+.answer-row{display:flex;gap:8px;margin-bottom:8px;}
+.ans-input{flex:1;background:var(--lav-bg);border:2px solid var(--lav-lt);
+  border-radius:50px;padding:12px 18px;font-size:14px;font-weight:600;
+  color:var(--ink);outline:none;transition:all .2s;font-family:inherit;}
+.ans-input::placeholder{color:var(--muted);font-weight:600;}
+.ans-input:focus{border-color:var(--lav);background:white;}
+.ans-input.correct{border-color:var(--success);background:#F0FBF5;}
+.ans-input.wrong{border-color:var(--error);background:#FFF5F5;animation:wob .4s ease;}
+@keyframes wob{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}60%{transform:translateX(8px)}}
+.send-btn{width:48px;height:48px;border-radius:50%;
+  background:var(--peach);color:white;border:none;font-size:20px;
+  cursor:pointer;box-shadow:0 4px 14px rgba(244,168,130,.45);
+  transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.send-btn:hover{transform:scale(1.08);}
+.send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.mic-btn{width:48px;height:48px;border-radius:50%;
+  background:var(--lav-bg);color:var(--lav);border:2px solid var(--lav-lt);
+  font-size:20px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.mic-btn.listening{background:var(--lav);color:white;border-color:var(--lav);
+  animation:mpl .8s ease infinite alternate;}
+@keyframes mpl{from{box-shadow:0 0 0 0 rgba(196,181,244,.5)}to{box-shadow:0 0 0 10px rgba(196,181,244,0)}}
+.hints-row{display:flex;gap:6px;flex-wrap:wrap;}
+.hint-tag{background:var(--peach-bg);color:var(--peach);border:1.5px solid var(--peach-lt);
+  border-radius:20px;padding:5px 14px;font-size:12px;font-weight:800;
+  cursor:pointer;transition:all .15s;user-select:none;}
+.hint-tag:hover{background:var(--peach-lt);transform:translateY(-1px);}
+.hint-tag.used{opacity:.3;pointer-events:none;}
+.ad-ingame{background:var(--border);border-radius:10px;padding:10px;
+  text-align:center;font-size:11px;color:var(--muted);font-weight:700;
+  margin:.5rem 1.25rem;letter-spacing:.05em;display:none;}
+
+/* reward popup */
+.reward-ov{position:fixed;inset:0;z-index:200;
+  background:rgba(196,181,244,.3);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;}
+.reward-ov.show{display:flex;}
+.reward-card{background:white;border-radius:28px;padding:2rem;
+  max-width:320px;width:90%;text-align:center;
+  box-shadow:0 20px 60px rgba(196,181,244,.4);
+  animation:popin .35s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes popin{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.r-emoji{font-size:48px;margin-bottom:8px;}
+.r-delta{font-size:2.5rem;font-weight:900;
+  background:linear-gradient(135deg,var(--peach),var(--lav));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1;margin-bottom:.75rem;}
+.r-say{font-size:14px;font-style:italic;font-weight:700;color:var(--ink2);
+  line-height:1.6;background:var(--lav-bg);border-radius:14px;
+  padding:12px 16px;margin-bottom:1.25rem;}
+.r-next{width:100%;background:var(--peach);color:white;border:none;
+  padding:14px;border-radius:50px;font-size:15px;font-weight:800;
+  cursor:pointer;font-family:inherit;transition:all .2s;
+  box-shadow:0 4px 16px rgba(244,168,130,.4);}
+
+/* session end */
+#session-end{background:linear-gradient(160deg,#FFF8F0,#F5F2FE);
+  align-items:center;justify-content:center;
+  text-align:center;padding:3rem 1.5rem;}
+.end-wrap{max-width:400px;width:100%;}
+.end-stars{font-size:2rem;margin-bottom:1rem;}
+.end-title{font-size:2rem;font-weight:900;margin-bottom:4px;letter-spacing:-.03em;}
+.end-sub{font-size:1rem;color:var(--muted);font-weight:700;margin-bottom:2rem;font-style:italic;}
+.end-stats{display:flex;gap:12px;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
+.end-stat{background:white;border-radius:18px;padding:1rem 1.25rem;min-width:90px;
+  box-shadow:0 4px 16px rgba(0,0,0,.06);border:2px solid var(--border);}
+.end-stat-n{font-size:1.75rem;font-weight:900;color:var(--peach);}
+.end-stat-l{font-size:11px;font-weight:700;color:var(--muted);margin-top:2px;}
+.ria-last{background:white;border-radius:18px;padding:1.25rem 1.5rem;
+  margin-bottom:1.5rem;font-size:15px;font-style:italic;font-weight:700;
+  color:var(--ink2);line-height:1.65;border:2px solid var(--lav-lt);text-align:left;
+  box-shadow:0 4px 16px rgba(196,181,244,.1);}
+.restore-box{background:var(--lav-bg);border-radius:18px;border:2px solid var(--lav-lt);
+  padding:1rem 1.25rem;margin-bottom:1.5rem;}
+.restore-lbl{font-size:11px;font-weight:800;color:var(--lav);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.restore-code{font-size:1.6rem;font-weight:900;letter-spacing:.2em;
+  color:var(--ink);font-family:'Courier New',monospace;}
+.restore-hint{font-size:11px;color:var(--muted);font-weight:600;margin-top:5px;}
+.end-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+/* modal */
+.modal-bg{position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.35);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;}
+.modal-bg.show{display:flex;}
+.modal-card{background:white;border-radius:24px;padding:2rem;
+  max-width:340px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.15);}
+.modal-card h3{font-size:1.2rem;font-weight:900;margin-bottom:6px;}
+.modal-card p{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:1rem;}
+.modal-inp{width:100%;background:var(--lav-bg);border:2px solid var(--lav-lt);
+  border-radius:50px;padding:12px 18px;font-size:16px;font-weight:800;
+  font-family:'Courier New',monospace;letter-spacing:.15em;text-align:center;
+  color:var(--ink);outline:none;margin-bottom:1rem;}
+.modal-inp:focus{border-color:var(--lav);}
+.modal-btns{display:flex;gap:8px;}
+.modal-ok{flex:1;background:var(--peach);color:white;border:none;padding:12px;
+  border-radius:50px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;}
+.modal-cancel{background:var(--border);color:var(--muted);border:none;
+  padding:12px 18px;border-radius:50px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:inherit;}
+
+/* typing indicator */
+.typing-dots{display:inline-flex;gap:4px;padding:4px 0;}
+.typing-dots span{width:7px;height:7px;border-radius:50%;
+  background:var(--lav);animation:td .8s ease infinite;}
+.typing-dots span:nth-child(2){animation-delay:.15s;}
+.typing-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes td{0%,80%,100%{transform:scale(0);opacity:.4}40%{transform:scale(1);opacity:1}}
+
+@media(max-width:600px){
+  .land-hero{grid-template-columns:1fr;}
+  .land-card{display:none;}
+  #game{max-width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LANDING ── -->
+<div id="landing" class="screen active">
+  <nav class="land-nav">
+    <div class="land-logo">RIA <span>English</span></div>
+    <div class="land-nav-btns">
+      <button class="nav-btn" onclick="showRestoreModal()">💾 이어하기</button>
+      <button class="nav-btn" onclick="location.href='ria-admin.html'">⚙️ 관리</button>
+    </div>
+  </nav>
+
+  <div class="land-hero">
+    <div class="land-text">
+      <div class="land-eyebrow">🌸 H University · Spring Semester</div>
+      <h1 class="land-title">
+        <span class="t1">그녀는<br>절대 직접<br></span>
+        <span class="t2">말하지 않는다.</span>
+      </h1>
+      <p class="land-copy">
+        교환학생 Ria. 100일 동안 같은 캠퍼스. 말이 통하는 순간, 거리가 좁혀진다.
+      </p>
+      <div class="land-btns">
+        <button class="btn-main" onclick="startGame()">🌸 시작하기</button>
+        <button class="btn-sub" id="resume-btn" onclick="showRestoreModal()" style="display:none;">이어하기</button>
+      </div>
+      <div class="land-pills">
+        <span class="pill p">🎮 비주얼노벨</span>
+        <span class="pill l">🎤 음성 인식</span>
+        <span class="pill m">💬 자유 대화</span>
+        <span class="pill">📅 100일</span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;">
+      <div class="land-card">
+        <div class="land-card-img">
+          <img id="ria-land-img" src="" alt="Ria" onerror="this.style.display='none'">
+          <span style="position:relative;z-index:1;">🧑‍🎓</span>
+        </div>
+        <div class="land-card-body">
+          <div class="ria-name-big">Ria Seong</div>
+          <div class="ria-desc-sm">H대 교환학생 · 21세 · San Diego</div>
+          <div class="int-wrap">
+            <div class="int-top"><span>친밀도 ♥</span><span id="land-int-val">0</span></div>
+            <div class="int-track"><div class="int-fill" id="land-int-fill"></div></div>
+          </div>
+          <div class="preview-bubble">"I didn't think this class would need, like... actual notes."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:960px;margin:0 auto;width:100%;padding:0 2rem 1rem;">
+    <div class="ad-slot">📢 ADVERTISEMENT — Google AdSense 728×90</div>
+  </div>
+  <div class="land-footer">© 2025 RIA English · 로그인 불필요 · 기기 저장</div>
+</div>
+
+<!-- ── GAME ── -->
+<div id="game" class="screen">
+  <div class="game-topbar">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="day-badge">🌸 DAY 1</div>
+      <div class="prog-dots" id="prog-dots"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="state-badge state-free" id="state-badge">자유대화</div>
+      <div class="heart-box">
+        <span>♥</span>
+        <span class="heart-num" id="g-int">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-wrap">
+    <div class="scene-bg bg-morning" id="scene-bg"></div>
+    <div class="sakura-layer" id="sakura"></div>
+    <div class="scene-chips">
+      <div class="chip time" id="sc-time">09:05</div>
+      <div class="chip" id="sc-loc">H대 인문관 강의실</div>
+    </div>
+    <!-- NPC 캐릭터 레이어 (왼쪽) -->
+    <div id="npc-wrap" style="position:absolute;bottom:0;left:0;height:100%;
+      width:48%;display:none;align-items:flex-end;z-index:4;
+      background:transparent;overflow:visible;">
+      <img id="npc-img" src="" alt="NPC"
+        style="width:100%;height:100%;object-fit:contain;object-position:bottom center;
+        background:transparent;">
+    </div>
+    <!-- Ria 캐릭터 레이어 (오른쪽) -->
+    <div class="ria-wrap" id="ria-wrap">
+      <div class="ria-ph" id="ria-ph">
+        <div class="ria-blob"></div>
+        <div class="expr-tag" id="expr-tag">🙂</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialogue-section" id="dialogue-section">
+    <!-- NPC 컨텍스트 (교수 등) -->
+    <div id="npc-line" style="display:none;
+      background:#F0EDF8;border-radius:12px;padding:8px 14px;
+      margin-bottom:10px;font-size:13px;font-weight:600;
+      color:var(--ink2);border-left:3px solid var(--lav);">
+    </div>
+
+    <!-- Ria speech -->
+    <div class="ria-speech">
+      <div class="ria-avatar" id="ria-avatar">
+        <img id="ria-avatar-img" src="" alt="Ria" onerror="this.style.display='none'">
+      </div>
+      <div class="ria-bw">
+        <div class="ria-name-tag">
+          RIA
+          <button class="tts-btn" id="tts-btn" onclick="speakRia()">🔊</button>
+        </div>
+        <div class="speech-bubble" id="ria-speech">
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="speech-ctx" id="ria-ctx"></div>
+      </div>
+    </div>
+
+    <!-- Free talk messages -->
+    <div class="freetalk-area" id="freetalk-area"></div>
+
+    <!-- Turn counter (free talk) -->
+    <div class="turn-counter" id="turn-counter" style="display:none;">
+      <span style="font-size:11px;color:var(--muted);">자유대화</span>
+      <div class="turn-dot" id="td0"></div>
+      <div class="turn-dot" id="td1"></div>
+      <div class="turn-dot" id="td2"></div>
+    </div>
+
+    <!-- No response warning -->
+    <div class="no-resp-bar" id="no-resp-bar">⚠️ 응답이 없어요...</div>
+
+    <!-- CF area -->
+    <div class="cf-area" id="cf-area"></div>
+
+    <!-- Ad in-game -->
+    <div class="ad-ingame" id="ad-ingame">📢 ADVERTISEMENT</div>
+  </div>
+
+  <div class="input-zone" id="input-zone">
+    <div class="cue-disp" id="cue-disp"></div>
+    <div class="answer-row">
+      <input type="text" class="ans-input" id="ans-input"
+             placeholder="영어로 말해봐요 🌸"
+             autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="mic-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
+      <button class="send-btn" id="send-btn" onclick="submit()">→</button>
+    </div>
+    <div class="hints-row" id="hints-row"></div>
+  </div>
+</div>
+
+<!-- ── SESSION END ── -->
+<div id="session-end" class="screen">
+  <div class="end-wrap">
+    <div class="end-stars" id="end-stars">⭐⭐⭐</div>
+    <h2 class="end-title">Day 1 완료! 🎉</h2>
+    <p class="end-sub" id="end-sub">"See you Wednesday?"</p>
+    <div class="end-stats">
+      <div class="end-stat"><div class="end-stat-n" id="e-int">+0</div><div class="end-stat-l">친밀도</div></div>
+      <div class="end-stat"><div class="end-stat-n" id="e-inst">0</div><div class="end-stat-l">즉답 성공</div></div>
+      <div class="end-stat"><div class="end-stat-n">9</div><div class="end-stat-l">발화 완료</div></div>
+    </div>
+    <div class="ria-last" id="ria-last">"..."</div>
+    <div style="margin-bottom:1.5rem;"><div class="ad-slot">📢 ADVERTISEMENT — 세션 종료 광고</div></div>
+    <div class="restore-box">
+      <div class="restore-lbl">💾 자동 저장됨</div>
+      <div style="font-size:14px;font-weight:700;color:var(--ink);margin:4px 0;">이 기기에서 자동으로 이어할 수 있어요</div>
+      <div class="restore-hint">다음 방문 시 "이어하기" 버튼을 누르세요 📱</div>
+    </div>
+    <div class="end-btns">
+      <button class="btn-main" onclick="goHome()">🏠 처음으로</button>
+    </div>
+  </div>
+</div>
+
+<!-- REWARD POPUP -->
+<div class="reward-ov" id="reward-ov">
+  <div class="reward-card">
+    <div class="r-emoji" id="r-emoji">✨</div>
+    <div class="r-delta" id="r-delta">+2 ♥</div>
+    <div class="r-say" id="r-say"></div>
+    <button class="r-next" onclick="nextU()">다음으로 →</button>
+  </div>
+</div>
+
+<!-- RESUME MODAL (A안 — 같은 기기 자동 이어하기) -->
+<div class="modal-bg" id="restore-modal">
+  <div class="modal-card">
+    <h3>💾 이어하기</h3>
+    <p>이전 진행상황이 이 기기에 저장되어 있어요.</p>
+    <div style="background:var(--lav-bg);border-radius:12px;padding:1rem;margin-bottom:1rem;text-align:center;">
+      <div style="font-size:11px;font-weight:700;color:var(--lav);margin-bottom:4px;">저장된 진행상황</div>
+      <div style="font-size:1.2rem;font-weight:900;" id="resume-intimacy">♥ 0</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="resume-progress">Day 1 · 발화 0/9</div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">처음부터</button>
+      <button class="modal-ok" onclick="doResume()">이어하기 →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════
+const CONFIG = {
+  CLAUDE_API_KEY: localStorage.getItem('ria_api_key') || '',
+  CLAUDE_MODEL:   'claude-sonnet-4-20250514',
+  MAX_FREE_TURNS: 3,
+  MAX_NO_RESP:    5,
+  PERSONAL_Q_MAX: 2,
+};
+
+// ═══════════════════════════════════════
+// RIA PROFILE (픽스)
+// ═══════════════════════════════════════
+const RIA_PROFILE = {
+  name: 'Ria Seong',
+  age: 21,
+  hometown: 'San Diego, CA',
+  major: 'Media Communications',
+  university: 'exchange student at H University, Seoul',
+  personality: 'tsundere — direct, occasionally blunt, but never rude. Warms up slowly.',
+  likes: ['cats', 'cat videos', 'good coffee', 'window seats'],
+  dislikes: ['clingy people', 'stalkers', 'oblivious people', 'being asked the same thing twice'],
+  style: 'polo shirts, hoodies, sometimes glasses',
+  speech: 'casual American English, light sarcasm, deflects compliments',
+};
+
+// ═══════════════════════════════════════
+// SCENARIO DATA
+// ═══════════════════════════════════════
+const UTTERANCES = [
+  {
+    id:'D01_U01', time:'09:05', loc:'H대 인문관 강의실',
+    bg:'bg-morning',
+    image:{ bg_img:'bg_classroom', css_anim:'blink_breathe',
+            ria_cf1:'ria_surprised', ria_cf2:'ria_thinking',
+            ria_cf3:'ria_cf3', ria_reward:'ria_happy' },
+    // ── BEAT 구조 ──
+    beats:[
+      {
+        type:'npc',
+        npcImg:'npc_professor',
+        riaImg: null,
+        speaker:'PROFESSOR',
+        text:'Everyone, please take your pencils out.',
+        ctx:'',
+      },
+      {
+        type:'ria',
+        npcImg:null,
+        riaImg:'ria_embarrassed',
+        speaker:'RIA',
+        text:'Wait... pencil? It\'s the first day and we need a pencil?',
+        ctx:'Ria가 필통을 안 가져왔다.',
+      },
+      {
+        type:'target',
+        npcImg:null,
+        riaImg:'ria_sparkle',
+        speaker:'RIA',
+        text:'Oh! Hi! Wow, you have so many pens!',
+        ctx:'초롱초롱한 눈으로 플레이어를 바라본다.',
+        cue:'Do you __________?',
+        cueWords:['need','a pen'],
+        correct:['do you need a pen','do you need a pen?','need a pen','need my pen','here need a pen'],
+        ri:{delta:2,emoji:'🌸',say:"Oh! Thanks. I'm Ria, by the way."},
+        rc:{delta:1,emoji:'😊',say:"Do you need a pen? Got it, thanks."},
+        cf1:{txt:"Hmm? Sorry, I didn't catch that.",expr:'😕',exprTxt:'갸웃'},
+        cf2:{txt:'You mean... do you need... a pen?',expr:'🤔',exprTxt:'필통 쪽 시선'},
+        cf3:{txt:'Oh, you mean... "Do you need a pen?"',expr:'🙂',exprTxt:'작은 미소'},
+      },
+    ],
+  },
+  {
+    id:'D01_U02', time:'10:35', loc:'H대 인문관 복도',
+    bg:'bg-morning', expr:'😊', exprTxt:'볼이 붉어짐',
+    trigger:"The heating in Korean buildings is... intense.",
+    ctx:'수업 끝 — 코트 입은 채 볼이 붉어진 Ria',
+    cue:'___ off!', hints:['coat','off'],
+    correct:['coat off','your coat off'],
+    ri:{delta:2,emoji:'😄',say:"Oh! You're right. I keep forgetting it's already March!"},
+    rc:{delta:1,emoji:'😊',say:"Coat off. Right, thanks."},
+    cf1:{txt:"Hmm? What was that?",expr:'😕',exprTxt:'코트 잡은 채 갸웃'},
+    cf2:{txt:'You mean... coat... off?',expr:'🤔',exprTxt:'코트 쪽 시선'},
+    cf3:{txt:'Oh, you mean... "Coat off"?',expr:'🙂',exprTxt:'작은 미소'},
+  },
+  {
+    id:'D01_U03', time:'11:10', loc:'H대 캠퍼스 벤치',
+    bg:'bg-noon', expr:'😲', exprTxt:'못 들었다',
+    trigger:"Oh — sorry, I didn't hear you at all.",
+    ctx:'공강 — 이어폰 양쪽 꽂고 혼자였다',
+    cue:'___ out!', hints:['earphones','out'],
+    correct:['earphones out','both out','earphone out'],
+    ri:{delta:2,emoji:'😆',say:"Both out! Okay, I'm here. What were you saying?"},
+    rc:{delta:1,emoji:'😊',say:"Earphones out. Right."},
+    cf1:{txt:"Sorry? I didn't get that.",expr:'😕',exprTxt:'이어폰 반쯤 뺀 채'},
+    cf2:{txt:'You mean... earphones... out?',expr:'🤔',exprTxt:'이어폰 만지며'},
+    cf3:{txt:'Oh, you mean... "Earphones out"?',expr:'🙂',exprTxt:'이어폰 빼며 웃음'},
+  },
+  {
+    id:'D01_U04', time:'12:55', loc:'H대 학생식당 앞',
+    bg:'bg-noon', expr:'😨', exprTxt:'비 올 것 같아',
+    trigger:"That line is not happening. And it looks like rain.",
+    ctx:'점심 — 줄이 문 밖까지, 먹구름. 저쪽에 분식집이 보인다',
+    cue:"Let's ___________!", hints:['run','to'],
+    correct:["let's run to that place","let's dash to the gate","let's sprint there","let's run to the snack bar"],
+    ri:{delta:2,emoji:'🏃',say:"Let's go! Come on, before it pours!"},
+    rc:{delta:1,emoji:'😊',say:"Run to that place. Yes, go!"},
+    cf1:{txt:"What? Say that again?",expr:'😕',exprTxt:'비 맞으며 당황'},
+    cf2:{txt:"You mean... let's run...?",expr:'🤔',exprTxt:'저쪽 가리키며'},
+    cf3:{txt:"Oh, you mean... 'Let's run to that place'?",expr:'🙂',exprTxt:'뛰기 시작'},
+  },
+  {
+    id:'D01_U05', time:'15:10', loc:'H대 중앙도서관 앞',
+    bg:'bg-afternoon', expr:'🥺', exprTxt:'기대하는 눈',
+    trigger:"These are due today. The drop box is... right there.",
+    ctx:'도서관 앞 — Ria 양팔 가득 책, 반납함 바로 옆',
+    cue:"I'm gonna ___________!", hints:['get','in'],
+    correct:["i'm gonna get them in","i'm gonna get those books in","i'll get them in"],
+    ri:{delta:2,emoji:'😌',say:"There — done. Thanks."},
+    rc:{delta:1,emoji:'😊',say:"Get them in. Thanks."},
+    cf1:{txt:"Hmm? What do you mean?",expr:'😕',exprTxt:'책 받으려다 멈춤'},
+    cf2:{txt:"You mean... get them... in?",expr:'🤔',exprTxt:'반납함 가리키며'},
+    cf3:{txt:"Oh, you mean... 'Get them in'?",expr:'🙂',exprTxt:'책 받아들며'},
+  },
+  {
+    id:'D01_U06', time:'15:25', loc:'H대 중앙도서관 내부',
+    bg:'bg-afternoon', expr:'😫', exprTxt:'아무것도 안 보여',
+    trigger:"I literally can't see anything through this.",
+    ctx:'도서관 내부 — Ria 안경 렌즈에 지문이 가득, 찡그림',
+    cue:"I'm gonna ___________!", hints:['wipe','clean'],
+    correct:["i'm gonna wipe it clean","i'll wipe it clean","i'm gonna wipe the lens clean"],
+    ri:{delta:2,emoji:'🥰',say:"Here. Better?"},
+    rc:{delta:1,emoji:'😊',say:"Wipe it clean. Yes."},
+    cf1:{txt:"Sorry? What was that?",expr:'😕',exprTxt:'안경 들고 기다리는'},
+    cf2:{txt:"You mean... wipe it... clean?",expr:'🤔',exprTxt:'렌즈 가리키며'},
+    cf3:{txt:"Oh, you mean... 'Wipe it clean'?",expr:'🙂',exprTxt:'고마운 눈빛'},
+  },
+  {
+    id:'D01_U07', time:'17:40', loc:'H대앞 카페',
+    bg:'bg-evening', expr:'😬', exprTxt:'폰에 신경 쓰임',
+    trigger:"Sorry, I keep — it's just a group chat, it's nothing.",
+    ctx:'골든아워 카페 — 단둘이, Ria 폰 알림이 계속 옴',
+    cue:'___ down!', hints:['phone','down'],
+    correct:["phone down","phone down i'm here","just phone down"],
+    ri:{delta:2,emoji:'☺️',say:"You're right. What were we saying?"},
+    rc:{delta:1,emoji:'😊',say:"Phone down. Okay."},
+    cf1:{txt:"Hmm? Sorry, what?",expr:'😕',exprTxt:'폰 들고 당황'},
+    cf2:{txt:'You mean... phone... down?',expr:'🤔',exprTxt:'폰과 플레이어 번갈아'},
+    cf3:{txt:'Oh, you mean... "Phone down"?',expr:'🙂',exprTxt:'폰 내려놓으며'},
+  },
+  {
+    id:'D01_U08', time:'18:05', loc:'H대앞 카페',
+    bg:'bg-evening', expr:'😍', exprTxt:'메뉴 보는 중',
+    trigger:"The menu here is actually really good. That one looks nice.",
+    ctx:'카페 — Ria 빈손으로 메뉴판만 보는 중',
+    cue:"I'm gonna ___________!", hints:['get','one'],
+    correct:["i'm gonna get you one","i'll get you one","i'm gonna get you that one"],
+    ri:{delta:2,emoji:'🥳',say:"Be right back. Don't move."},
+    rc:{delta:1,emoji:'😊',say:"Get you one. Sure."},
+    cf1:{txt:"What? I didn't catch that.",expr:'😕',exprTxt:'카운터 쪽 보며'},
+    cf2:{txt:"You mean... get you... one?",expr:'🤔',exprTxt:'메뉴 가리키며'},
+    cf3:{txt:"Oh, you mean... 'Get you one'?",expr:'🙂',exprTxt:'일어서며'},
+  },
+  {
+    id:'D01_U09', time:'19:45', loc:'H대앞 카페 출구',
+    bg:'bg-night', expr:'🥶', exprTxt:'봄밤 쌀쌀해',
+    trigger:"I forgot it gets cold at night here. Spring is weird.",
+    ctx:'봄밤 카페 출구 — Ria 재킷 손에 들고 아직 안 입음',
+    cue:'___ on!', hints:['jacket','on'],
+    correct:["jacket on","your jacket on","jacket on it's cold"],
+    ri:{delta:3,emoji:'🌙',say:"...You're oddly good at this. See you Wednesday?"},
+    rc:{delta:1,emoji:'😊',say:"Jacket on. Thanks. See you."},
+    cf1:{txt:"Hmm? What did you say?",expr:'😕',exprTxt:'재킷 들고 갸웃'},
+    cf2:{txt:'You mean... jacket... on?',expr:'🤔',exprTxt:'재킷 가리키며'},
+    cf3:{txt:'Oh, you mean... "Jacket on"?',expr:'🙂',exprTxt:'재킷 입으며 미소'},
+  },
+];
+
+// ═══════════════════════════════════════
+// STATE MACHINE
+// STATE: 'free' | 'target' | 'after'
+// ═══════════════════════════════════════
+let S = {
+  // Game progress
+  idx: 0,
+  beatIdx: 0,          // 현재 발화의 beat 인덱스
+  intimacy: 0,
+  cfStep: 0,
+  instant: 0,
+  hintsUsed: [],
+
+  // State machine
+  mode: 'target',      // 'target' | 'after'
+
+  // Free talk counters
+  freeTurns: 0,
+  personalQCount: 0,
+  noRespCount: 0,
+
+  // Ria profile memory
+  riaMemory: {},
+};
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+window.addEventListener('load', () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('ria_v3'));
+    if(saved && saved.intimacy > 0) {
+      S.intimacy  = saved.intimacy;
+      S.idx       = saved.idx || 0;
+      S.instant   = saved.instant || 0;
+      S.riaMemory = saved.riaMemory || {};
+      updateLandInt();
+      // 이어하기 버튼 표시
+      const btn = document.getElementById('resume-btn');
+      if(btn) btn.style.display = '';
+    }
+  } catch(e) {}
+
+  // API 키 체크
+  const key = localStorage.getItem('ria_api_key');
+  if(key) CONFIG.CLAUDE_API_KEY = key;
+
+  if('speechSynthesis' in window) {
+    window.speechSynthesis.getVoices();
+  }
+
+  setTimeout(() => {
+    document.getElementById('land-int-fill').style.width =
+      Math.min(S.intimacy / 20 * 100, 100) + '%';
+  }, 600);
+});
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() { showScreen('landing'); updateLandInt(); }
+
+function showRestoreModal() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('ria_v3'));
+    if(!saved || !saved.intimacy) { startGame(); return; }
+    document.getElementById('resume-intimacy').textContent = `♥ ${saved.intimacy}`;
+    document.getElementById('resume-progress').textContent = `Day 1 · 발화 ${saved.idx || 0}/9`;
+    document.getElementById('restore-modal').classList.add('show');
+  } catch(e) { startGame(); }
+}
+
+function closeModal() {
+  document.getElementById('restore-modal').classList.remove('show');
+}
+
+function doResume() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('ria_v3'));
+    if(saved) {
+      S.intimacy  = saved.intimacy  || 0;
+      S.idx       = saved.idx       || 0;
+      S.instant   = saved.instant   || 0;
+      S.riaMemory = saved.riaMemory || {};
+    }
+  } catch(e) {}
+  closeModal();
+  showScreen('game');
+  buildDots();
+  createSakura();
+  loadImages();
+  renderU();
+}
+
+// ═══════════════════════════════════════
+// GAME START
+// ═══════════════════════════════════════
+async function startGame() {
+  S.idx = 0;
+  S.beatIdx = 0;
+  S.mode = 'target';
+  S.freeTurns = 0;
+  S.cfStep = 0;
+  S.instant = 0;
+  S.hintsUsed = [];
+  showScreen('game');
+  buildDots();
+  createSakura();
+  loadImages();
+  restoreInput();  // 입력창 초기화
+  await renderU();
+}
+
+// IndexedDB 초기화 (어드민과 같은 DB)
+const G_DB_NAME = 'ria_db';
+let gDb = null;
+
+function openGameDB() {
+  return new Promise((resolve, reject) => {
+    if(gDb) { resolve(gDb); return; }
+    const req = indexedDB.open(G_DB_NAME, 1);
+    req.onsuccess = e => { gDb = e.target.result; resolve(gDb); };
+    req.onerror   = e => reject(e.target.error);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if(!d.objectStoreNames.contains('images'))
+        d.createObjectStore('images', { keyPath: 'id' });
+      if(!d.objectStoreNames.contains('audio'))
+        d.createObjectStore('audio', { keyPath: 'id' });
+    };
+  });
+}
+
+async function getImgFromDB(slotId) {
+  try {
+    const d = await openGameDB();
+    return new Promise((resolve) => {
+      const req = d.transaction('images','readonly').objectStore('images').get(slotId);
+      req.onsuccess = e => resolve(e.target.result?.dataUrl || null);
+      req.onerror   = () => resolve(null);
+    });
+  } catch(e) { return null; }
+}
+
+function loadImages() {
+  window._IMGS = {}; // 메모리 캐시는 필요시 채움
+}
+
+// 이미지 슬롯 → dataUrl (IndexedDB 우선, 없으면 메모리 캐시)
+async function getImgUrl(slotId) {
+  return await getImgFromDB(slotId);
+}
+
+// 오디오 스토어
+function getAudioUrl(fileId) {
+  const store = JSON.parse(localStorage.getItem('ria_audio') || '{}');
+  // fileId 예: 'D01_U01_trigger'
+  return store[fileId]?.dataUrl || null;
+}
+
+// 오디오 재생 (프리젠더 우선, 없으면 Web TTS fallback)
+let _currentAudio = null;
+function playSceneAudio(fileId, fallbackText) {
+  if(_currentAudio) { _currentAudio.pause(); _currentAudio = null; }
+  const url = getAudioUrl(fileId);
+  if(url) {
+    _currentAudio = new Audio(url);
+    _currentAudio.play().catch(() => {});
+    const btn = document.getElementById('tts-btn');
+    if(btn) btn.classList.add('playing');
+    _currentAudio.onended = () => { if(btn) btn.classList.remove('playing'); };
+  } else if(fallbackText) {
+    speakText(fallbackText);
+  }
+}
+
+// Ria 이미지 전환
+// 이미지 메모리 캐시 (IndexedDB 매번 읽기 방지)
+const _imgCache = {};
+
+async function getImgUrlCached(slotId) {
+  if(_imgCache[slotId] !== undefined) return _imgCache[slotId];
+  const url = await getImgFromDB(slotId);
+  _imgCache[slotId] = url || null;
+  return _imgCache[slotId];
+}
+
+async function switchRiaImg(slotId) {
+  const url = await getImgUrlCached(slotId);
+  const wrap = document.getElementById('ria-wrap');
+  if(!wrap) return;
+
+  if(url) {
+    // 기존 placeholder 제거하고 img 직접 설정
+    let img = wrap.querySelector('img.ria-char-img');
+    if(!img) {
+      wrap.innerHTML = '';
+      img = document.createElement('img');
+      img.className = 'ria-char-img';
+      img.alt = 'Ria';
+      wrap.appendChild(img);
+      // expr-tag 복원
+      const tag = document.createElement('div');
+      tag.className = 'expr-tag'; tag.id = 'expr-tag';
+      wrap.appendChild(tag);
+    }
+    img.src = url;  // 즉시 교체 (setTimeout 없음)
+  }
+}
+
+// 배경 이미지 전환
+async function switchBgImg(slotId, fallbackClass) {
+  const url = await getImgUrl(slotId);
+  const bg = document.getElementById('scene-bg');
+  if(!bg) return;
+  if(url) {
+    bg.className = 'scene-bg';
+    bg.style.backgroundImage = `url(${url})`;
+    bg.style.backgroundSize = 'cover';
+    bg.style.backgroundPosition = 'center';
+  } else {
+    bg.className = 'scene-bg ' + (fallbackClass || 'bg-morning');
+    bg.style.backgroundImage = '';
+  }
+}
+
+// CSS 애니메이션 타입 적용
+function applyCssAnim(animType) {
+  const wrap = document.getElementById('ria-wrap');
+  if(!wrap) return;
+  wrap.className = 'ria-wrap ' + (animType ? 'anim-' + animType.replace('_','-') : '');
+}
+
+// 깨빡임 인터벌 (자연스러운 불규칙)
+let _blinkInterval = null;
+function startBlink() {
+  stopBlink();
+  function doBlink() {
+    const img = document.querySelector('.ria-char-img');
+    if(img) {
+      img.classList.add('blinking');
+      setTimeout(() => img.classList.remove('blinking'), 120);
+    }
+    // 다음 깨빡임: 2~6초 랜덤
+    _blinkInterval = setTimeout(doBlink, 2000 + Math.random() * 4000);
+  }
+  _blinkInterval = setTimeout(doBlink, 1500 + Math.random() * 2000);
+}
+
+function stopBlink() {
+  if(_blinkInterval) { clearTimeout(_blinkInterval); _blinkInterval = null; }
+}
+
+
+
+// ═══════════════════════════════════════
+// PROGRESS DOTS
+// ═══════════════════════════════════════
+function buildDots() {
+  const c = document.getElementById('prog-dots');
+  c.innerHTML = '';
+  UTTERANCES.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'pd'; d.id = 'pd'+i;
+    c.appendChild(d);
+  });
+  refreshDots();
+}
+
+function refreshDots() {
+  UTTERANCES.forEach((_,i) => {
+    const d = document.getElementById('pd'+i);
+    if(!d) return;
+    d.className = 'pd' + (i < S.idx ? ' done' : i === S.idx ? ' now' : '');
+  });
+}
+
+// ═══════════════════════════════════════
+// RENDER UTTERANCE (beat 시스템)
+// ═══════════════════════════════════════
+async function renderU() {
+  const u = UTTERANCES[S.idx];
+  if(!u) { showEnd(); return; }
+  if(u.beats) { S.beatIdx = 0; await renderBeat(u, 0); }
+  else await renderLegacy(u);
+}
+
+async function renderBeat(u, beatIdx) {
+  const beat = u.beats[beatIdx];
+  if(!beat) { showEnd(); return; }
+  S.beatIdx = beatIdx;
+  S.cfStep = 0; S.hintsUsed = [];
+  const imgBlock = u.image || {};
+
+  await switchBgImg(imgBlock.bg_img, u.bg);
+
+  // NPC 레이어
+  const npcWrap = document.getElementById('npc-wrap');
+  const npcImgEl = document.getElementById('npc-img');
+  if(beat.npcImg) {
+    const npcUrl = await getImgUrl(beat.npcImg);
+    if(npcUrl) { npcImgEl.src = npcUrl; npcWrap.style.display = 'flex'; }
+    else npcWrap.style.display = 'none';
+  } else { npcWrap.style.display = 'none'; }
+
+  // Ria 레이어
+  const riaWrap = document.getElementById('ria-wrap');
+  if(beat.riaImg) { riaWrap.style.display = ''; await switchRiaImg(beat.riaImg); }
+  else if(beat.type === 'npc') { riaWrap.style.display = 'none'; }
+  else { riaWrap.style.display = ''; await switchRiaImg('ria_neutral'); }
+
+  applyCssAnim(imgBlock.css_anim || 'blink_breathe');
+  startBlink();
+
+  const avatarUrl = await getImgUrl('ria_avatar');
+  if(avatarUrl) document.getElementById('ria-avatar-img').src = avatarUrl;
+
+  document.getElementById('sc-time').textContent = u.time;
+  document.getElementById('sc-loc').textContent = u.loc;
+  document.getElementById('freetalk-area').innerHTML = '';
+  document.getElementById('turn-counter').style.display = 'none';
+  document.getElementById('no-resp-bar').classList.remove('show');
+  const ca = document.getElementById('cf-area');
+  ca.innerHTML = ''; ca.classList.remove('show');
+  document.getElementById('npc-line').style.display = 'none';
+
+  // Speaker
+  const spEl = document.querySelector('.ria-name-tag');
+  if(spEl) spEl.childNodes[0].textContent = beat.speaker || 'RIA';
+
+  typeEffect('ria-speech', beat.text);
+  document.getElementById('ria-ctx').textContent = beat.ctx || '';
+  // Ria 목소리만 — NPC(교수 등) 제외
+  if(beat.type !== 'npc') {
+    setTimeout(() => speakText(beat.text), 600);
+  }
+
+  if(beat.type === 'target') {
+    restoreInput();
+    setMode('target');
+    updateInputUI();
+  } else {
+    showNextBtn(() => renderBeat(u, beatIdx + 1));
+  }
+  refreshDots(); updateIntDisplay();
+}
+
+function showNextBtn(cb) {
+  const iz = document.getElementById('input-zone');
+  iz.innerHTML = `<button onclick="window._nextCb()"
+    style="width:100%;background:var(--peach);color:white;border:none;
+    padding:14px;border-radius:50px;font-size:16px;font-weight:800;
+    cursor:pointer;font-family:inherit;
+    box-shadow:0 4px 16px rgba(244,168,130,.4);">다음 →</button>`;
+  window._nextCb = cb;
+}
+
+function restoreInput() {
+  const iz = document.getElementById('input-zone');
+  iz.innerHTML = `
+    <div class="cue-disp" id="cue-disp"></div>
+    <div class="answer-row">
+      <input type="text" class="ans-input" id="ans-input"
+        placeholder="영어로 대답해보세요 🎯"
+        autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="mic-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
+      <button class="send-btn" id="send-btn" onclick="submit()">→</button>
+    </div>
+    <div class="hints-row" id="hints-row"></div>`;
+  document.getElementById('ans-input').addEventListener('keydown', e => {
+    if(e.key==='Enter') submit();
+  });
+}
+
+async function renderLegacy(u) {
+  S.cfStep = 0; S.hintsUsed = []; S.noRespCount = 0; S.freeTurns = 0;
+  const imgBlock = u.image || {};
+  await switchBgImg(imgBlock.bg_img, u.bg);
+  document.getElementById('npc-wrap').style.display = 'none';
+  document.getElementById('ria-wrap').style.display = '';
+  await switchRiaImg(imgBlock.ria_img || 'ria_neutral');
+  applyCssAnim(imgBlock.css_anim || 'blink_breathe');
+  startBlink();
+  const avatarUrl = await getImgUrl('ria_avatar');
+  if(avatarUrl) document.getElementById('ria-avatar-img').src = avatarUrl;
+  document.getElementById('sc-time').textContent = u.time;
+  document.getElementById('sc-loc').textContent = u.loc;
+  if(u.expr) document.getElementById('expr-tag').textContent = u.expr;
+  document.getElementById('freetalk-area').innerHTML = '';
+  document.getElementById('turn-counter').style.display = 'none';
+  document.getElementById('no-resp-bar').classList.remove('show');
+  const ca = document.getElementById('cf-area');
+  ca.innerHTML = ''; ca.classList.remove('show');
+  document.getElementById('npc-line').style.display = 'none';
+  restoreInput();
+  const spEl = document.querySelector('.ria-name-tag');
+  if(spEl) spEl.childNodes[0].textContent = 'RIA';
+  typeEffect('ria-speech', u.trigger);
+  document.getElementById('ria-ctx').textContent = u.ctx || '';
+  setMode('target');
+  updateInputUI(); refreshDots(); updateIntDisplay();
+  setTimeout(() => playSceneAudio(`${u.id}_trigger`, u.trigger), 600);
+}
+
+
+function setMode(mode) {
+  S.mode = mode;
+  const badge = document.getElementById('state-badge');
+  if(!badge) return;
+  badge.className = 'state-badge';
+  if(mode === 'free') {
+    badge.classList.add('state-free');
+    badge.textContent = '💬 자유대화';
+  } else if(mode === 'target') {
+    badge.classList.add('state-target');
+    badge.textContent = '🎯 목표 구문';
+  } else if(mode === 'after') {
+    badge.classList.add('state-after');
+    badge.textContent = '✨ 정답 후';
+  }
+  updateInputUI();
+}
+
+function updateInputUI() {
+  const u = UTTERANCES[S.idx];
+  if(!u) return;
+  const cueEl = document.getElementById('cue-disp');
+  const hr = document.getElementById('hints-row');
+  if(!cueEl || !hr) return;
+
+  // beat 구조면 현재 beat에서 cue 가져오기
+  const src = (u.beats && u.beats[S.beatIdx]?.type === 'target')
+    ? u.beats[S.beatIdx]
+    : u;
+
+  if(S.mode === 'target') {
+    if(src.cueWords) {
+      cueEl.innerHTML = `<span class="cue-span">${src.cue}</span>`;
+      hr.innerHTML = '';
+      const shuffled = [...src.cueWords].sort(() => Math.random() - 0.5);
+      shuffled.forEach((w) => {
+        const t = document.createElement('div');
+        t.className = 'hint-tag' + (S.hintsUsed.includes(w) ? ' used' : '');
+        t.textContent = w; t.dataset.w = w;
+        t.onclick = () => insertHint(w, w);
+        hr.appendChild(t);
+      });
+    } else if(src.cue) {
+      cueEl.innerHTML = `<span class="cue-span">${src.cue}</span>`;
+      hr.innerHTML = '';
+      (src.hints || []).forEach((h, i) => {
+        const t = document.createElement('div');
+        t.className = 'hint-tag' + (S.hintsUsed.includes(i) ? ' used' : '');
+        t.textContent = h; t.dataset.i = i;
+        t.onclick = () => insertHint(h, i);
+        hr.appendChild(t);
+      });
+    } else {
+      cueEl.innerHTML = `<span class="state-hint">✏️ 영어로 말해보세요</span>`;
+      hr.innerHTML = '';
+      (src.hints || []).forEach((h, i) => {
+        const t = document.createElement('div');
+        t.className = 'hint-tag' + (S.hintsUsed.includes(i) ? ' used' : '');
+        t.textContent = h; t.dataset.i = i;
+        t.onclick = () => insertHint(h, i);
+        hr.appendChild(t);
+      });
+    }
+    const inp = document.getElementById('ans-input');
+    if(inp) inp.placeholder = '영어로 대답해보세요 🎯';
+  } else if(S.mode === 'free') {
+    cueEl.innerHTML = `<span class="state-hint">💬 자유대화 가능</span>`;
+    hr.innerHTML = '';
+    document.getElementById('ans-input').placeholder = 'Ria에게 말을 걸어봐요 🌸';
+  } else if(S.mode === 'after') {
+    cueEl.innerHTML = `<span class="state-hint">✨ Ria에게 말을 걸어봐요</span>`;
+    hr.innerHTML = '';
+    document.getElementById('ans-input').placeholder = '자유대화 중 🌸';
+  }
+
+  document.getElementById('send-btn').disabled = false;
+}
+
+// ═══════════════════════════════════════
+// SUBMIT HANDLER
+// ═══════════════════════════════════════
+document.getElementById('ans-input').addEventListener('keydown', e => {
+  if(e.key === 'Enter') submit();
+});
+
+function norm(s) {
+  return s.toLowerCase().replace(/[!?.,']/g,'').replace(/\s+/g,' ').trim();
+}
+
+function isCorrect(user, list) {
+  const u = norm(user);
+  return list.some(c => {
+    const n = norm(c);
+    return u === n || u.includes(n) || (n.includes(u) && u.length >= 4);
+  });
+}
+
+async function submit() {
+  const inp = document.getElementById('ans-input');
+  const val = inp.value.trim();
+  if(!val) {
+    if(S.mode === 'target') handleNoResp();
+    return;
+  }
+
+  const u = UTTERANCES[S.idx];
+  inp.value = '';
+
+  // beat 구조면 현재 beat에서 correct 가져오기
+  const src = (u.beats && u.beats[S.beatIdx]?.type === 'target')
+    ? u.beats[S.beatIdx]
+    : u;
+
+  if(S.mode === 'target') {
+    if(isCorrect(val, src.correct)) {
+      onCorrect(u, src);
+    } else {
+      onWrong(u, val, src);
+    }
+  } else if(S.mode === 'after') {
+    await handleFreeTalk(val, u);
+  } else {
+    if(isCorrect(val, src.correct)) {
+      onCorrect(u, src);
+    } else {
+      await handleFreeTalk(val, u);
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// FREE TALK HANDLER
+// ═══════════════════════════════════════
+async function handleFreeTalk(userInput, u) {
+  // 유저 말풍선 표시
+  addFreeTalkMsg(userInput, 'player');
+
+  // 타이핑 인디케이터
+  const typingId = addTypingIndicator();
+
+  if(!CONFIG.CLAUDE_API_KEY) {
+    // API 없으면 fallback
+    removeTypingIndicator(typingId);
+    const fallback = fallbackResponse(userInput, u);
+    addFreeTalkMsg(fallback.text, 'ria');
+    handleFreeTalkResult(fallback, u);
+    speakText(fallback.text);
+    return;
+  }
+
+  try {
+    const result = await callClaudeFreeTalk(userInput, u);
+    removeTypingIndicator(typingId);
+    addFreeTalkMsg(result.text, 'ria');
+    handleFreeTalkResult(result, u);
+    speakText(result.text);
+  } catch(e) {
+    removeTypingIndicator(typingId);
+    const fb = fallbackResponse(userInput, u);
+    addFreeTalkMsg(fb.text, 'ria');
+    handleFreeTalkResult(fb, u);
+    speakText(fb.text);
+  }
+}
+
+async function callClaudeFreeTalk(userInput, u) {
+  const systemPrompt = buildRiaSystemPrompt(u);
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': CONFIG.CLAUDE_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: CONFIG.CLAUDE_MODEL,
+      max_tokens: 200,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userInput }],
+    }),
+  });
+
+  const data = await response.json();
+  const text = data.content?.[0]?.text || '';
+
+  // 응답에서 intent 파싱
+  let intent = 'unrelated';
+  let riaText = text;
+
+  // Claude가 JSON으로 반환하도록 프롬프트 설계
+  try {
+    const parsed = JSON.parse(text);
+    intent = parsed.intent || 'unrelated';
+    riaText = parsed.response || text;
+  } catch(e) {
+    // JSON 파싱 실패 시 텍스트 그대로 사용
+    riaText = text;
+    intent = 'unrelated';
+  }
+
+  return { text: riaText, intent };
+}
+
+function buildRiaSystemPrompt(u) {
+  return `You are Ria Seong, ${RIA_PROFILE.age} years old, from ${RIA_PROFILE.hometown}.
+Major: ${RIA_PROFILE.major}. Currently an exchange student at H University, Seoul.
+Personality: ${RIA_PROFILE.personality}
+Likes: ${RIA_PROFILE.likes.join(', ')}
+Dislikes: ${RIA_PROFILE.dislikes.join(', ')}
+
+CURRENT SCENE: ${u.ctx} (${u.time}, ${u.loc})
+CURRENT SITUATION: You just said "${u.trigger}"
+FREE TALK TURN: ${S.freeTurns + 1}/${CONFIG.MAX_FREE_TURNS}
+
+PLAYER ASKED ABOUT RIA BEFORE: ${JSON.stringify(S.riaMemory)}
+
+RESPONSE RULES:
+- Respond ONLY with valid JSON: {"intent": "...", "response": "..."}
+- intent must be ONE OF: "target_related" | "ria_personal" | "unrelated"
+  - "target_related": player's input relates to the current scene/situation
+  - "ria_personal": player is asking about Ria personally (age, hometown, major, etc.)
+  - "unrelated": random small talk unrelated to scene or Ria
+- response: max 2 short casual sentences. American English. Tsundere tone.
+- If turn >= 3: end your response by naturally steering back to the scene situation.
+- If player asks something you already answered (check PLAYER ASKED ABOUT RIA BEFORE): 
+  show mild annoyance: "You already asked that."
+- Never break character. Never mention grammar or learning.
+- If ria_personal: update what was asked in memory.`;
+}
+
+function fallbackResponse(userInput, u) {
+  // API 없을 때 간단한 로컬 분류
+  const lower = userInput.toLowerCase();
+  const personalKeywords = ['age','old','where','from','major','study','like','hobby','cat','san diego','major'];
+  const sceneKeywords = ['coat','phone','pen','earphone','run','wipe','get','jacket','book'];
+
+  let intent = 'unrelated';
+  if(personalKeywords.some(k => lower.includes(k))) intent = 'ria_personal';
+  else if(sceneKeywords.some(k => lower.includes(k))) intent = 'target_related';
+
+  const responses = {
+    target_related: ["Yeah, exactly. So... what are you gonna do about it?", "Right. That's kind of the point."],
+    ria_personal: [
+      "I'm 21, from San Diego. Media Comm major. Any other questions?",
+      "San Diego. Why do people always ask that first.",
+      "I like cats. That's all you need to know.",
+    ],
+    unrelated: ["...okay.", "Sure. Anyway.", "That's... a thing to say."],
+  };
+
+  const arr = responses[intent];
+  const text = arr[Math.floor(Math.random() * arr.length)];
+  return { text, intent };
+}
+
+async function handleFreeTalkResult(result, u) {
+  S.freeTurns++;
+
+  // ── 표정 전환 ──
+  await switchRiaImg(getFreeTalkImg(result.intent, S.freeTurns, S.personalQCount));
+
+  // 메모리 업데이트 (개인정보 질문)
+  if(result.intent === 'ria_personal') {
+    S.personalQCount++;
+    if(S.personalQCount > CONFIG.PERSONAL_Q_MAX) {
+      S.intimacy = Math.max(0, S.intimacy - 1);
+      updateIntDisplay();
+    }
+  }
+
+  // 친밀도 조정
+  if(result.intent === 'target_related') {
+    S.intimacy += 1;
+    updateIntDisplay(true);
+  } else if(result.intent === 'unrelated') {
+    S.intimacy = Math.max(0, S.intimacy - 1);
+    updateIntDisplay();
+  }
+
+  // 턴 카운터 업데이트
+  updateTurnCounter();
+
+  // 3턴 이상 → 목표 구문으로 전환
+  if(S.freeTurns >= CONFIG.MAX_FREE_TURNS) {
+    setTimeout(() => transitionToTarget(u), 800);
+  }
+
+  saveState();
+}
+
+// 자유대화 의도 → 표정 슬롯 매핑
+function getFreeTalkImg(intent, turn, personalCount) {
+  if(intent === 'target_related') return 'ria_ft_d';
+  if(intent === 'ria_personal') {
+    return personalCount >= CONFIG.PERSONAL_Q_MAX ? 'ria_tsun' : 'ria_ft_a';
+  }
+  // unrelated
+  if(turn >= CONFIG.MAX_FREE_TURNS) return 'ria_ft_c';
+  return Math.random() > 0.5 ? 'ria_ft_b' : 'ria_ft_a';
+}
+
+function updateTurnCounter() {
+  const tc = document.getElementById('turn-counter');
+  tc.style.display = 'flex';
+  for(let i = 0; i < 3; i++) {
+    const d = document.getElementById('td'+i);
+    if(!d) continue;
+    d.className = 'turn-dot' + (i < S.freeTurns ? (S.freeTurns >= 3 ? ' warn' : ' used') : '');
+  }
+}
+
+async function transitionToTarget(u) {
+  const redirects = [
+    "Anyway. So...",
+    "...right. Where were we.",
+    "So yeah. Back to what I was saying.",
+  ];
+  const msg = redirects[Math.floor(Math.random() * redirects.length)];
+  addFreeTalkMsg(msg, 'ria');
+  speakText(msg);
+
+  setTimeout(async () => {
+    setMode('target');
+    document.getElementById('ria-speech').textContent = u.trigger || '';
+    document.getElementById('ria-ctx').textContent = u.ctx || '';
+    if(u.expr) document.getElementById('expr-tag').textContent = u.expr;
+    updateInputUI();
+    await switchRiaImg(u.image?.ria_img || 'ria_neutral');
+  }, 1000);
+}
+
+// ═══════════════════════════════════════
+// FREE TALK MESSAGE UI
+// ═══════════════════════════════════════
+function addFreeTalkMsg(text, who) {
+  const area = document.getElementById('freetalk-area');
+  const msg = document.createElement('div');
+  msg.className = 'ft-msg ' + who;
+  msg.innerHTML = `<div class="ft-bubble ${who}">${text}</div>`;
+  area.appendChild(msg);
+  // 스크롤
+  msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  return msg;
+}
+
+let typingCounter = 0;
+function addTypingIndicator() {
+  const area = document.getElementById('freetalk-area');
+  const id = 'typing-' + (++typingCounter);
+  const el = document.createElement('div');
+  el.className = 'ft-msg ria'; el.id = id;
+  el.innerHTML = `<div class="ft-bubble ria"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  area.appendChild(el);
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  return id;
+}
+
+function removeTypingIndicator(id) {
+  document.getElementById(id)?.remove();
+}
+
+// ═══════════════════════════════════════
+// TARGET MODE — CORRECT
+// ═══════════════════════════════════════
+function onCorrect(u, src) {
+  src = src || u;
+  const inp = document.getElementById('ans-input');
+  inp.classList.add('correct'); inp.disabled = true;
+  document.getElementById('send-btn').disabled = true;
+
+  const isInstant = S.cfStep === 0;
+  const rw = isInstant ? src.ri : src.rc;
+  if(isInstant) S.instant++;
+  S.intimacy += rw.delta;
+  saveState();
+
+  document.getElementById('cf-area').classList.remove('show');
+  setTimeout(() => showReward(rw, u), 350);
+  updateIntDisplay(true);
+}
+
+async function onWrong(u, val, src) {
+  src = src || u;
+  const inp = document.getElementById('ans-input');
+  inp.classList.add('wrong');
+  setTimeout(() => inp.classList.remove('wrong'), 500);
+  inp.value = '';
+  S.cfStep++;
+  await showCF(u, val, S.cfStep, src);
+}
+
+function generateCF2(src) {
+  if(src.cue) {
+    // cue 있으면: "Do you __?" → "Do you...?"
+    // __ 이전 부분만 추출
+    const cue = src.cue;
+    const blankIdx = cue.indexOf('__');
+    if(blankIdx > 0) {
+      const prefix = cue.slice(0, blankIdx).trim().replace(/[,.]$/, '');
+      return `You mean... "${prefix}...?"`;
+    }
+    // cueWords 있으면 첫 단어만
+    if(src.cueWords && src.cueWords.length > 0) {
+      return `You mean... "${src.cueWords[0]}...?"`;
+    }
+  }
+  // cue 없으면: 정답 첫 번째 항목의 앞 두 단어
+  const firstCorrect = (src.correct || [])[0] || '';
+  const words = firstCorrect.trim().split(/\s+/);
+  if(words.length >= 2) {
+    return `You mean... "${words[0]} ${words[1]}...?"`;
+  } else if(words.length === 1) {
+    return `You mean... "${words[0]}...?"`;
+  }
+  return null;
+}
+
+
+async function showCF(u, wrong, step, src) {
+  src = src || u;
+  if(S.mode !== 'target') setMode('target');
+
+  const ca = document.getElementById('cf-area');
+
+  const addRow = (cls, lbl, txt, exprTxt) => {
+    const row = document.createElement('div');
+    row.className = 'cf-row';
+    row.innerHTML = `
+      <div class="cf-pill ${cls}">${lbl}</div>
+      <div>
+        <div class="cf-text-sm">"${txt}"</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-top:2px;">${exprTxt}</div>
+      </div>`;
+    ca.appendChild(row);
+  };
+
+  let txt, exprTxt, riaSlot, audioId;
+  if(step === 1) {
+    ca.innerHTML = '';
+    txt = src.cf1.txt;
+    exprTxt = src.cf1.exprTxt;
+    riaSlot = u.image?.ria_cf1 || 'ria_surprised';
+    audioId = `${u.id}_cf1`;
+    addRow('c1', 'CF1', txt, exprTxt);
+    document.getElementById('ria-speech').textContent = txt;
+    if(document.getElementById('expr-tag')) document.getElementById('expr-tag').textContent = src.cf1.expr;
+  } else if(step === 2) {
+    const cf2Auto = generateCF2(src);
+    txt = cf2Auto || src.cf2?.txt || 'You mean...?';
+    exprTxt = src.cf2?.exprTxt || '힌트 주는 중';
+    riaSlot = u.image?.ria_cf2 || 'ria_thinking';
+    audioId = `${u.id}_cf2`;
+    addRow('c2', 'CF2', txt, exprTxt);
+    document.getElementById('ria-speech').textContent = txt;
+    if(document.getElementById('expr-tag')) document.getElementById('expr-tag').textContent = src.cf2?.expr || '🤔';
+  } else {
+    txt = src.cf3.txt; exprTxt = src.cf3.exprTxt;
+    riaSlot = u.image?.ria_cf3 || 'ria_cf3';
+    audioId = `${u.id}_cf3`;
+    const label = step === 3 ? 'CF3' : `Recast ×${step-2}`;
+    addRow('c3', label, txt, exprTxt);
+    document.getElementById('ria-speech').textContent = txt;
+    if(document.getElementById('expr-tag')) document.getElementById('expr-tag').textContent = src.cf3.expr;
+    S.hintsUsed = []; updateInputUI();
+  }
+
+  // CF area 강제 표시
+  ca.style.display = 'block';
+  ca.classList.add('show');
+  // 컨텍스트 숨김
+  document.getElementById('ria-ctx').textContent = '';
+
+  speakText(txt);
+  switchRiaImg(riaSlot);
+}
+
+// ═══════════════════════════════════════
+// NO RESPONSE
+// ═══════════════════════════════════════
+function handleNoResp() {
+  S.noRespCount++;
+  const bar = document.getElementById('no-resp-bar');
+  bar.classList.add('show');
+  bar.textContent = `⚠️ 응답이 없어요... (${S.noRespCount}/${CONFIG.MAX_NO_RESP})`;
+
+  if(S.noRespCount >= CONFIG.MAX_NO_RESP) {
+    S.intimacy = 0;
+    updateIntDisplay();
+    bar.textContent = '❌ 응답 없음 — 친밀도 초기화';
+    setTimeout(() => {
+      S.noRespCount = 0;
+      bar.classList.remove('show');
+      nextU();
+    }, 2000);
+  }
+}
+
+// ═══════════════════════════════════════
+// REWARD
+// ═══════════════════════════════════════
+// 친밀도 delta별 Ria 반응 풀
+const REWARD_REACTIONS = {
+  3: [
+    "Oh my god, yes! Thank you so much, you're a lifesaver!",
+    "Wait — really?? Ugh, you're amazing. Seriously.",
+    "You just saved me. I owe you one.",
+  ],
+  2: [
+    "Oh! Thanks. That actually helps.",
+    "Hey, thanks. Good timing.",
+    "Thanks. Really.",
+  ],
+  1: [
+    "...thanks.",
+    "Oh. Yeah. Thanks, I guess.",
+    "Mm. Thanks.",
+  ],
+};
+
+function getRewardSay(rw) {
+  // delta 기반으로 반응 선택
+  const delta = rw.delta || 1;
+  const key = delta >= 3 ? 3 : delta >= 2 ? 2 : 1;
+  const pool = REWARD_REACTIONS[key];
+  // rw.say가 있으면 커스텀 대사 우선 (특수 씬용)
+  if(rw.say && !rw.say.includes('Thanks') && !rw.say.includes('thanks')) return rw.say;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+async function showReward(rw, u) {
+  const say = getRewardSay(rw);
+  document.getElementById('r-emoji').textContent = rw.emoji;
+  document.getElementById('r-delta').textContent = '+' + rw.delta + ' ♥';
+  document.getElementById('r-say').textContent = '"' + say + '"';
+  document.getElementById('reward-ov').classList.add('show');
+  if(u) await switchRiaImg(u.image?.ria_reward || 'ria_happy');
+  speakText(say);
+}
+
+function nextU() {
+  document.getElementById('reward-ov').classList.remove('show');
+  S.freeTurns = 0;
+  S.personalQCount = 0;
+  S.idx++;
+  if(S.idx >= UTTERANCES.length) showEnd();
+  else renderU();
+}
+
+// ═══════════════════════════════════════
+// INTIMACY DISPLAY
+// ═══════════════════════════════════════
+function updateIntDisplay(bump = false) {
+  const el = document.getElementById('g-int');
+  el.textContent = S.intimacy;
+  if(bump) {
+    el.style.transform = 'scale(1.5)';
+    el.style.color = 'var(--lav)';
+    setTimeout(() => { el.style.transform = ''; el.style.color = ''; }, 400);
+  }
+}
+
+function updateLandInt() {
+  const pct = Math.min(S.intimacy / 20 * 100, 100);
+  const f = document.getElementById('land-int-fill');
+  const v = document.getElementById('land-int-val');
+  if(f) f.style.width = pct + '%';
+  if(v) v.textContent = S.intimacy;
+}
+
+// ═══════════════════════════════════════
+// SESSION END
+// ═══════════════════════════════════════
+function showEnd() {
+  showScreen('session-end');
+  const pct = S.intimacy / 19;
+  document.getElementById('end-stars').textContent = pct >= .8 ? '⭐⭐⭐' : pct >= .5 ? '⭐⭐' : '⭐';
+  const lastU = UTTERANCES[UTTERANCES.length - 1];
+  const quote = S.instant >= 7 ? lastU.ri.say : lastU.rc.say;
+  document.getElementById('ria-last').textContent = '"' + quote + '"';
+  document.getElementById('e-int').textContent = '+' + S.intimacy;
+  document.getElementById('e-inst').textContent = S.instant;
+  document.getElementById('end-sub').textContent =
+    S.instant >= 7 ? '"See you Wednesday?"' : S.instant >= 4 ? '"See you."' : '"Bye."';
+  document.getElementById('restore-code').textContent = genCode();
+  updateLandInt();
+}
+
+function genCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let n = S.intimacy * 137 + S.idx * 13 + 1000;
+  let c = '';
+  for(let i = 0; i < 6; i++) { c += chars[n % chars.length]; n = Math.floor(n / chars.length) + 11; }
+  return c.slice(0,4) + '-' + c.slice(4);
+}
+
+function copyCode() {
+  const code = document.getElementById('restore-code').textContent;
+  navigator.clipboard.writeText(code).then(() => alert('코드 복사됨: ' + code)).catch(() => alert('코드: ' + code));
+}
+
+// ═══════════════════════════════════════
+// SAVE
+// ═══════════════════════════════════════
+function saveState() {
+  try {
+    localStorage.setItem('ria_v3', JSON.stringify({
+      intimacy: S.intimacy, idx: S.idx, instant: S.instant,
+      riaMemory: S.riaMemory, ts: Date.now()
+    }));
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════
+// HINT INSERT
+// ═══════════════════════════════════════
+function insertHint(word, idx) {
+  // idx가 string이면 cueWords 방식
+  const isWord = typeof idx === 'string';
+  if(isWord) {
+    if(S.hintsUsed.includes(word)) return;
+    S.hintsUsed.push(word);
+    document.querySelector(`.hint-tag[data-w="${word}"]`)?.classList.add('used');
+  } else {
+    if(S.hintsUsed.includes(idx)) return;
+    S.hintsUsed.push(idx);
+    document.querySelector(`.hint-tag[data-i="${idx}"]`)?.classList.add('used');
+  }
+  const inp = document.getElementById('ans-input');
+  inp.value = (inp.value.trim() ? inp.value.trim() + ' ' : '') + word;
+  inp.focus();
+}
+
+// ═══════════════════════════════════════
+// TYPEWRITER
+// ═══════════════════════════════════════
+let _typeInterval = null;
+function typeEffect(id, txt) {
+  if(_typeInterval) { clearInterval(_typeInterval); _typeInterval = null; }
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = '';
+  let i = 0;
+  _typeInterval = setInterval(() => {
+    el.textContent += txt[i++];
+    if(i >= txt.length) { clearInterval(_typeInterval); _typeInterval = null; }
+  }, 22);
+}
+
+// ═══════════════════════════════════════
+// TTS
+// ═══════════════════════════════════════
+function speakRia() {
+  const u = UTTERANCES[S.idx];
+  if(u) speakText(u.trigger);
+}
+
+function speakText(text) {
+  if(!('speechSynthesis' in window) || !text) return;
+
+  // 진행 중인 음성 취소
+  window.speechSynthesis.cancel();
+
+  const doSpeak = () => {
+    const utt = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+    const preferred = voices.find(v =>
+      v.lang === 'en-US' && (
+        v.name.includes('Samantha') || v.name.includes('Zira') ||
+        v.name.includes('Google US English Female') ||
+        v.name.toLowerCase().includes('female')
+      )
+    ) || voices.find(v => v.lang === 'en-US') || voices[0];
+    if(preferred) utt.voice = preferred;
+    utt.lang = 'en-US'; utt.rate = 0.9; utt.pitch = 1.1;
+    const btn = document.getElementById('tts-btn');
+    if(btn) btn.classList.add('playing');
+    utt.onend   = () => { if(btn) btn.classList.remove('playing'); };
+    utt.onerror = () => { if(btn) btn.classList.remove('playing'); };
+    window.speechSynthesis.speak(utt);
+  };
+
+  // cancel 후 200ms 대기 (브라우저 버그 방지)
+  setTimeout(doSpeak, 200);
+}
+
+// ═══════════════════════════════════════
+// MIC (STT)
+// ═══════════════════════════════════════
+let recognition = null;
+let micActive = false;
+
+function toggleMic() {
+  micActive ? stopMic() : startMic();
+}
+
+function startMic() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) { alert('Chrome 브라우저에서 사용해주세요.'); return; }
+  recognition = new SR();
+  recognition.lang = 'en-US';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.onstart = () => {
+    micActive = true;
+    document.getElementById('mic-btn').classList.add('listening');
+    document.getElementById('mic-btn').textContent = '⏹';
+    document.getElementById('ans-input').placeholder = '🎤 듣는 중...';
+  };
+  recognition.onresult = (e) => {
+    const t = Array.from(e.results).map(r => r[0].transcript).join('');
+    document.getElementById('ans-input').value = t;
+    if(e.results[e.results.length-1].isFinal) { stopMic(); setTimeout(submit, 300); }
+  };
+  recognition.onerror = stopMic;
+  recognition.onend = stopMic;
+  recognition.start();
+}
+
+function stopMic() {
+  micActive = false;
+  try { recognition?.stop(); } catch(e) {}
+  const btn = document.getElementById('mic-btn');
+  btn.classList.remove('listening'); btn.textContent = '🎤';
+  document.getElementById('ans-input').placeholder = '영어로 말해봐요 🌸';
+}
+
+// ═══════════════════════════════════════
+// SAKURA
+// ═══════════════════════════════════════
+function createSakura() {
+  const layer = document.getElementById('sakura');
+  layer.innerHTML = '';
+  ['🌸','🌺','🌷'].forEach((e, ei) => {
+    for(let i = 0; i < 4; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal'; p.textContent = e;
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.animationDelay = (Math.random() * 8) + 's';
+      p.style.animationDuration = (5 + Math.random() * 6) + 's';
+      p.style.fontSize = (10 + Math.random() * 8) + 'px';
+      layer.appendChild(p);
+    }
+  });
+}
+</script>
+</body>
+</html>
