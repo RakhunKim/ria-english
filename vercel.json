@@ -1,14 +1,13 @@
 {
   "rewrites": [
-    { "source": "/admin",  "destination": "/ria-admin-v6.html" },
-    { "source": "/game",   "destination": "/ria-english-v3-idb.html" },
-    { "source": "/",       "destination": "/ria-english-v3-idb.html" }
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/", "destination": "/index.html" }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin",  "value": "*" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization, X-Api-Key" }
       ]
