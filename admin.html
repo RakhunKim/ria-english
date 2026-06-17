@@ -1,0 +1,2683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RIA English — Admin</title>
+<style>
+/* ── 변수 ── */
+:root {
+  --bg:      #0F0F13;
+  --surface: #1A1A22;
+  --card:    #22222E;
+  --border:  #2E2E3E;
+  --accent:  #C4B5F4;
+  --accent2: #F4A5B5;
+  --mint:    #7DD3BC;
+  --peach:   #F4A87C;
+  --ink:     #F0EFF8;
+  --ink2:    #A8A5C0;
+  --muted:   #5A5870;
+  --success: #7DD3BC;
+  --error:   #F47C8A;
+  --warn:    #F4C87C;
+
+  --nav-w:   220px;
+  --top-h:   52px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; display: flex; height: 100vh; overflow: hidden; }
+
+/* ── 사이드바 ── */
+.sidebar {
+  width: var(--nav-w); height: 100vh;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  flex-shrink: 0; overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 18px 20px 14px;
+  font-size: 16px; font-weight: 900; letter-spacing: .06em;
+  color: var(--accent); border-bottom: 1px solid var(--border);
+}
+.sidebar-logo span { color: var(--accent2); }
+
+.nav-section { padding: 12px 0 4px; }
+.nav-label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; padding: 0 16px 6px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 16px; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: var(--ink2);
+  border-radius: 0; transition: all .15s;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { background: var(--card); color: var(--ink); }
+.nav-item.active { background: var(--card); color: var(--accent); border-left-color: var(--accent); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; }
+.nav-badge { margin-left: auto; background: var(--accent); color: var(--bg); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 20px; }
+.nav-badge.warn { background: var(--warn); }
+.nav-badge.ok { background: var(--mint); }
+
+.sidebar-bottom { margin-top: auto; padding: 12px 16px; border-top: 1px solid var(--border); }
+.game-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; background: var(--accent);
+  color: var(--bg); border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 800; justify-content: center;
+  transition: opacity .2s;
+}
+.game-link:hover { opacity: .85; }
+
+/* ── 메인 ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.topbar {
+  height: var(--top-h); background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px;
+  gap: 12px; flex-shrink: 0;
+}
+.topbar-title { font-size: 15px; font-weight: 800; color: var(--ink); }
+.topbar-sub { font-size: 12px; color: var(--muted); }
+.topbar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* ── 카드 ── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; margin-bottom: 16px;
+}
+.card-title { font-size: 13px; font-weight: 800; color: var(--ink2); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 14px; }
+
+/* ── 그리드 ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+
+/* ── 스탯 카드 ── */
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.stat-n { font-size: 28px; font-weight: 900; color: var(--accent); line-height: 1; }
+.stat-l { font-size: 11px; font-weight: 700; color: var(--muted); margin-top: 4px; }
+
+/* ── 버튼 ── */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-size: 13px; font-weight: 700; font-family: inherit; transition: all .15s; }
+.btn-primary { background: var(--accent); color: var(--bg); }
+.btn-primary:hover { opacity: .85; }
+.btn-secondary { background: var(--border); color: var(--ink); }
+.btn-secondary:hover { background: var(--muted); }
+.btn-success { background: var(--mint); color: var(--bg); }
+.btn-danger { background: var(--error); color: white; }
+.btn-ghost { background: transparent; color: var(--ink2); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm { padding: 5px 10px; font-size: 11px; }
+.btn-icon { padding: 7px; }
+
+/* ── 입력 ── */
+.input { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--ink); font-size: 13px; font-family: inherit; width: 100%; transition: border-color .15s; }
+.input:focus { outline: none; border-color: var(--accent); }
+.input::placeholder { color: var(--muted); }
+textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
+select.input { cursor: pointer; }
+.label { font-size: 11px; font-weight: 700; color: var(--ink2); margin-bottom: 5px; display: block; }
+.form-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.form-group { flex: 1; min-width: 200px; }
+
+/* ── 배지 ── */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-empty   { background: #2A2A3A; color: var(--muted); }
+.badge-gen     { background: #2A2A1A; color: var(--warn); }
+.badge-confirm { background: #1A2A2A; color: var(--mint); }
+.badge-error   { background: #2A1A1A; color: var(--error); }
+
+/* ── 진행바 ── */
+.progress-wrap { background: var(--surface); border-radius: 20px; height: 6px; overflow: hidden; }
+.progress-bar  { height: 100%; background: var(--accent); border-radius: 20px; transition: width .4s; }
+
+/* ── 탭 ── */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.tab { padding: 8px 16px; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; }
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── 토스트 ── */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--ink); padding: 10px 20px; border-radius: 10px;
+  font-size: 13px; font-weight: 700;
+  opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 9999;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; }
+
+/* ══════════════════════════════
+   시나리오 탭
+══════════════════════════════ */
+.scenario-layout { display: flex; gap: 16px; height: calc(100vh - 52px - 48px); }
+.scenario-tree { width: 200px; flex-shrink: 0; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow-y: auto; }
+.scenario-tree-header { padding: 14px 14px 10px; font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+.tree-day { padding: 8px 14px 4px; font-size: 11px; font-weight: 800; color: var(--accent); }
+.tree-u { padding: 6px 14px 6px 24px; font-size: 12px; font-weight: 600; color: var(--ink2); cursor: pointer; border-radius: 6px; margin: 1px 6px; transition: all .15s; }
+.tree-u:hover { background: var(--surface); color: var(--ink); }
+.tree-u.active { background: var(--surface); color: var(--accent); }
+.tree-u-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; background: var(--muted); vertical-align: middle; }
+.tree-u-dot.ok { background: var(--mint); }
+.tree-u-dot.partial { background: var(--warn); }
+
+.scenario-detail { flex: 1; overflow-y: auto; }
+
+/* Beat 카드 */
+.beat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; margin-bottom: 12px; overflow: hidden;
+}
+.beat-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.beat-type { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 20px; letter-spacing: .05em; }
+.bt-npc    { background: #2A1A3A; color: #C4A5F4; }
+.bt-ria    { background: #1A2A3A; color: #A5C4F4; }
+.bt-ctx    { background: #2A2A1A; color: var(--warn); }
+.bt-target { background: #1A3A2A; color: var(--mint); }
+.beat-id   { font-size: 11px; font-weight: 700; color: var(--muted); font-family: monospace; }
+.beat-body { padding: 14px 16px; }
+.beat-text { font-size: 14px; font-style: italic; color: var(--ink); margin-bottom: 10px; line-height: 1.5; }
+.beat-ctx-text { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+
+/* 이미지 슬롯 인라인 */
+.beat-img-row { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+.beat-img-slot {
+  width: 72px; height: 90px; border-radius: 8px;
+  border: 1.5px dashed var(--border); background: var(--surface);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s; overflow: hidden; position: relative;
+  flex-shrink: 0;
+}
+.beat-img-slot:hover { border-color: var(--accent); }
+.beat-img-slot.confirmed { border-style: solid; border-color: var(--mint); }
+.beat-img-slot img { width: 100%; height: 100%; object-fit: cover; }
+.beat-img-slot-label { font-size: 9px; font-weight: 700; color: var(--muted); text-align: center; padding: 4px; line-height: 1.3; }
+.beat-img-actions { display: flex; flex-direction: column; gap: 4px; }
+
+/* CF 섹션 */
+.cf-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.cf-title { font-size: 11px; font-weight: 800; color: var(--muted); margin-bottom: 8px; }
+.cf-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: flex-start; }
+.cf-pill { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.cf-c1 { background: #2A2A2A; color: #888; }
+.cf-c2 { background: #2A2010; color: var(--peach); }
+.cf-c3 { background: #102A2A; color: var(--mint); }
+
+/* 큐/단어카드 */
+.cue-display { background: var(--surface); border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+.cue-text { font-size: 15px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+.cue-words { display: flex; gap: 6px; flex-wrap: wrap; }
+.cue-word { background: var(--border); color: var(--ink); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+
+/* ══════════════════════════════
+   이미지 생성 탭
+══════════════════════════════ */
+.img-gen-layout { display: flex; gap: 16px; height: calc(100vh - 52px - 48px); }
+.img-slot-list { width: 240px; flex-shrink: 0; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow-y: auto; }
+.img-slot-list-header { padding: 14px 14px 10px; font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.slot-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background .15s; display: flex; align-items: center; gap: 8px; }
+.slot-item:hover { background: var(--surface); }
+.slot-item.active { background: var(--surface); border-left: 3px solid var(--accent); }
+.slot-thumb { width: 36px; height: 45px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; flex-shrink: 0; }
+.slot-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.slot-info { flex: 1; min-width: 0; }
+.slot-id { font-size: 10px; font-weight: 700; color: var(--muted); font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.slot-name { font-size: 12px; font-weight: 600; color: var(--ink2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.img-gen-panel { flex: 1; overflow-y: auto; }
+
+/* 생성 결과 그리드 */
+.gen-results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+.gen-result {
+  border-radius: 8px; overflow: hidden; border: 2px solid var(--border);
+  cursor: pointer; transition: all .2s; aspect-ratio: 2/3; background: var(--surface);
+  position: relative;
+}
+.gen-result:hover { border-color: var(--accent); }
+.gen-result.selected { border-color: var(--mint); }
+.gen-result img { width: 100%; height: 100%; object-fit: cover; }
+.gen-result-check { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; background: var(--mint); border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 12px; }
+.gen-result.selected .gen-result-check { display: flex; }
+
+/* ══════════════════════════════
+   TTS 탭
+══════════════════════════════ */
+.tts-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.tts-id { font-size: 10px; font-weight: 700; color: var(--muted); font-family: monospace; min-width: 160px; }
+.tts-text { font-size: 13px; font-style: italic; color: var(--ink2); flex: 1; }
+.tts-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* ══════════════════════════════
+   BGM 탭
+══════════════════════════════ */
+.bgm-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+.bgm-id { font-size: 11px; font-weight: 700; color: var(--accent); font-family: monospace; margin-bottom: 4px; }
+.bgm-desc { font-size: 13px; color: var(--ink2); margin-bottom: 10px; }
+.bgm-prompt { background: var(--card); border-radius: 6px; padding: 8px 10px; font-size: 12px; color: var(--muted); margin-bottom: 10px; font-family: monospace; line-height: 1.5; }
+
+/* ══════════════════════════════
+   테스트 탭
+══════════════════════════════ */
+.test-frame-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-width: 420px; margin: 0 auto; }
+.test-topbar { background: var(--card); padding: 10px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+
+/* ══════════════════════════════
+   설정 탭
+══════════════════════════════ */
+.api-key-row { display: flex; gap: 8px; align-items: center; }
+.api-key-row .input { flex: 1; font-family: monospace; }
+
+/* ══════════════════════════════
+   모달
+══════════════════════════════ */
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-bg.show { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+.modal-title { font-size: 16px; font-weight: 900; color: var(--ink); margin-bottom: 16px; }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+/* 스크롤바 */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- 사이드바 -->
+<nav class="sidebar">
+  <div class="sidebar-logo">RIA <span>Admin</span></div>
+
+  <div class="nav-section">
+    <div class="nav-label">콘텐츠</div>
+    <div class="nav-item active" onclick="showPage('scenario',this)">
+      <span class="nav-icon">📝</span> 시나리오
+      <span class="nav-badge warn" id="badge-scenario">D1</span>
+    </div>
+    <div class="nav-item" onclick="showPage('image',this)">
+      <span class="nav-icon">🎨</span> 이미지 생성
+      <span class="nav-badge" id="badge-image">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPage('tts',this)">
+      <span class="nav-icon">🎤</span> 음성 생성
+      <span class="nav-badge" id="badge-tts">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPage('bgm',this)">
+      <span class="nav-icon">🎵</span> BGM 생성
+      <span class="nav-badge" id="badge-bgm">0%</span>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">테스트</div>
+    <div class="nav-item" onclick="showPage('test',this)">
+      <span class="nav-icon">▶️</span> 시나리오 테스트
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">시스템</div>
+    <div class="nav-item" onclick="showPage('chars',this)">
+      <span class="nav-icon">👤</span> 캐릭터 프롬프트
+    </div>
+    <div class="nav-item" onclick="showPage('settings',this)">
+      <span class="nav-icon">⚙️</span> 설정
+    </div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="game-link" onclick="location.href='ria-english-v3-idb.html'">
+      🌸 게임으로
+    </div>
+  </div>
+</nav>
+
+<!-- 메인 -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="page-title">시나리오</div>
+      <div class="topbar-sub" id="page-sub">Day 1 · 5개 발화 · 37개 슬롯</div>
+    </div>
+    <div class="topbar-right" id="topbar-actions"></div>
+  </div>
+
+  <div class="content" id="content"></div>
+</div>
+
+<!-- 토스트 -->
+<div id="toast"></div>
+
+<!-- 이미지 생성 모달 -->
+<div class="modal-bg" id="gen-modal">
+  <div class="modal">
+    <div class="modal-title" id="gen-modal-title">이미지 생성</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;" id="gen-slot-id"></div>
+
+    <label class="label">프롬프트 (수정 가능)</label>
+    <textarea class="input" id="gen-prompt" style="min-height:120px;"></textarea>
+
+    <div style="display:flex;gap:10px;margin-top:10px;">
+      <div style="flex:1;">
+        <label class="label">생성 수량</label>
+        <select class="input" id="gen-count">
+          <option value="1">1장</option>
+          <option value="2">2장</option>
+          <option value="4" selected>4장</option>
+        </select>
+      </div>
+      <div style="flex:1;">
+        <label class="label">NAI 모델</label>
+        <select class="input" id="gen-model">
+          <option value="nai-diffusion-4-5-full">V4.5 Full (권장)</option>
+          <option value="nai-diffusion-4-full">V4 Full</option>
+          <option value="nai-diffusion-4-curated-preview">V4 Curated</option>
+          <option value="nai-diffusion-3">V3</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="gen-progress" style="display:none;margin-top:12px;">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px;" id="gen-progress-text">생성 중...</div>
+      <div class="progress-wrap"><div class="progress-bar" id="gen-progress-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="gen-results" id="gen-results"></div>
+
+    <div id="gen-removebg-row" style="display:none;margin-top:12px;">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="gen-removebg" checked>
+        <span style="font-size:13px;font-weight:600;">🪄 remove.bg 배경 제거 (캐릭터 이미지)</span>
+      </label>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeGenModal()">취소</button>
+      <button class="btn btn-primary" id="gen-btn" onclick="startGenerate()">🎨 생성</button>
+      <button class="btn btn-success" id="confirm-gen-btn" onclick="confirmGenerate()" style="display:none;">✅ 확정</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// 환경 감지 — 로컬 vs Vercel
+// ═══════════════════════════════════════
+function getProxyUrl(type) {
+  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  if (isLocal) {
+    // 로컬: node proxy-server.js 사용
+    return type === 'nai'
+      ? 'http://localhost:8080/proxy/nai'
+      : 'http://localhost:8080/proxy/rmbg';
+  }
+  // Vercel 배포: /api/* 사용
+  return type === 'nai' ? '/api/nai' : '/api/rmbg';
+}
+
+// ═══════════════════════════════════════
+// IndexedDB
+// ═══════════════════════════════════════
+const DB_NAME = 'ria_db';
+const DB_VER  = 2;
+let db = null;
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    if(db) { resolve(db); return; }
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if(!d.objectStoreNames.contains('images'))
+        d.createObjectStore('images', { keyPath: 'id' });
+      if(!d.objectStoreNames.contains('audio'))
+        d.createObjectStore('audio', { keyPath: 'id' });
+      if(!d.objectStoreNames.contains('scenarios'))
+        d.createObjectStore('scenarios', { keyPath: 'id' });
+      if(!d.objectStoreNames.contains('slots'))
+        d.createObjectStore('slots', { keyPath: 'id' });
+    };
+    req.onsuccess = e => { db = e.target.result; resolve(db); };
+    req.onerror   = e => reject(e.target.error);
+  });
+}
+
+async function idbSet(store, id, data) {
+  const d = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = d.transaction(store, 'readwrite');
+    tx.objectStore(store).put({ id, ...data });
+    tx.oncomplete = resolve;
+    tx.onerror    = e => reject(e.target.error);
+  });
+}
+
+async function idbGet(store, id) {
+  const d = await openDB();
+  return new Promise((resolve) => {
+    const req = d.transaction(store,'readonly').objectStore(store).get(id);
+    req.onsuccess = e => resolve(e.target.result || null);
+    req.onerror   = () => resolve(null);
+  });
+}
+
+async function idbGetAll(store) {
+  const d = await openDB();
+  return new Promise((resolve) => {
+    const req = d.transaction(store,'readonly').objectStore(store).getAll();
+    req.onsuccess = e => resolve(e.target.result || []);
+    req.onerror   = () => resolve([]);
+  });
+}
+
+async function idbDelete(store, id) {
+  const d = await openDB();
+  return new Promise((resolve) => {
+    const tx = d.transaction(store,'readwrite');
+    tx.objectStore(store).delete(id);
+    tx.oncomplete = resolve;
+  });
+}
+
+// ═══════════════════════════════════════
+// 시나리오 데이터
+// ═══════════════════════════════════════
+let SCENARIO = null;
+let SLOTS    = {};    // id → slot 객체
+let IMG_CACHE = {};   // id → dataUrl
+
+async function loadScenario() {
+  // DB에서 시나리오 로드
+  const saved = await idbGet('scenarios', 'day1');
+  if(saved?.data) {
+    SCENARIO = saved.data;
+  } else {
+    // 기본 Day 1 JSON 로드
+    SCENARIO = getDay1Default();
+    await idbSet('scenarios', 'day1', { data: SCENARIO });
+  }
+  await syncSlots();
+}
+
+async function syncSlots() {
+  // 시나리오에서 슬롯 자동 추출
+  const allSlots = await idbGetAll('slots');
+  const slotMap = {};
+  allSlots.forEach(s => slotMap[s.id] = s);
+
+  const newSlotIds = new Set();
+
+  // 이미지 슬롯 추출
+  if(SCENARIO.image_slots) {
+    for(const slot of SCENARIO.image_slots) {
+      newSlotIds.add(slot.id);
+      if(!slotMap[slot.id]) {
+        await idbSet('slots', slot.id, { ...slot, status: 'empty', dataUrl: null });
+      }
+    }
+  }
+
+  // BGM 슬롯 추출
+  if(SCENARIO.bgm_slots) {
+    for(const slot of SCENARIO.bgm_slots) {
+      newSlotIds.add(slot.id);
+      if(!slotMap[slot.id]) {
+        await idbSet('slots', slot.id, { ...slot, type:'bgm', status:'empty', dataUrl:null });
+      }
+    }
+  }
+
+  // TTS 슬롯 추출 (beat별 대사)
+  if(SCENARIO.utterances) {
+    for(const u of SCENARIO.utterances) {
+      for(const beat of u.beats || []) {
+        if(beat.tts && beat.text) {
+          const sid = `tts_${beat.id}`;
+          newSlotIds.add(sid);
+          if(!slotMap[sid]) {
+            await idbSet('slots', sid, { id: sid, type:'tts', text: beat.text, status:'empty', dataUrl:null });
+          }
+        }
+      }
+    }
+  }
+
+  // 전체 슬롯 메모리 로드
+  const updatedSlots = await idbGetAll('slots');
+  SLOTS = {};
+  updatedSlots.forEach(s => SLOTS[s.id] = s);
+
+  // 이미지 캐시 로드
+  const imgs = await idbGetAll('images');
+  IMG_CACHE = {};
+  imgs.forEach(i => IMG_CACHE[i.id] = i.dataUrl);
+}
+
+async function saveSlot(slot) {
+  await idbSet('slots', slot.id, slot);
+  SLOTS[slot.id] = slot;
+  if(slot.dataUrl) IMG_CACHE[slot.id] = slot.dataUrl;
+}
+
+// ═══════════════════════════════════════
+// 페이지 라우팅
+// ═══════════════════════════════════════
+function showPage(id, el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if(el) el.classList.add('active');
+
+  const titles = {
+    scenario: ['시나리오', `Day 1 · ${SCENARIO?.utterances?.length||0}개 발화 · ${Object.keys(SLOTS).filter(k=>SLOTS[k].type!=='tts'&&SLOTS[k].type!=='bgm').length}개 슬롯`],
+    image:    ['이미지 생성', 'NAI API → remove.bg → 확정'],
+    tts:      ['음성 생성', 'Gemini TTS → 미리듣기 → 확정'],
+    bgm:      ['BGM 생성', 'Suno API → 미리듣기 → 확정'],
+    test:     ['시나리오 테스트', '이미지 + 음성 + BGM 통합 재생'],
+    chars:    ['캐릭터 프롬프트', 'Ria / 교수 / Jay 베이스 프롬프트 관리'],
+    settings: ['설정', 'API 키 및 데이터 관리'],
+  };
+
+  const [title, sub] = titles[id] || ['', ''];
+  document.getElementById('page-title').textContent = title;
+  document.getElementById('page-sub').textContent = sub;
+
+  const pages = {
+    scenario: renderScenario,
+    image:    renderImage,
+    tts:      renderTTS,
+    bgm:      renderBGM,
+    test:     renderTest,
+    chars:    renderChars,
+    settings: renderSettings,
+  };
+
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  document.getElementById('topbar-actions').innerHTML = '';
+
+  if(pages[id]) pages[id]();
+}
+
+// ═══════════════════════════════════════
+// 시나리오 탭
+// ═══════════════════════════════════════
+let currentU = null;
+
+function renderScenario() {
+  const content = document.getElementById('content');
+
+  document.getElementById('topbar-actions').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="importScenario()">📥 JSON 불러오기</button>
+    <button class="btn btn-primary btn-sm" onclick="exportScenario()">📤 JSON 내보내기</button>
+  `;
+
+  content.innerHTML = `
+    <div style="display:flex;gap:16px;min-height:600px;">
+      <div style="width:200px;flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow-y:auto;max-height:calc(100vh - 120px);">
+        <div style="padding:14px 14px 10px;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--border);">발화 목록</div>
+        <div id="tree-content"></div>
+      </div>
+      <div style="flex:1;overflow-y:auto;max-height:calc(100vh - 120px);" id="scenario-detail">
+        <div style="color:var(--muted);padding:40px;text-align:center;">
+          왼쪽에서 발화를 선택하세요
+        </div>
+      </div>
+    </div>
+  `;
+
+  renderTree();
+}
+
+function renderTree() {
+  const tree = document.getElementById('tree-content');
+  if(!SCENARIO) return;
+
+  // 오프닝
+  tree.innerHTML = `
+    <div style="padding:8px 14px 4px;">
+      <div style="font-size:10px;font-weight:800;color:var(--accent);letter-spacing:.1em;">DAY 1</div>
+    </div>
+    <div class="tree-u" onclick="selectU('opening')">
+      <span class="tree-u-dot"></span> 오프닝
+    </div>
+  `;
+
+  (SCENARIO.utterances || []).forEach((u, i) => {
+    const totalSlots = getUSlots(u.id).length;
+    const confirmed  = getUSlots(u.id).filter(s => SLOTS[s]?.status === 'confirmed').length;
+    const dotClass   = confirmed === totalSlots && totalSlots > 0 ? 'ok' : confirmed > 0 ? 'partial' : '';
+
+    tree.innerHTML += `
+      <div class="tree-u ${currentU === u.id ? 'active' : ''}" onclick="selectU('${u.id}')">
+        <span class="tree-u-dot ${dotClass}"></span>
+        ${u.id} <span style="font-size:10px;color:var(--muted);">${confirmed}/${totalSlots}</span>
+      </div>
+    `;
+  });
+
+  // 클로징
+  tree.innerHTML += `
+    <div class="tree-u" onclick="selectU('closing')">
+      <span class="tree-u-dot"></span> 클로징
+    </div>
+    <div style="padding:12px 14px;border-top:1px solid var(--border);">
+      <button class="btn btn-ghost btn-sm" style="width:100%;margin-bottom:6px;" onclick="addU()">+ 발화 추가</button>
+      <button class="btn btn-ghost btn-sm" style="width:100%;" onclick="addDay()">+ Day 추가</button>
+    </div>
+  `;
+}
+
+function getUSlots(uid) {
+  return Object.keys(SLOTS).filter(id => id.startsWith(uid));
+}
+
+async function selectU(uid) {
+  currentU = uid;
+  renderTree();
+
+  const detail = document.getElementById('scenario-detail');
+
+  if(uid === 'opening' || uid === 'closing') {
+    const data = SCENARIO[uid];
+    detail.innerHTML = `
+      <div class="card">
+        <div class="card-title">${uid === 'opening' ? '오프닝' : '클로징'} — 플레이어 혼잣말</div>
+        ${(data?.lines || []).map((l,i) => `
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
+            <input class="input" value="${l}" style="flex:1;"
+              onchange="SCENARIO.${uid}.lines[${i}]=this.value">
+            <button class="btn btn-ghost btn-icon btn-sm" onclick="removeMonologueLine('${uid}',${i})">✕</button>
+          </div>
+        `).join('')}
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px;" onclick="addMonologueLine('${uid}')">+ 줄 추가</button>
+      </div>
+    `;
+    return;
+  }
+
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  if(!u) return;
+
+  let html = `
+    <!-- 헤더 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <div style="font-size:18px;font-weight:900;color:var(--accent);">${u.id}</div>
+        <div style="font-size:13px;color:var(--muted);">⏰ ${u.time} · 📍 ${u.loc}</div>
+        <div style="margin-left:auto;display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm" onclick="editU('${u.id}')">✏️ 편집</button>
+          <button class="btn btn-ghost btn-sm" onclick="deleteU('${u.id}')">🗑 삭제</button>
+          <button class="btn btn-primary btn-sm" onclick="saveScenario()">💾 저장</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label">BGM 슬롯</label>
+          <input class="input" value="${u.bgm||''}" onchange="u_${u.id}_bgm=this.value">
+        </div>
+        <div class="form-group">
+          <label class="label">배경 슬롯</label>
+          <input class="input" value="${u.bg||''}">
+        </div>
+      </div>
+    </div>
+
+    <!-- 맥락 -->
+    <div class="card">
+      <div class="card-title">맥락</div>
+      <label class="label">플레이어 혼잣말</label>
+      <textarea class="input" style="min-height:60px;">${u.context?.monologue||''}</textarea>
+      <label class="label" style="margin-top:10px;">상황 설명 (화면 하단)</label>
+      <input class="input" value="${u.context?.text||''}">
+    </div>
+  `;
+
+  // Beat 카드들
+  for(const beat of (u.beats || [])) {
+    html += renderBeatCard(beat, u);
+  }
+
+  // Beat 추가
+  html += `
+    <div style="display:flex;gap:8px;margin-bottom:24px;">
+      <button class="btn btn-ghost btn-sm" onclick="addBeat('${u.id}','npc')">+ NPC Beat</button>
+      <button class="btn btn-ghost btn-sm" onclick="addBeat('${u.id}','ria')">+ Ria Beat</button>
+      <button class="btn btn-ghost btn-sm" onclick="addBeat('${u.id}','context')">+ 맥락 Beat</button>
+      <button class="btn btn-ghost btn-sm" onclick="addBeat('${u.id}','target')">+ Target Beat</button>
+    </div>
+  `;
+
+  detail.innerHTML = html;
+}
+
+function renderBeatCard(beat, u) {
+  const typeLabels = { npc:'NPC', ria:'RIA', context:'맥락', target:'TARGET' };
+  const typeClass  = { npc:'bt-npc', ria:'bt-ria', context:'bt-ctx', target:'bt-target' };
+
+  const slot = beat.img ? SLOTS[beat.img] : null;
+  const imgUrl = beat.img ? IMG_CACHE[beat.img] : null;
+
+  const imgSlotHtml = beat.img ? `
+    <div class="beat-img-slot ${slot?.status === 'confirmed' ? 'confirmed' : ''}"
+         onclick="openGenModal('${beat.img}','${beat.type}')">
+      ${imgUrl
+        ? `<img src="${imgUrl}" alt="">`
+        : `<div style="font-size:18px;">🖼</div><div class="beat-img-slot-label">${beat.img.split('_').slice(-2).join('_')}</div>`
+      }
+    </div>
+    <div class="beat-img-actions">
+      <button class="btn btn-ghost btn-sm" onclick="openGenModal('${beat.img}','${beat.type}')">🎨 생성</button>
+      ${imgUrl ? `<button class="btn btn-success btn-sm">✅ 확정</button>` : ''}
+    </div>
+  ` : '';
+
+  // TTS 상태
+  const ttsSlot = SLOTS[`tts_${beat.id}`];
+  const ttsHtml = beat.tts ? `
+    <button class="btn btn-ghost btn-sm" onclick="generateBeatTTS('${beat.id}','${(beat.text||'').replace(/'/g,"\\'")}')">
+      🎤 ${ttsSlot?.status === 'confirmed' ? '✅ 재생성' : '음성 생성'}
+    </button>
+    ${ttsSlot?.dataUrl ? `<button class="btn btn-ghost btn-sm" onclick="playAudio('tts_${beat.id}')">▶</button>` : ''}
+  ` : '';
+
+  // CF 섹션 (target beat만)
+  let cfHtml = '';
+  if(beat.type === 'target' && beat.cf) {
+    cfHtml = `
+      <div class="cf-section">
+        <div class="cf-title">Corrective Feedback</div>
+        ${['cf1','cf2','cf3'].map(cf => {
+          const cfSlot = SLOTS[`${beat.id}_${cf}`] || SLOTS[beat.cf?.[cf]?.img];
+          const cfImg  = beat.cf?.[cf]?.img ? IMG_CACHE[beat.cf[cf].img] : null;
+          return `
+            <div class="cf-row">
+              <div class="cf-pill ${cf === 'cf1' ? 'cf-c1' : cf === 'cf2' ? 'cf-c2' : 'cf-c3'}">${cf.toUpperCase()}</div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-style:italic;color:var(--ink2);">"${beat.cf[cf]?.txt || 'auto'}"</div>
+              </div>
+              ${beat.cf[cf]?.img ? `
+                <div class="beat-img-slot" style="width:40px;height:50px;"
+                     onclick="openGenModal('${beat.cf[cf].img}','ria')">
+                  ${cfImg ? `<img src="${cfImg}">` : '<div style="font-size:14px;">🖼</div>'}
+                </div>
+                <button class="btn btn-ghost btn-sm" onclick="openGenModal('${beat.cf[cf].img}','ria')">🎨</button>
+              ` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    // 큐/단어카드
+    cfHtml += `
+      <div class="cue-display" style="margin-top:10px;">
+        <div class="cue-text">${beat.cue || ''}</div>
+        <div class="cue-words">
+          ${(beat.cueWords || []).map(w => `<div class="cue-word">${w}</div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="beat-card" data-beat="${beat.id}" id="beatcard-${beat.id}">
+      <div class="beat-header">
+        <div class="beat-type ${typeClass[beat.type]||''}">${typeLabels[beat.type]||beat.type}</div>
+        <div class="beat-id">${beat.id}</div>
+        <div style="margin-left:auto;display:flex;gap:6px;">
+          ${ttsHtml}
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="moveBeat('${u.id}','${beat.id}','up')" title="위로">↑</button>
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="moveBeat('${u.id}','${beat.id}','down')" title="아래로">↓</button>
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="editBeat('${u.id}','${beat.id}')">✏️</button>
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="deleteBeat('${u.id}','${beat.id}')">✕</button>
+        </div>
+      </div>
+      <div class="beat-body">
+        ${beat.text ? `<div class="beat-text">"${beat.text}"</div>` : ''}
+        ${beat.ctx  ? `<div class="beat-ctx-text">💬 ${beat.ctx}</div>` : ''}
+        <div class="beat-img-row">
+          ${imgSlotHtml}
+        </div>
+        ${cfHtml}
+      </div>
+    </div>
+  `;
+}
+
+function addMonologueLine(key) {
+  if(!SCENARIO[key]) SCENARIO[key] = { lines: [] };
+  SCENARIO[key].lines.push('');
+  selectU(key);
+}
+
+function removeMonologueLine(key, idx) {
+  SCENARIO[key].lines.splice(idx, 1);
+  selectU(key);
+}
+
+async function saveScenario() {
+  await idbSet('scenarios', 'day1', { data: SCENARIO });
+  await syncSlots();
+  showToast('✅ 시나리오 저장됨');
+  renderTree();
+}
+
+function exportScenario() {
+  const blob = new Blob([JSON.stringify(SCENARIO, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ria-day1-scenario.json';
+  a.click();
+  showToast('📤 JSON 내보내기 완료');
+}
+
+function importScenario() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = async e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const text = await file.text();
+    try {
+      SCENARIO = JSON.parse(text);
+      await idbSet('scenarios', 'day1', { data: SCENARIO });
+      await syncSlots();
+      showToast('✅ JSON 불러오기 완료');
+      renderScenario();
+    } catch(err) {
+      showToast('❌ JSON 파싱 오류');
+    }
+  };
+  input.click();
+}
+
+// ── U 추가
+// ── 슬롯 자동 생성
+async function autoCreateSlots(beat, uid) {
+  const toCreate = [];
+
+  // 이미지 슬롯
+  if(beat.img) {
+    toCreate.push({
+      id: beat.img, type: beat.type === 'npc' ? 'character' : 'character',
+      character: beat.type === 'npc' ? 'professor' : 'ria',
+      removebg: true, status: 'empty',
+      img_prompt: beat.img_prompt || {}
+    });
+  }
+
+  // target beat → CF + reward 슬롯
+  if(beat.type === 'target') {
+    for(const cf of ['cf1','cf2','cf3']) {
+      if(beat.cf?.[cf]?.img) {
+        toCreate.push({
+          id: beat.cf[cf].img, type:'character', character:'ria',
+          removebg:true, status:'empty',
+          img_prompt: beat.cf[cf].img_prompt || {}
+        });
+      }
+    }
+    if(beat.reward?.img) {
+      toCreate.push({
+        id: beat.reward.img, type:'character', character:'ria',
+        removebg:true, status:'empty',
+        img_prompt: beat.reward.img_prompt || {}
+      });
+    }
+  }
+
+  // TTS 슬롯
+  if(beat.tts && beat.text) {
+    toCreate.push({ id:`tts_${beat.id}`, type:'tts', text:beat.text, status:'empty' });
+  }
+
+  for(const slot of toCreate) {
+    if(!SLOTS[slot.id]) {
+      await idbSet('slots', slot.id, slot);
+      SLOTS[slot.id] = slot;
+    }
+  }
+}
+
+// ── 슬롯 자동 삭제 (확정 안 된 것만)
+async function autoDeleteSlots(beat) {
+  const toDelete = [];
+  if(beat.img) toDelete.push(beat.img);
+  if(beat.type === 'target') {
+    for(const cf of ['cf1','cf2','cf3']) {
+      if(beat.cf?.[cf]?.img) toDelete.push(beat.cf[cf].img);
+    }
+    if(beat.reward?.img) toDelete.push(beat.reward.img);
+  }
+  toDelete.push(`tts_${beat.id}`);
+
+  for(const id of toDelete) {
+    const slot = SLOTS[id];
+    if(slot && slot.status !== 'confirmed') {
+      await idbDelete('slots', id);
+      delete SLOTS[id];
+      delete IMG_CACHE[id];
+    } else if(slot?.status === 'confirmed') {
+      showToast(`⚠️ ${id} — 확정된 이미지는 보관됨`);
+    }
+  }
+}
+
+// ── Beat 편집 모달
+function editBeat(uid, bid) {
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  const beat = u?.beats?.find(b => b.id === bid);
+  if(!beat) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg show';
+  modal.id = 'edit-beat-modal';
+  modal.innerHTML = `
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-title">Beat 편집 — ${bid}</div>
+
+      <div class="form-row" style="margin-bottom:12px;">
+        <div class="form-group">
+          <label class="label">타입</label>
+          <select class="input" id="eb-type">
+            ${['npc','ria','context','target'].map(t =>
+              `<option value="${t}" ${beat.type===t?'selected':''}>${t.toUpperCase()}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="label">Speaker</label>
+          <input class="input" id="eb-speaker" value="${beat.speaker||''}">
+        </div>
+        <div class="form-group">
+          <label class="label">TTS</label>
+          <select class="input" id="eb-tts">
+            <option value="true" ${beat.tts?'selected':''}>켜기</option>
+            <option value="false" ${!beat.tts?'selected':''}>끄기</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="label">대사</label>
+      <textarea class="input" id="eb-text" style="min-height:60px;">${beat.text||''}</textarea>
+
+      <label class="label" style="margin-top:10px;">컨텍스트 (ctx)</label>
+      <input class="input" id="eb-ctx" value="${beat.ctx||''}">
+
+      <label class="label" style="margin-top:10px;">이미지 슬롯 ID</label>
+      <input class="input" id="eb-img" value="${beat.img||''}">
+
+      <label class="label" style="margin-top:10px;">이미지 프롬프트 — 기분</label>
+      <input class="input" id="eb-mood" value="${beat.img_prompt?.mood||''}">
+
+      <label class="label" style="margin-top:6px;">이미지 프롬프트 — 포즈</label>
+      <input class="input" id="eb-pose" value="${beat.img_prompt?.pose||''}">
+
+      ${beat.type === 'target' ? `
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+          <label class="label">큐 문장</label>
+          <input class="input" id="eb-cue" value="${beat.cue||''}">
+          <label class="label" style="margin-top:8px;">단어카드 (쉼표로 구분)</label>
+          <input class="input" id="eb-words" value="${(beat.cueWords||[]).join(', ')}">
+          <label class="label" style="margin-top:8px;">정답 (줄바꿈으로 구분)</label>
+          <textarea class="input" id="eb-correct" style="min-height:60px;">${(beat.correct||[]).join('\n')}</textarea>
+          <label class="label" style="margin-top:8px;">CF1 대사</label>
+          <input class="input" id="eb-cf1" value="${beat.cf?.cf1?.txt||''}">
+          <label class="label" style="margin-top:6px;">CF3 대사</label>
+          <input class="input" id="eb-cf3" value="${beat.cf?.cf3?.txt||''}">
+        </div>
+      ` : ''}
+
+      <div class="modal-btns">
+        <button class="btn btn-ghost" onclick="document.getElementById('edit-beat-modal').remove()">취소</button>
+        <button class="btn btn-primary" onclick="saveBeatEdit('${uid}','${bid}')">💾 저장</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+async function saveBeatEdit(uid, bid) {
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  const beat = u?.beats?.find(b => b.id === bid);
+  if(!beat) return;
+
+  beat.type    = document.getElementById('eb-type')?.value || beat.type;
+  beat.speaker = document.getElementById('eb-speaker')?.value || beat.speaker;
+  beat.tts     = document.getElementById('eb-tts')?.value === 'true';
+  beat.text    = document.getElementById('eb-text')?.value || '';
+  beat.ctx     = document.getElementById('eb-ctx')?.value  || '';
+  beat.img     = document.getElementById('eb-img')?.value  || beat.img;
+
+  if(!beat.img_prompt) beat.img_prompt = {};
+  beat.img_prompt.mood = document.getElementById('eb-mood')?.value || '';
+  beat.img_prompt.pose = document.getElementById('eb-pose')?.value || '';
+
+  if(beat.type === 'target') {
+    beat.cue      = document.getElementById('eb-cue')?.value || '';
+    beat.cueWords = document.getElementById('eb-words')?.value.split(',').map(w=>w.trim()).filter(Boolean) || [];
+    beat.correct  = document.getElementById('eb-correct')?.value.split('\n').map(w=>w.trim()).filter(Boolean) || [];
+    if(beat.cf?.cf1) beat.cf.cf1.txt = document.getElementById('eb-cf1')?.value || beat.cf.cf1.txt;
+    if(beat.cf?.cf3) beat.cf.cf3.txt = document.getElementById('eb-cf3')?.value || beat.cf.cf3.txt;
+  }
+
+  // TTS 슬롯 텍스트 업데이트
+  if(beat.tts && beat.text && SLOTS[`tts_${bid}`]) {
+    SLOTS[`tts_${bid}`].text = beat.text;
+    await idbSet('slots', `tts_${bid}`, SLOTS[`tts_${bid}`]);
+  }
+
+  await saveScenario();
+  document.getElementById('edit-beat-modal')?.remove();
+  selectU(uid);
+  showToast('✅ Beat 저장됨');
+}
+
+// ── U 편집 모달
+function editU(uid) {
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  if(!u) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg show';
+  modal.id = 'edit-u-modal';
+  modal.innerHTML = `
+    <div class="modal">
+      <div class="modal-title">발화 편집 — ${uid}</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label">ID</label>
+          <input class="input" id="eu-id" value="${u.id}">
+        </div>
+        <div class="form-group">
+          <label class="label">시간</label>
+          <input class="input" id="eu-time" value="${u.time||''}">
+        </div>
+      </div>
+      <label class="label" style="margin-top:10px;">장소</label>
+      <input class="input" id="eu-loc" value="${u.loc||''}">
+      <label class="label" style="margin-top:10px;">BGM 슬롯</label>
+      <input class="input" id="eu-bgm" value="${u.bgm||''}">
+      <label class="label" style="margin-top:10px;">배경 슬롯</label>
+      <input class="input" id="eu-bg" value="${u.bg||''}">
+      <label class="label" style="margin-top:10px;">플레이어 혼잣말</label>
+      <textarea class="input" id="eu-mono" style="min-height:80px;">${u.context?.monologue||''}</textarea>
+      <label class="label" style="margin-top:10px;">상황 설명</label>
+      <input class="input" id="eu-ctx" value="${u.context?.text||''}">
+      <div class="modal-btns">
+        <button class="btn btn-ghost" onclick="document.getElementById('edit-u-modal').remove()">취소</button>
+        <button class="btn btn-primary" onclick="saveUEdit('${uid}')">💾 저장</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+async function saveUEdit(uid) {
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  if(!u) return;
+  u.id   = document.getElementById('eu-id')?.value || u.id;
+  u.time = document.getElementById('eu-time')?.value || u.time;
+  u.loc  = document.getElementById('eu-loc')?.value  || u.loc;
+  u.bgm  = document.getElementById('eu-bgm')?.value  || u.bgm;
+  u.bg   = document.getElementById('eu-bg')?.value   || u.bg;
+  if(!u.context) u.context = {};
+  u.context.monologue = document.getElementById('eu-mono')?.value || '';
+  u.context.text      = document.getElementById('eu-ctx')?.value  || '';
+  await saveScenario();
+  document.getElementById('edit-u-modal')?.remove();
+  currentU = u.id;
+  renderScenario();
+  selectU(u.id);
+  showToast('✅ 발화 저장됨');
+}
+
+// ── Day 추가
+function addDay() {
+  const days = [...new Set((SCENARIO.utterances||[]).map(u => u.id.split('_')[0]))];
+  const nextDay = days.length + 1;
+  showToast(`Day ${nextDay} 추가 — U를 추가해서 구성하세요`);
+  // 빈 U 하나 추가
+  const id = `D0${nextDay}_U01`;
+  SCENARIO.utterances.push({
+    id, time:'09:00', loc:'장소 입력',
+    bgm:`bgm_D0${nextDay}_morning`, bg:`D0${nextDay}_bg_classroom`,
+    context:{ text:'', monologue:'' }, beats:[]
+  });
+  saveScenario();
+  selectU(id);
+}
+
+// ── Beat 순서 이동
+async function moveBeat(uid, bid, dir) {
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  if(!u) return;
+  const idx = u.beats.findIndex(b => b.id === bid);
+  if(idx < 0) return;
+  const newIdx = dir === 'up' ? idx-1 : idx+1;
+  if(newIdx < 0 || newIdx >= u.beats.length) return;
+  const tmp = u.beats[idx];
+  u.beats[idx] = u.beats[newIdx];
+  u.beats[newIdx] = tmp;
+  await saveScenario();
+  selectU(uid);
+}
+
+
+// ── Beat 편집 모달
+function editBeat(uid, bid) {
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  const beat = u?.beats?.find(b => b.id === bid);
+  if(!beat) return;
+
+  // 인라인 편집 — 모달 대신 해당 카드 확장
+  const card = document.getElementById(`beat-edit-${bid}`);
+  if(card) { card.style.display = card.style.display === 'none' ? 'block' : 'none'; return; }
+
+  // 편집 폼 삽입
+  const beatCard = document.querySelector(`[data-beat="${bid}"]`);
+  if(!beatCard) return;
+
+  const editDiv = document.createElement('div');
+  editDiv.id = `beat-edit-${bid}`;
+  editDiv.style.cssText = 'padding:14px;border-top:1px solid var(--border);';
+  editDiv.innerHTML = `
+    <div class="form-row" style="margin-bottom:10px;">
+      <div class="form-group">
+        <label class="label">대사</label>
+        <textarea class="input" id="edit-text-${bid}" style="min-height:60px;">${beat.text||''}</textarea>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:10px;">
+      <div class="form-group">
+        <label class="label">ctx (상황설명)</label>
+        <input class="input" id="edit-ctx-${bid}" value="${beat.ctx||''}">
+      </div>
+      <div class="form-group" style="max-width:120px;">
+        <label class="label">Speaker</label>
+        <input class="input" id="edit-speaker-${bid}" value="${beat.speaker||''}">
+      </div>
+    </div>
+    ${beat.type === 'target' ? `
+    <div class="form-row" style="margin-bottom:10px;">
+      <div class="form-group">
+        <label class="label">큐</label>
+        <input class="input" id="edit-cue-${bid}" value="${beat.cue||''}">
+      </div>
+    </div>
+    <div style="margin-bottom:10px;">
+      <label class="label">단어카드 (쉼표로 구분)</label>
+      <input class="input" id="edit-cuewords-${bid}" value="${(beat.cueWords||[]).join(', ')}">
+    </div>
+    <div style="margin-bottom:10px;">
+      <label class="label">정답 (줄바꿈으로 구분)</label>
+      <textarea class="input" id="edit-correct-${bid}" style="min-height:60px;">${(beat.correct||[]).join('\n')}</textarea>
+    </div>
+    <div style="margin-bottom:10px;">
+      <label class="label">CF1 대사</label>
+      <input class="input" id="edit-cf1-${bid}" value="${beat.cf?.cf1?.txt||''}">
+    </div>
+    <div style="margin-bottom:10px;">
+      <label class="label">CF3 대사</label>
+      <input class="input" id="edit-cf3-${bid}" value="${beat.cf?.cf3?.txt||''}">
+    </div>
+    ` : ''}
+    <div style="margin-bottom:10px;">
+      <label class="label">이미지 프롬프트 — 기분</label>
+      <input class="input" id="edit-mood-${bid}" value="${beat.img_prompt?.mood||''}">
+    </div>
+    <div style="margin-bottom:10px;">
+      <label class="label">이미지 프롬프트 — 포즈</label>
+      <input class="input" id="edit-pose-${bid}" value="${beat.img_prompt?.pose||''}">
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-primary btn-sm" onclick="saveBeatEdit('${uid}','${bid}')">💾 저장</button>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('beat-edit-${bid}').remove()">취소</button>
+    </div>
+  `;
+  beatCard.appendChild(editDiv);
+}
+
+async function saveBeatEdit(uid, bid) {
+  const u = SCENARIO.utterances?.find(u => u.id === uid);
+  const beat = u?.beats?.find(b => b.id === bid);
+  if(!beat) return;
+
+  beat.text    = document.getElementById(`edit-text-${bid}`)?.value || beat.text;
+  beat.ctx     = document.getElementById(`edit-ctx-${bid}`)?.value || '';
+  beat.speaker = document.getElementById(`edit-speaker-${bid}`)?.value || beat.speaker;
+
+  if(beat.type === 'target') {
+    beat.cue      = document.getElementById(`edit-cue-${bid}`)?.value || '';
+    beat.cueWords = (document.getElementById(`edit-cuewords-${bid}`)?.value || '').split(',').map(w => w.trim()).filter(Boolean);
+    beat.correct  = (document.getElementById(`edit-correct-${bid}`)?.value || '').split('\n').map(w => w.trim()).filter(Boolean);
+    if(beat.cf?.cf1) beat.cf.cf1.txt = document.getElementById(`edit-cf1-${bid}`)?.value || beat.cf.cf1.txt;
+    if(beat.cf?.cf3) beat.cf.cf3.txt = document.getElementById(`edit-cf3-${bid}`)?.value || beat.cf.cf3.txt;
+  }
+
+  if(beat.img_prompt) {
+    beat.img_prompt.mood = document.getElementById(`edit-mood-${bid}`)?.value || '';
+    beat.img_prompt.pose = document.getElementById(`edit-pose-${bid}`)?.value || '';
+  }
+
+  // TTS 슬롯 텍스트 업데이트
+  const ttsSlot = SLOTS[`tts_${bid}`];
+  if(ttsSlot) { ttsSlot.text = beat.text; await saveSlot(ttsSlot); }
+
+  await saveScenario();
+  document.getElementById(`beat-edit-${bid}`)?.remove();
+  selectU(uid);
+  showToast(`✅ ${bid} 저장됨`);
+}
+
+// ── Day 추가
+function addDay() {
+  const days = [...new Set((SCENARIO.utterances||[]).map(u => u.id.split('_')[0]))];
+  const nextDay = days.length + 1;
+  showToast(`🚧 Day ${nextDay} 추가 — 준비 중`);
+}
+
+// ── 슬롯 자동 생성
+async function autoCreateSlots(beat, uid) {
+  // 이미지 슬롯
+  if(beat.img) {
+    const isChar = beat.type !== 'background';
+    if(!SLOTS[beat.img]) {
+      await idbSet('slots', beat.img, {
+        id: beat.img, type: beat.type === 'npc' ? 'character' : 'character',
+        character: beat.type === 'npc' ? 'professor' : 'ria',
+        removebg: true, status: 'empty', dataUrl: null,
+        img_prompt: beat.img_prompt
+      });
+      SLOTS[beat.img] = { id: beat.img, type:'character', status:'empty', dataUrl:null, img_prompt: beat.img_prompt };
+    }
+  }
+
+  // target beat CF/RW 슬롯
+  if(beat.type === 'target' && beat.cf) {
+    for(const [cfKey, cf] of Object.entries(beat.cf)) {
+      if(cf.img && !SLOTS[cf.img]) {
+        await idbSet('slots', cf.img, { id:cf.img, type:'character', character:'ria', removebg:true, status:'empty', dataUrl:null, img_prompt:cf.img_prompt });
+        SLOTS[cf.img] = { id:cf.img, type:'character', status:'empty', dataUrl:null };
+      }
+    }
+    if(beat.reward?.img && !SLOTS[beat.reward.img]) {
+      await idbSet('slots', beat.reward.img, { id:beat.reward.img, type:'character', character:'ria', removebg:true, status:'empty', dataUrl:null });
+      SLOTS[beat.reward.img] = { id:beat.reward.img, type:'character', status:'empty', dataUrl:null };
+    }
+  }
+
+  // TTS 슬롯
+  if(beat.tts && beat.text) {
+    const sid = `tts_${beat.id}`;
+    if(!SLOTS[sid]) {
+      await idbSet('slots', sid, { id:sid, type:'tts', text:beat.text, status:'empty', dataUrl:null });
+      SLOTS[sid] = { id:sid, type:'tts', text:beat.text, status:'empty', dataUrl:null };
+    }
+  }
+}
+
+// ── 슬롯 삭제 (이미지 미확정 시)
+async function autoDeleteSlots(beat) {
+  const toDelete = [];
+  if(beat.img) toDelete.push(beat.img);
+  if(beat.type === 'target' && beat.cf) {
+    Object.values(beat.cf).forEach(cf => { if(cf.img) toDelete.push(cf.img); });
+    if(beat.reward?.img) toDelete.push(beat.reward.img);
+  }
+  toDelete.push(`tts_${beat.id}`);
+
+  for(const id of toDelete) {
+    const slot = SLOTS[id];
+    if(slot?.status === 'confirmed') {
+      showToast(`⚠️ ${id} — 확정된 이미지는 보관됨`);
+    } else {
+      await idbDelete('slots', id);
+      delete SLOTS[id];
+      delete IMG_CACHE[id];
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// 이미지 생성 탭
+// ═══════════════════════════════════════
+let currentSlotId = null;
+let selectedGenIdx = null;
+let genResults = [];
+
+function renderImage() {
+  const content = document.getElementById('content');
+
+  const imgSlots = Object.values(SLOTS).filter(s => s.type === 'character' || s.type === 'background');
+  const confirmed = imgSlots.filter(s => s.status === 'confirmed').length;
+  const withImg   = imgSlots.filter(s => s.dataUrl || IMG_CACHE[s.id]).length;
+
+  updateBadge('image', `${confirmed}/${imgSlots.length}`);
+
+  document.getElementById('topbar-actions').innerHTML = `
+    <select class="input" id="slot-filter" style="width:auto;font-size:12px;" onchange="applySlotFilter()">
+      <option value="all">전체 (${imgSlots.length})</option>
+      <option value="empty">미생성 (${imgSlots.length - withImg})</option>
+      <option value="uploaded">업로드됨 (${withImg - confirmed})</option>
+      <option value="confirmed">확정 (${confirmed})</option>
+      <option value="character">캐릭터만</option>
+      <option value="background">배경만</option>
+    </select>
+    <button class="btn btn-primary btn-sm" onclick="generateAllEmpty()">🎨 전체 생성</button>
+  `;
+
+  content.innerHTML = `
+    <div class="img-gen-layout">
+      <div class="img-slot-list">
+        <div class="img-slot-list-header">
+          이미지 슬롯
+          <span class="badge badge-confirm" style="font-size:9px;">${confirmed}/${imgSlots.length}</span>
+        </div>
+        <div id="slot-list-content"></div>
+      </div>
+      <div class="img-gen-panel" id="img-gen-panel">
+        <div style="color:var(--muted);padding:40px;text-align:center;font-size:13px;">
+          왼쪽에서 슬롯을 선택하세요<br><br>
+          <span style="font-size:11px;">확정 ${confirmed} · 업로드됨 ${withImg} · 전체 ${imgSlots.length}</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  renderSlotList(imgSlots);
+}
+
+function applySlotFilter() {
+  const filter = document.getElementById('slot-filter')?.value || 'all';
+  let slots = Object.values(SLOTS).filter(s => s.type === 'character' || s.type === 'background');
+  if(filter === 'empty')      slots = slots.filter(s => !s.dataUrl && !IMG_CACHE[s.id]);
+  else if(filter === 'uploaded')  slots = slots.filter(s => (s.dataUrl || IMG_CACHE[s.id]) && s.status !== 'confirmed');
+  else if(filter === 'confirmed') slots = slots.filter(s => s.status === 'confirmed');
+  else if(filter === 'character') slots = slots.filter(s => s.type === 'character');
+  else if(filter === 'background')slots = slots.filter(s => s.type === 'background');
+  renderSlotList(slots);
+}
+
+function renderSlotList(slots) {
+  const el = document.getElementById('slot-list-content');
+  if(!el) return;
+
+  // Day/U별 그룹핑
+  const groups = {};
+  slots.forEach(s => {
+    const parts = s.id.split('_');
+    const group = parts.slice(0,2).join('_');
+    if(!groups[group]) groups[group] = [];
+    groups[group].push(s);
+  });
+
+  let html = '';
+  for(const [group, gSlots] of Object.entries(groups)) {
+    const gConf = gSlots.filter(s => s.status === 'confirmed').length;
+    html += `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px 4px;">
+      <span style="font-size:10px;font-weight:800;color:var(--accent);letter-spacing:.1em;">${group}</span>
+      <span style="font-size:9px;color:var(--muted);">${gConf}/${gSlots.length}</span>
+    </div>`;
+    gSlots.forEach(s => {
+      const imgUrl = IMG_CACHE[s.id] || s.dataUrl;
+      const hasImg = !!imgUrl;
+      const statusIcon = s.status === 'confirmed' ? '✅' : (hasImg ? '📸' : '⬜');
+      const badgeClass = s.status === 'confirmed' ? 'badge-confirm' : (hasImg ? 'badge-gen' : 'badge-empty');
+      html += `
+        <div class="slot-item ${currentSlotId === s.id ? 'active' : ''}" onclick="selectSlot('${s.id}')">
+          <div class="slot-thumb">
+            ${imgUrl ? `<img src="${imgUrl}">` : ''}
+          </div>
+          <div class="slot-info">
+            <div class="slot-id">${s.id.split('_').slice(2).join('_') || s.id}</div>
+            <div class="slot-name" style="font-size:10px;color:var(--muted);">${s.type === 'background' ? '🌅 배경' : (s.character || 'ria')}</div>
+          </div>
+          <span class="badge ${badgeClass}" style="font-size:9px;padding:2px 5px;">${statusIcon}</span>
+        </div>
+      `;
+    });
+  }
+  if(!html) html = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;">슬롯 없음</div>`;
+  el.innerHTML = html;
+}
+
+async function selectSlot(id) {
+  currentSlotId = id;
+  const slot = SLOTS[id] || { id, type:'character', character:'ria', status:'empty' };
+  const imgUrl = IMG_CACHE[id];
+  const isChar = slot.type !== 'background';
+
+  const panel = document.getElementById('img-gen-panel');
+  if(!panel) return;
+
+  const mood = slot.img_prompt?.mood || '';
+  const pose = slot.img_prompt?.pose || '';
+  const fullPrompt = buildPrompt(slot);
+
+  panel.innerHTML = `
+    <div class="card">
+      <!-- 헤더 -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div style="font-family:monospace;font-size:13px;color:var(--accent);flex:1;">${id}</div>
+        <span class="badge badge-${slot.status === 'confirmed' ? 'confirm' : 'empty'}">
+          ${slot.status || 'empty'}
+        </span>
+        ${slot.status === 'confirmed' ? `
+          <button class="btn btn-danger btn-sm" onclick="resetSlot('${id}')">초기화</button>
+        ` : ''}
+      </div>
+
+      <!-- 이미지 프리뷰 + 업로드 -->
+      <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;">
+        <div style="width:140px;flex-shrink:0;">
+          <div id="slot-img-preview" style="width:140px;height:${isChar?'175px':'98px'};border-radius:10px;overflow:hidden;border:2px dashed var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="uploadSlotImage('${id}')">
+            ${imgUrl
+              ? `<img src="${imgUrl}" style="width:100%;height:100%;object-fit:cover;">`
+              : `<div style="text-align:center;color:var(--muted);font-size:12px;">📁<br>클릭해서<br>업로드</div>`
+            }
+          </div>
+          <div style="margin-top:6px;display:flex;gap:4px;">
+            <button class="btn btn-ghost btn-sm" style="flex:1;font-size:10px;" onclick="uploadSlotImage('${id}')">📁 업로드</button>
+            ${imgUrl ? `<button class="btn btn-ghost btn-sm" style="font-size:10px;" onclick="downloadSlot('${id}')">⬇</button>` : ''}
+          </div>
+        </div>
+
+        <!-- 프롬프트 편집 -->
+        <div style="flex:1;">
+          ${isChar ? `
+            <label class="label">기분 (mood)</label>
+            <input class="input" id="slot-mood" value="${mood.replace(/"/g,'&quot;')}" placeholder="e.g. happy, warm, joyful," style="margin-bottom:8px;">
+            <label class="label">포즈 (pose)</label>
+            <input class="input" id="slot-pose" value="${pose.replace(/"/g,'&quot;')}" placeholder="e.g. slight smile, looking at viewer," style="margin-bottom:8px;">
+            <label class="label">캐릭터 프롬프트 (char_prompt) <span style="color:var(--muted);font-weight:400;">— 없으면 자동</span></label>
+            <textarea class="input" id="slot-char-prompt" style="min-height:60px;font-size:11px;font-family:monospace;" placeholder="슬롯별 캐릭터 고유 프롬프트 (비우면 기본값 사용)">${(slot?.img_prompt?.char_prompt||'').replace(/"/g,'&quot;')}</textarea>
+            <label class="label" style="margin-top:6px;">캐릭터 UC (char_uc)</label>
+            <textarea class="input" id="slot-char-uc" style="min-height:50px;font-size:11px;font-family:monospace;" placeholder="슬롯별 캐릭터 네거티브">${(slot?.img_prompt?.char_uc||'').replace(/"/g,'&quot;')}</textarea>
+            <div style="margin-top:8px;">
+            <button class="btn btn-ghost btn-sm" onclick="saveSlotPrompt('${id}')">💾 저장</button>
+            <button class="btn btn-ghost btn-sm" style="margin-left:4px;" onclick="toggleFullPrompt()">전체 프롬프트 ▾</button>
+            </div>
+          ` : `
+            <label class="label">배경 프롬프트</label>
+            <textarea class="input" id="slot-bg-prompt" style="min-height:80px;font-family:monospace;font-size:11px;">${slot.bg_prompt || ''}</textarea>
+            <button class="btn btn-ghost btn-sm" style="margin-top:6px;" onclick="saveBgPrompt('${id}')">💾 저장</button>
+          `}
+          <div id="full-prompt-wrap" style="display:none;margin-top:10px;">
+            <label class="label">전체 프롬프트 (수정 후 생성에 자동 반영)</label>
+            <textarea class="input" id="slot-full-prompt" style="min-height:120px;font-family:monospace;font-size:11px;line-height:1.5;">${fullPrompt}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 액션 버튼 -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border);">
+        <button class="btn btn-primary" onclick="openGenModal('${id}','${slot.type||'character'}')">
+          🎨 NAI 생성
+        </button>
+        ${imgUrl ? `
+          ${isChar ? `<button class="btn btn-ghost" onclick="removeBg('${id}')">🪄 배경 제거</button>` : ''}
+          <button class="btn btn-success" onclick="confirmSlot('${id}')">✅ 확정</button>
+        ` : ''}
+      </div>
+    </div>
+  `;
+
+  // 슬롯 목록 업데이트
+  const imgSlots = Object.values(SLOTS).filter(s => s.type === 'character' || s.type === 'background');
+  renderSlotList(imgSlots);
+}
+
+function toggleFullPrompt() {
+  const w = document.getElementById('full-prompt-wrap');
+  if(!w) return;
+  w.style.display = w.style.display === 'none' ? 'block' : 'none';
+  // 현재 mood/pose 반영해서 프롬프트 갱신
+  if(w.style.display === 'block') {
+    const slot = SLOTS[currentSlotId];
+    const mood = document.getElementById('slot-mood')?.value || slot?.img_prompt?.mood || '';
+    const pose = document.getElementById('slot-pose')?.value || slot?.img_prompt?.pose || '';
+    const tempSlot = { ...slot, img_prompt: { ...slot?.img_prompt, mood, pose } };
+    const el = document.getElementById('slot-full-prompt');
+    if(el) el.value = buildPrompt(tempSlot);
+  }
+}
+
+async function saveSlotPrompt(id) {
+  const slot = SLOTS[id];
+  if(!slot) return;
+  const mood       = document.getElementById('slot-mood')?.value || '';
+  const pose       = document.getElementById('slot-pose')?.value || '';
+  const charPrompt = document.getElementById('slot-char-prompt')?.value || '';
+  const charUC     = document.getElementById('slot-char-uc')?.value || '';
+  if(!slot.img_prompt) slot.img_prompt = {};
+  slot.img_prompt.mood        = mood;
+  slot.img_prompt.pose        = pose;
+  slot.img_prompt.char_prompt = charPrompt;
+  slot.img_prompt.char_uc     = charUC;
+  await saveSlot(slot);
+  // 전체 프롬프트 textarea도 갱신
+  const fullEl = document.getElementById('slot-full-prompt');
+  if(fullEl) fullEl.value = buildPrompt(slot);
+  showToast(`✅ ${id} 프롬프트 저장됨`);
+}
+
+async function saveBgPrompt(id) {
+  const slot = SLOTS[id];
+  if(!slot) return;
+  slot.bg_prompt = document.getElementById('slot-bg-prompt')?.value || '';
+  await saveSlot(slot);
+  showToast(`✅ ${id} 프롬프트 저장됨`);
+}
+
+function uploadSlotImage(id) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = async e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async ev => {
+      const dataUrl = ev.target.result;
+      const slot = SLOTS[id] || { id, type:'character', character:'ria', removebg:true };
+      slot.dataUrl = dataUrl;
+      slot.status  = 'empty'; // 업로드 후 확정은 수동
+      await saveSlot(slot);
+      await idbSet('images', id, { dataUrl });
+      IMG_CACHE[id] = dataUrl;
+      showToast(`✅ ${id} 업로드됨 — 확정 버튼 눌러주세요`);
+      selectSlot(id);
+      updateBadges();
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function buildPrompt(slot) {
+  if(!slot) return '슬롯 정보 없음';
+  if(slot.type === 'background') {
+    return slot.bg_prompt || getCharPrompt('background', slot);
+  }
+  const char = slot.character || 'ria';
+  const base = getCharPrompt(char, slot);
+  return base;
+}
+
+function getCharPrompt(char, slot) {
+  const bases = JSON.parse(localStorage.getItem('ria_char_prompts') || '{}');
+  if(char === 'ria') {
+    const base = bases.ria_base || RIA_BASE_PROMPT;
+    const mood = slot?.img_prompt?.mood || '';
+    const pose = slot?.img_prompt?.pose || '';
+    // 한글 태그 없이 순수 프롬프트 조합
+    const parts = [base];
+    if(mood) parts.push(mood);
+    if(pose) parts.push(pose);
+    return parts.join(', ');
+  }
+  if(char === 'professor') {
+    return bases.professor_base || PROFESSOR_BASE_PROMPT;
+  }
+  return bases[char] || '';
+}
+
+// 기본 프롬프트 (한글 태그 제거)
+const RIA_BASE_PROMPT = `game cg style, visual novel cg, soft shading, vibrant color, clean illustration, smooth coloring, upper body, transparent background, soft coloring, no outlines,
+1girl, korean woman, age 21, pale skin, small face, beautiful face, fair skin, natural skin tone, rosy cheeks, natural makeup, defined eyebrows, sharp almond eyes, dark amber eyes, warm brown eyes, slender figure, slim waist, slightly full chest, balanced proportions,
+jet black hair, dark black hair, shoulder length hair, loose hair, hair down, no hair tie, sleek, loose strands framing face,
+pure white polo shirt, button collar, short sleeve, blue denim jeans,`;
+
+const PROFESSOR_BASE_PROMPT = `game cg style, visual novel cg, soft shading, vibrant color, clean illustration, upper body, transparent background
+1man, korean male professor, age 50s, silver grey hair, glasses, kind but authoritative expression, slim build, formal shirt, dark slacks,`;
+
+// 슬롯별 character 프롬프트 (body만, base 없이)
+const RIA_CHAR_BASE = `1girl, korean woman, age 21, pale skin, small face, beautiful face, fair skin, natural skin tone, rosy cheeks, natural makeup, defined eyebrows, sharp almond eyes, dark amber eyes, warm brown eyes, slender figure, slim waist, slightly full chest, balanced proportions, jet black hair, dark black hair, shoulder length hair, loose hair, hair down, no hair tie, sleek, loose strands framing face, pure white polo shirt, button collar, short sleeve, blue denim jeans,`;
+
+// 이미지 생성 모달
+function openGenModal(slotId, type) {
+  currentSlotId = slotId;
+  const slot = SLOTS[slotId] || { id: slotId, type: type || 'character', character: 'ria' };
+
+  // 패널에서 수정 중인 mood/pose 값 반영
+  const liveMood = document.getElementById('slot-mood')?.value;
+  const livePose = document.getElementById('slot-pose')?.value;
+  const liveFullPrompt = document.getElementById('slot-full-prompt')?.value;
+
+  let prompt;
+  if(liveFullPrompt && document.getElementById('full-prompt-wrap')?.style.display !== 'none') {
+    // 전체 프롬프트 textarea가 열려있으면 그대로 사용
+    prompt = liveFullPrompt;
+  } else {
+    // mood/pose 패널 값 우선 반영
+    const tempSlot = {
+      ...slot,
+      img_prompt: {
+        ...slot.img_prompt,
+        mood: liveMood !== undefined ? liveMood : (slot.img_prompt?.mood || ''),
+        pose: livePose !== undefined ? livePose : (slot.img_prompt?.pose || ''),
+      }
+    };
+    prompt = buildPrompt(tempSlot);
+  }
+
+  document.getElementById('gen-modal-title').textContent = `이미지 생성 — ${slotId}`;
+  document.getElementById('gen-slot-id').textContent = slotId;
+  document.getElementById('gen-prompt').value = prompt;
+  document.getElementById('gen-results').innerHTML = '';
+  document.getElementById('gen-progress').style.display = 'none';
+  document.getElementById('confirm-gen-btn').style.display = 'none';
+  document.getElementById('gen-btn').style.display = '';
+  document.getElementById('gen-removebg-row').style.display = type !== 'background' ? 'block' : 'none';
+  document.getElementById('gen-removebg').checked = type !== 'background';
+
+  selectedGenIdx = null;
+  genResults = [];
+
+  document.getElementById('gen-modal').classList.add('show');
+}
+
+function closeGenModal() {
+  document.getElementById('gen-modal').classList.remove('show');
+}
+
+async function startGenerate() {
+  const apiKey = localStorage.getItem('ria_nai_key');
+  if(!apiKey) { showToast('❌ NAI API 키가 없어요 (설정 탭)'); return; }
+
+  const model = document.getElementById('gen-model')?.value || 'nai-diffusion-4-5-full';
+  const count  = parseInt(document.getElementById('gen-count').value);
+
+  document.getElementById('gen-btn').style.display = 'none';
+  document.getElementById('gen-progress').style.display = 'block';
+  document.getElementById('gen-results').innerHTML = '';
+  genResults = [];
+
+  const progressBar  = document.getElementById('gen-progress-bar');
+  const progressText = document.getElementById('gen-progress-text');
+
+  for(let i = 0; i < count; i++) {
+    progressText.textContent = `생성 중... (${i+1}/${count})`;
+    progressBar.style.width = ((i+1)/count*100) + '%';
+
+    try {
+      const prompt = document.getElementById('gen-prompt').value;
+      const imgB64 = await callNAI(prompt, apiKey, model);
+      genResults.push(imgB64);
+      renderGenResults();
+    } catch(e) {
+      showToast('❌ NAI 오류: ' + e.message);
+    }
+  }
+
+  progressText.textContent = `✅ ${genResults.length}장 생성 완료`;
+  document.getElementById('confirm-gen-btn').style.display = '';
+}
+
+async function callNAI(prompt, apiKey, model = 'nai-diffusion-4-5-full') {
+  const isV4 = model.includes('nai-diffusion-4');
+  const seed = Math.floor(Math.random() * 4294967295);
+  const cfg = getNAISettings();
+
+  // 베이스 네거티브
+  const negPrompt = 'sketch, pencil, rough lines, monochrome, greyscale, dark, gloomy, bad anatomy, lowres, blurry, watermark, chibi, loli, child, teenager, baby face, school uniform, overly cute, pink shirt, pink tint, colored shirt, deformed proportions, purple hair, blue hair, blue tint on hair, pink neck, skin discoloration, ink lines, comic book style, heavy outline, white highlight on hair, bright highlight, overexposed hair, washed out hair, brown hair';
+
+  // 슬롯의 character_uc 가져오기
+  const slot = SLOTS[currentSlotId];
+  const charUC = slot?.img_prompt?.char_uc || 'short hair, very short hair, chin length hair, pixie cut, bob, purple hair, blue hair, violet hair, blue highlight, purple highlight, dark hair, no highlights, matte black hair, bright eyes, overexposed eyes, orange eyes, bored, sleepy, dull expression';
+
+  // character 프롬프트 분리 (슬롯에 char_prompt 있으면 사용, 없으면 전체 prompt)
+  const charPrompt = slot?.img_prompt?.char_prompt || prompt;
+
+  const params = {
+    params_version: isV4 ? 3 : 1,
+    width: 832,
+    height: 1216,
+    n_samples: 1,
+    steps: cfg.steps,
+    scale: cfg.guidance,
+    sampler: cfg.sampler,
+    seed: seed,
+    noise_schedule: cfg.noiseSchedule,
+    legacy: false,
+    legacy_v3_extend: false,
+    ucPreset: 0,
+    qualityToggle: isV4,
+    autoSmea: false,
+    dynamic_thresholding: false,
+    controlnet_strength: 1,
+    add_original_image: true,
+    cfg_rescale: 0,
+    use_coords: false,
+    legacy_uc: false,
+    normalize_reference_strength_multiple: true,
+    inpaintImg2ImgStrength: 1,
+    negative_prompt: negPrompt,
+    reference_image_multiple: [],
+    reference_information_extracted_multiple: [],
+    reference_strength_multiple: [],
+  };
+
+  // Vibe Transfer 레퍼런스 이미지
+  if (cfg.vibeRef) {
+    const base64 = cfg.vibeRef.split(',')[1] || cfg.vibeRef;
+    params.reference_image_multiple.push(base64);
+    params.reference_information_extracted_multiple.push(cfg.vibeStrength);
+    params.reference_strength_multiple.push(1.0 - cfg.vibeFidelity);
+  }
+
+  // V4 구조
+  if (isV4) {
+    params.v4_prompt = {
+      caption: { base_caption: prompt, char_captions: [] }
+    };
+    params.v4_negative_prompt = {
+      caption: { base_caption: negPrompt, char_captions: [] },
+      legacy_uc: false
+    };
+  }
+
+  const body = {
+    input: prompt,
+    model: model,
+    action: 'generate',
+    parameters: params,
+  };
+
+  const res = await fetch(getProxyUrl('nai'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(body)
+  });
+
+  if(!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error(`HTTP ${res.status} — ${errText.slice(0,100)}`);
+  }
+
+  const contentType = res.headers.get('content-type') || '';
+  let arr;
+  if (contentType.includes('application/json')) {
+    const json = await res.json();
+    if (json.zipBase64) {
+      const binary = atob(json.zipBase64);
+      arr = new Uint8Array(binary.length);
+      for(let i=0;i<binary.length;i++) arr[i] = binary.charCodeAt(i);
+    } else {
+      throw new Error('NAI JSON 오류: ' + JSON.stringify(json).slice(0,100));
+    }
+  } else {
+    const buf = await res.arrayBuffer();
+    arr = new Uint8Array(buf);
+  }
+
+  // 디버그: 첫 100바이트 출력
+  console.log('NAI 응답 첫 100바이트:', Array.from(arr.slice(0,100)));
+  console.log('NAI 응답 크기:', arr.length);
+  console.log('NAI Content-Type:', res.headers.get('content-type'));
+
+  // ZIP 파싱 먼저 시도
+  if(arr[0]===0x50 && arr[1]===0x4B) {
+    console.log('ZIP 형식 감지');
+    for(let i = 0; i < arr.length - 30; i++) {
+      if(arr[i]===0x50 && arr[i+1]===0x4B && arr[i+2]===0x03 && arr[i+3]===0x04) {
+        const fnLen    = arr[i+26] | (arr[i+27]<<8);
+        const exLen    = arr[i+28] | (arr[i+29]<<8);
+        const compSize = arr[i+18] | (arr[i+19]<<8) | (arr[i+20]<<16) | (arr[i+21]<<24);
+        const dataStart = i + 30 + fnLen + exLen;
+        const dataEnd   = dataStart + compSize;
+        if(dataEnd > arr.length) continue;
+        const fileData = arr.slice(dataStart, dataEnd);
+        if(fileData[0]===137 && fileData[1]===80) {
+          let binary = '';
+          for(let j=0;j<fileData.length;j+=8192)
+            binary += String.fromCharCode(...fileData.slice(j,j+8192));
+          return btoa(binary);
+        }
+      }
+    }
+  }
+
+  // PNG 직접 검색
+  const pngSig = [137,80,78,71,13,10,26,10];
+  for(let i = 0; i < arr.length - 8; i++) {
+    if(pngSig.every((b,j) => arr[i+j]===b)) {
+      console.log('PNG 발견 위치:', i);
+      const iend = [73,69,78,68,174,66,96,130];
+      let endIdx = arr.length;
+      for(let j = i; j < arr.length - 8; j++) {
+        if(iend.every((b,k) => arr[j+k]===b)) { endIdx = j+8; break; }
+      }
+      const pngData = arr.slice(i, endIdx);
+      let binary = '';
+      for(let j=0;j<pngData.length;j+=8192)
+        binary += String.fromCharCode(...pngData.slice(j,j+8192));
+      return btoa(binary);
+    }
+  }
+
+  // 텍스트로 읽어보기
+  const textDecoder = new TextDecoder('utf-8', {fatal:false});
+  const text = textDecoder.decode(arr.slice(0, 200));
+  console.log('텍스트로 읽기:', text);
+
+  throw new Error(`PNG 이미지를 찾을 수 없어요 (크기: ${arr.length})`);
+}
+
+function renderGenResults() {
+  const el = document.getElementById('gen-results');
+  el.innerHTML = genResults.map((b64, i) => `
+    <div class="gen-result ${selectedGenIdx === i ? 'selected' : ''}" onclick="selectGenResult(${i})">
+      <img src="data:image/png;base64,${b64}">
+      <div class="gen-result-check">✓</div>
+    </div>
+  `).join('');
+}
+
+function selectGenResult(idx) {
+  selectedGenIdx = idx;
+  renderGenResults();
+}
+
+async function confirmGenerate() {
+  if(selectedGenIdx === null && genResults.length === 1) selectedGenIdx = 0;
+  if(selectedGenIdx === null) { showToast('이미지를 선택해주세요'); return; }
+
+  const b64 = genResults[selectedGenIdx];
+  let dataUrl = `data:image/png;base64,${b64}`;
+
+  // remove.bg 처리
+  if(document.getElementById('gen-removebg').checked) {
+    const rmbgKey = localStorage.getItem('ria_rmbg_key');
+    if(rmbgKey) {
+      showToast('🪄 배경 제거 중...');
+      try {
+        dataUrl = await removeBackground(dataUrl, rmbgKey);
+      } catch(e) {
+        showToast('⚠️ 배경 제거 실패 — 원본 저장');
+      }
+    }
+  }
+
+  // 저장
+  const slot = SLOTS[currentSlotId] || { id: currentSlotId };
+  slot.dataUrl = dataUrl;
+  slot.status  = 'confirmed';
+  await saveSlot(slot);
+  await idbSet('images', currentSlotId, { dataUrl });
+
+  closeGenModal();
+  showToast(`✅ ${currentSlotId} 저장됨`);
+
+  // UI 업데이트
+  if(currentSlotId) selectSlot(currentSlotId);
+  updateBadges();
+}
+
+async function removeBackground(dataUrl, apiKey) {
+  // base64 → blob
+  const res  = await fetch(dataUrl);
+  const blob = await res.blob();
+  const form = new FormData();
+  form.append('image_file', blob, 'image.png');
+  form.append('size', 'auto');
+
+  const r = await fetch(getProxyUrl('rmbg'), {
+    method: 'POST',
+    headers: { 'X-Api-Key': apiKey },
+    body: form,
+  });
+
+  if(!r.ok) throw new Error(`remove.bg HTTP ${r.status}`);
+  const buf = await r.arrayBuffer();
+  const b64 = btoa(String.fromCharCode(...new Uint8Array(buf)));
+  return `data:image/png;base64,${b64}`;
+}
+
+async function removeBg(slotId) {
+  const rmbgKey = localStorage.getItem('ria_rmbg_key');
+  if(!rmbgKey) { showToast('❌ remove.bg API 키가 없어요 (설정 탭)'); return; }
+  const slot = SLOTS[slotId];
+  if(!slot?.dataUrl) { showToast('이미지가 없어요'); return; }
+  showToast('🪄 배경 제거 중...');
+  try {
+    const newUrl = await removeBackground(slot.dataUrl, rmbgKey);
+    slot.dataUrl = newUrl;
+    await saveSlot(slot);
+    await idbSet('images', slotId, { dataUrl: newUrl });
+    showToast('✅ 배경 제거 완료');
+    selectSlot(slotId);
+  } catch(e) {
+    showToast('❌ ' + e.message);
+  }
+}
+
+async function confirmSlot(slotId) {
+  const slot = SLOTS[slotId];
+  if(!slot) return;
+  slot.status = 'confirmed';
+  await saveSlot(slot);
+  showToast(`✅ ${slotId} 확정됨`);
+  selectSlot(slotId);
+  updateBadges();
+}
+
+async function resetSlot(slotId) {
+  if(!confirm('이미지를 초기화할까요?')) return;
+  const slot = SLOTS[slotId];
+  if(!slot) return;
+  slot.status = 'empty'; slot.dataUrl = null;
+  delete IMG_CACHE[slotId];
+  await saveSlot(slot);
+  await idbDelete('images', slotId);
+  showToast('🗑 초기화됨');
+  selectSlot(slotId);
+  updateBadges();
+}
+
+function downloadSlot(slotId) {
+  const url = IMG_CACHE[slotId];
+  if(!url) return;
+  const a = document.createElement('a');
+  a.href = url; a.download = `${slotId}.png`; a.click();
+}
+
+async function generateAllEmpty() {
+  const apiKey = localStorage.getItem('ria_nai_key');
+  if(!apiKey) { showToast('❌ NAI API 키가 없어요 (설정 탭)'); return; }
+
+  const emptySlots = Object.values(SLOTS).filter(
+    s => (s.type === 'character' || s.type === 'background') && s.status !== 'confirmed'
+  );
+
+  if(emptySlots.length === 0) { showToast('✅ 생성할 슬롯이 없어요 (모두 확정됨)'); return; }
+
+  if(!confirm(`미생성 슬롯 ${emptySlots.length}개를 순서대로 생성합니다.\nNAI API 크레딧이 충분한지 확인하세요.`)) return;
+
+  // 진행 오버레이 생성
+  const overlay = document.createElement('div');
+  overlay.id = 'batch-overlay';
+  overlay.style.cssText = `
+    position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:2000;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  `;
+  overlay.innerHTML = `
+    <div style="font-size:18px;font-weight:800;color:var(--ink);">🎨 전체 생성 중</div>
+    <div id="batch-status" style="font-size:14px;color:var(--muted);min-width:320px;text-align:center;">준비 중...</div>
+    <div style="width:320px;background:var(--surface);border-radius:20px;height:8px;overflow:hidden;">
+      <div id="batch-bar" style="height:100%;background:var(--accent);border-radius:20px;transition:width .4s;width:0%"></div>
+    </div>
+    <div id="batch-count" style="font-size:12px;color:var(--muted);">0 / ${emptySlots.length}</div>
+    <button class="btn btn-ghost btn-sm" onclick="window._batchStop=true">⏹ 중단</button>
+  `;
+  document.body.appendChild(overlay);
+  window._batchStop = false;
+
+  const model  = 'nai-diffusion-4-5-full';
+  const rmbgKey = localStorage.getItem('ria_rmbg_key');
+  let done = 0, failed = 0;
+
+  for(const slot of emptySlots) {
+    if(window._batchStop) break;
+
+    document.getElementById('batch-status').textContent = `생성 중: ${slot.id}`;
+    document.getElementById('batch-count').textContent = `${done} / ${emptySlots.length} (실패: ${failed})`;
+
+    try {
+      const prompt = buildPrompt(slot);
+      const imgB64 = await callNAI(prompt, apiKey, model);
+      let dataUrl = `data:image/png;base64,${imgB64}`;
+
+      // 캐릭터 슬롯 + remove.bg 키 있으면 자동 배경 제거
+      if(slot.type === 'character' && slot.removebg && rmbgKey) {
+        try {
+          dataUrl = await removeBackground(dataUrl, rmbgKey);
+        } catch(e) { /* 실패해도 원본 저장 */ }
+      }
+
+      slot.dataUrl = dataUrl;
+      slot.status  = 'empty'; // 자동 확정 안 함 — 확인 후 수동 확정
+      await saveSlot(slot);
+      await idbSet('images', slot.id, { dataUrl });
+      IMG_CACHE[slot.id] = dataUrl;
+      done++;
+    } catch(e) {
+      failed++;
+      console.error(`${slot.id} 실패:`, e);
+    }
+
+    document.getElementById('batch-bar').style.width = ((done + failed) / emptySlots.length * 100) + '%';
+    await new Promise(r => setTimeout(r, 800)); // NAI rate limit 대비
+  }
+
+  overlay.remove();
+  updateBadges();
+  renderImage();
+  showToast(`✅ 완료 — ${done}개 생성, ${failed}개 실패`);
+}
+
+// ═══════════════════════════════════════
+// TTS 탭
+// ═══════════════════════════════════════
+function renderTTS() {
+  const content = document.getElementById('content');
+  const ttsSlots = Object.values(SLOTS).filter(s => s.type === 'tts');
+  const confirmed = ttsSlots.filter(s => s.status === 'confirmed').length;
+
+  updateBadge('tts', `${confirmed}/${ttsSlots.length}`);
+
+  document.getElementById('topbar-actions').innerHTML = `
+    <select class="input" id="tts-voice" style="width:auto;">
+      <option value="Zephyr">Zephyr (밝은 여성)</option>
+      <option value="Puck">Puck (활기찬)</option>
+      <option value="Kore">Kore (자연스러운)</option>
+      <option value="Aoede">Aoede (따뜻한)</option>
+    </select>
+    <button class="btn btn-primary btn-sm" onclick="generateAllTTS()">🎤 전체 생성</button>
+  `;
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-title">음성 생성 현황</div>
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="stat"><div class="stat-n">${ttsSlots.length}</div><div class="stat-l">총 대사</div></div>
+        <div class="stat"><div class="stat-n" style="color:var(--mint);">${confirmed}</div><div class="stat-l">완료</div></div>
+        <div class="stat"><div class="stat-n" style="color:var(--warn);">${ttsSlots.length-confirmed}</div><div class="stat-l">미생성</div></div>
+        <div class="stat"><div class="stat-n">$${((ttsSlots.length*3/60)*0.015).toFixed(3)}</div><div class="stat-l">예상 비용</div></div>
+      </div>
+      <div id="tts-list">
+        ${ttsSlots.map(s => `
+          <div class="tts-item">
+            <div class="tts-id">${s.id}</div>
+            <div class="tts-text">"${s.text || ''}"</div>
+            <span class="badge badge-${s.status === 'confirmed' ? 'confirm' : 'empty'}">${s.status === 'confirmed' ? '✅' : '⬜'}</span>
+            <div class="tts-actions">
+              ${s.dataUrl ? `<button class="btn btn-ghost btn-sm" onclick="playAudio('${s.id}')">▶</button>` : ''}
+              <button class="btn btn-ghost btn-sm" onclick="generateBeatTTS('${s.id.replace('tts_','')}','${(s.text||'').replace(/'/g,"\\'")}')">🎤</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+async function generateBeatTTS(beatId, text) {
+  const apiKey = localStorage.getItem('ria_gemini_key');
+  if(!apiKey) { showToast('❌ Gemini API 키가 없어요 (설정 탭)'); return; }
+  const voice = document.getElementById('tts-voice')?.value || 'Zephyr';
+  const slotId = `tts_${beatId}`;
+
+  showToast(`🎤 생성 중...`);
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'x-goog-api-key': apiKey },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text }] }],
+          generationConfig: {
+            responseModalities: ['AUDIO'],
+            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } }
+          }
+        })
+      }
+    );
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const audioPart = data.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+    if(!audioPart?.inlineData?.data) throw new Error('오디오 없음');
+    const dataUrl = `data:audio/mp3;base64,${audioPart.inlineData.data}`;
+
+    const slot = SLOTS[slotId] || { id: slotId, type:'tts', text };
+    slot.dataUrl = dataUrl; slot.status = 'confirmed';
+    await saveSlot(slot);
+    await idbSet('audio', slotId, { dataUrl });
+    showToast(`✅ ${slotId} 생성 완료`);
+    renderTTS();
+  } catch(e) {
+    showToast('❌ ' + e.message);
+  }
+}
+
+async function generateAllTTS() {
+  const ttsSlots = Object.values(SLOTS).filter(s => s.type === 'tts' && s.status !== 'confirmed');
+  for(const s of ttsSlots) {
+    await generateBeatTTS(s.id.replace('tts_',''), s.text || '');
+    await new Promise(r => setTimeout(r, 500));
+  }
+  showToast('✅ 전체 음성 생성 완료');
+}
+
+let _currentAudio = null;
+function playAudio(slotId) {
+  const url = SLOTS[slotId]?.dataUrl || IMG_CACHE[slotId];
+  if(!url) return;
+  if(_currentAudio) { _currentAudio.pause(); _currentAudio = null; }
+  _currentAudio = new Audio(url);
+  _currentAudio.play();
+  showToast(`▶ ${slotId}`);
+}
+
+// ═══════════════════════════════════════
+// BGM 탭
+// ═══════════════════════════════════════
+function renderBGM() {
+  const content = document.getElementById('content');
+  const bgmSlots = Object.values(SLOTS).filter(s => s.type === 'bgm');
+  const confirmed = bgmSlots.filter(s => s.status === 'confirmed').length;
+
+  updateBadge('bgm', `${confirmed}/${bgmSlots.length}`);
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-title">BGM 슬롯</div>
+      ${bgmSlots.map(s => `
+        <div class="bgm-item">
+          <div class="bgm-id">${s.id}</div>
+          <div class="bgm-desc">${s.desc || ''}</div>
+          <div class="bgm-prompt">${s.suno_prompt || ''}</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span class="badge badge-${s.status === 'confirmed' ? 'confirm' : 'empty'}">${s.status === 'confirmed' ? '✅ 확정' : '⬜ 미생성'}</span>
+            ${s.dataUrl ? `<button class="btn btn-ghost btn-sm" onclick="playAudio('${s.id}')">▶ 재생</button>` : ''}
+            <button class="btn btn-ghost btn-sm" onclick="uploadBGM('${s.id}')">📁 업로드</button>
+            <button class="btn btn-ghost btn-sm" onclick="copyToClipboard('${(s.suno_prompt||'').replace(/'/g,"\\'")}')">📋 프롬프트 복사</button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="card">
+      <div class="card-title">효과음</div>
+      <div style="color:var(--muted);font-size:13px;">sfx_correct / sfx_wrong / sfx_intimacy — 업로드로 추가</div>
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" onclick="uploadSFX('sfx_correct')">정답 효과음</button>
+        <button class="btn btn-ghost btn-sm" onclick="uploadSFX('sfx_wrong')">오답 효과음</button>
+        <button class="btn btn-ghost btn-sm" onclick="uploadSFX('sfx_intimacy')">친밀도UP 효과음</button>
+      </div>
+    </div>
+  `;
+}
+
+function uploadBGM(slotId) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'audio/*';
+  input.onchange = async e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async ev => {
+      const slot = SLOTS[slotId] || { id: slotId, type:'bgm' };
+      slot.dataUrl = ev.target.result; slot.status = 'confirmed';
+      await saveSlot(slot);
+      await idbSet('audio', slotId, { dataUrl: ev.target.result });
+      showToast(`✅ ${slotId} 업로드됨`);
+      renderBGM();
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function uploadSFX(id) { uploadBGM(id); }
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('📋 복사됨'));
+}
+
+// ═══════════════════════════════════════
+// 테스트 탭
+// ═══════════════════════════════════════
+function renderTest() {
+  const content = document.getElementById('content');
+  const utterances = SCENARIO?.utterances || [];
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-title">발화 선택</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+        <button class="btn btn-primary" onclick="launchTest(0)">▶ 처음부터</button>
+        ${utterances.map((u,i) => `
+          <button class="btn btn-ghost btn-sm" onclick="launchTest(${i})">▶ ${u.id}</button>
+        `).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--muted);">
+        테스트 시 현재 확정된 이미지/음성/BGM이 모두 적용돼요.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">진행상황 체크</div>
+      ${utterances.map(u => {
+        const slots = getUSlots(u.id);
+        const confirmed = slots.filter(s => SLOTS[s]?.status === 'confirmed').length;
+        const pct = slots.length ? Math.round(confirmed/slots.length*100) : 0;
+        return `
+          <div style="margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:700;">${u.id}</span>
+              <span style="font-size:12px;color:var(--muted);">${confirmed}/${slots.length}</span>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-bar" style="width:${pct}%;background:${pct===100?'var(--mint)':'var(--accent)'}"></div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function launchTest(idx) {
+  localStorage.setItem('ria_test_idx', idx);
+  localStorage.setItem('ria_test_mode', '1');
+  window.open('ria-english-v3-idb.html', '_blank');
+  showToast(`▶ U0${idx+1}부터 테스트 시작`);
+}
+
+// ═══════════════════════════════════════
+// 캐릭터 프롬프트 탭
+// ═══════════════════════════════════════
+function renderChars() {
+  const content = document.getElementById('content');
+  const saved = JSON.parse(localStorage.getItem('ria_char_prompts') || '{}');
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-title">Ria 베이스 프롬프트</div>
+      <label class="label">메인 프롬프트</label>
+      <textarea class="input" id="ria-base-prompt" style="min-height:140px;font-family:monospace;font-size:12px;">${saved.ria_base || RIA_BASE_PROMPT}</textarea>
+      <label class="label" style="margin-top:10px;">Precise Reference 이미지</label>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+        <div style="width:60px;height:75px;border-radius:6px;border:1px solid var(--border);overflow:hidden;background:var(--surface);">
+          ${saved.ria_reference ? `<img src="${saved.ria_reference}" style="width:100%;height:100%;object-fit:cover;">` : ''}
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="uploadReference('ria')">📁 레퍼런스 업로드</button>
+        <div style="font-size:11px;color:var(--muted);">Strength: 0.65 / Fidelity: 0.55</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="saveCharPrompts()">💾 저장</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">교수 베이스 프롬프트</div>
+      <textarea class="input" id="professor-base-prompt" style="min-height:100px;font-family:monospace;font-size:12px;">${saved.professor_base || PROFESSOR_BASE_PROMPT}</textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Jay 베이스 프롬프트 (Day 5)</div>
+      <textarea class="input" id="jay-base-prompt" style="min-height:100px;font-family:monospace;font-size:12px;">${saved.jay_base || ''}</textarea>
+    </div>
+  `;
+}
+
+function uploadReference(char) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const saved = JSON.parse(localStorage.getItem('ria_char_prompts') || '{}');
+      saved[`${char}_reference`] = ev.target.result;
+      localStorage.setItem('ria_char_prompts', JSON.stringify(saved));
+      showToast(`✅ ${char} 레퍼런스 저장됨`);
+      renderChars();
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function saveCharPrompts() {
+  const saved = JSON.parse(localStorage.getItem('ria_char_prompts') || '{}');
+  saved.ria_base         = document.getElementById('ria-base-prompt')?.value || '';
+  saved.professor_base   = document.getElementById('professor-base-prompt')?.value || '';
+  saved.jay_base         = document.getElementById('jay-base-prompt')?.value || '';
+  localStorage.setItem('ria_char_prompts', JSON.stringify(saved));
+  showToast('✅ 캐릭터 프롬프트 저장됨');
+}
+
+// ═══════════════════════════════════════
+// 설정 탭
+// ═══════════════════════════════════════
+function renderSettings() {
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-title">API 키</div>
+      ${[
+        ['ria_nai_key',    'NAI API 키',        'NovelAI 이미지 생성'],
+        ['ria_rmbg_key',   'remove.bg API 키',  '배경 제거'],
+        ['ria_gemini_key', 'Gemini API 키',     'TTS 음성 생성'],
+        ['ria_suno_key',   'Suno API 키',       'BGM 생성'],
+        ['ria_claude_key', 'Claude API 키',     '자유대화 (게임)'],
+      ].map(([key, label, desc]) => `
+        <div style="margin-bottom:14px;">
+          <label class="label">${label} <span style="color:var(--muted);font-weight:400;">— ${desc}</span></label>
+          <div class="api-key-row">
+            <input class="input" type="password" id="${key}"
+              value="${localStorage.getItem(key) || ''}"
+              placeholder="키를 입력하세요">
+            <button class="btn btn-primary btn-sm" onclick="saveKey('${key}')">저장</button>
+            <button class="btn btn-ghost btn-sm" onclick="testKey('${key}')">테스트</button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎨 NAI 생성 설정</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+        <div>
+          <label class="label">Sampler</label>
+          <select class="input" id="nai-sampler">
+            <option value="k_dpmpp_2m" ${localStorage.getItem('ria_nai_sampler')==='k_dpmpp_2m'||!localStorage.getItem('ria_nai_sampler')?'selected':''}>DPM++ 2M (권장)</option>
+            <option value="k_euler_ancestral" ${localStorage.getItem('ria_nai_sampler')==='k_euler_ancestral'?'selected':''}>Euler Ancestral</option>
+            <option value="k_dpmpp_2m_sde" ${localStorage.getItem('ria_nai_sampler')==='k_dpmpp_2m_sde'?'selected':''}>DPM++ 2M SDE</option>
+            <option value="k_euler" ${localStorage.getItem('ria_nai_sampler')==='k_euler'?'selected':''}>Euler</option>
+          </select>
+        </div>
+        <div>
+          <label class="label">Noise Schedule</label>
+          <select class="input" id="nai-noise-schedule">
+            <option value="exponential" ${localStorage.getItem('ria_nai_noise_schedule')==='exponential'||!localStorage.getItem('ria_nai_noise_schedule')?'selected':''}>Exponential (V4)</option>
+            <option value="karras" ${localStorage.getItem('ria_nai_noise_schedule')==='karras'?'selected':''}>Karras</option>
+            <option value="native" ${localStorage.getItem('ria_nai_noise_schedule')==='native'?'selected':''}>Native</option>
+          </select>
+        </div>
+        <div>
+          <label class="label">Steps</label>
+          <input class="input" type="number" id="nai-steps" min="1" max="50" value="${localStorage.getItem('ria_nai_steps')||'28'}">
+        </div>
+        <div>
+          <label class="label">Guidance (CFG Scale)</label>
+          <input class="input" type="number" id="nai-guidance" min="1" max="10" step="0.5" value="${localStorage.getItem('ria_nai_guidance')||'7'}">
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top:8px;">🖼️ Vibe Transfer (레퍼런스 이미지)</div>
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+        <div id="vibe-ref-preview" style="width:80px;height:100px;border-radius:8px;border:2px dashed var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;" onclick="uploadVibeRef()">
+          ${localStorage.getItem('ria_vibe_ref') ? `<img src="${localStorage.getItem('ria_vibe_ref')}" style="width:100%;height:100%;object-fit:cover;">` : '<span style="font-size:10px;color:var(--muted);text-align:center;">클릭해서<br>업로드</span>'}
+        </div>
+        <div style="flex:1;">
+          <label class="label">Information Extracted (Strength)</label>
+          <input class="input" type="number" id="vibe-strength" min="0" max="1" step="0.05" value="${localStorage.getItem('ria_vibe_strength')||'0.65'}" style="margin-bottom:8px;">
+          <label class="label">Reference Strength (Fidelity)</label>
+          <input class="input" type="number" id="vibe-fidelity" min="0" max="1" step="0.05" value="${localStorage.getItem('ria_vibe_fidelity')||'0.55'}">
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="uploadVibeRef()">📁 레퍼런스 업로드</button>
+      ${localStorage.getItem('ria_vibe_ref') ? '<button class="btn btn-ghost btn-sm" style="margin-left:6px;" onclick="clearVibeRef()">🗑️ 제거</button>' : ''}
+      <button class="btn btn-primary btn-sm" style="margin-left:6px;" onclick="saveNAISettings()">💾 저장</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🗑️ 데이터 관리</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-danger btn-sm" onclick="clearPlayerData()">플레이어 데이터 초기화</button>
+        <button class="btn btn-danger btn-sm" onclick="clearImageData()">이미지 데이터 초기화</button>
+        <button class="btn btn-danger btn-sm" style="background:#7B2D2D;" onclick="clearAll()">⚠️ 전체 초기화</button>
+      </div>
+    </div>
+  `;
+}
+
+function saveKey(key) {
+  const val = document.getElementById(key)?.value?.trim();
+  if(val) { localStorage.setItem(key, val); showToast(`✅ ${key} 저장됨`); }
+}
+
+function testKey(key) { showToast('🚧 키 테스트 — 준비 중'); }
+
+function saveNAISettings() {
+  const sampler       = document.getElementById('nai-sampler')?.value || 'k_dpmpp_2m';
+  const noiseSchedule = document.getElementById('nai-noise-schedule')?.value || 'exponential';
+  const steps         = document.getElementById('nai-steps')?.value || '28';
+  const guidance      = document.getElementById('nai-guidance')?.value || '7';
+  const vibeStrength  = document.getElementById('vibe-strength')?.value || '0.65';
+  const vibeFidelity  = document.getElementById('vibe-fidelity')?.value || '0.55';
+  localStorage.setItem('ria_nai_sampler',         sampler);
+  localStorage.setItem('ria_nai_noise_schedule',  noiseSchedule);
+  localStorage.setItem('ria_nai_steps',           steps);
+  localStorage.setItem('ria_nai_guidance',        guidance);
+  localStorage.setItem('ria_vibe_strength',       vibeStrength);
+  localStorage.setItem('ria_vibe_fidelity',       vibeFidelity);
+  showToast('✅ NAI 설정 저장됨');
+}
+
+function uploadVibeRef() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      localStorage.setItem('ria_vibe_ref', ev.target.result);
+      showToast('✅ 레퍼런스 이미지 저장됨');
+      renderSettings();
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function clearVibeRef() {
+  if(!confirm('레퍼런스 이미지를 제거할까요?')) return;
+  localStorage.removeItem('ria_vibe_ref');
+  showToast('✅ 레퍼런스 이미지 제거됨');
+  renderSettings();
+}
+
+function getNAISettings() {
+  return {
+    sampler:       localStorage.getItem('ria_nai_sampler')        || 'k_dpmpp_2m',
+    noiseSchedule: localStorage.getItem('ria_nai_noise_schedule') || 'exponential',
+    steps:         parseInt(localStorage.getItem('ria_nai_steps')    || '28'),
+    guidance:      parseFloat(localStorage.getItem('ria_nai_guidance') || '7'),
+    vibeRef:       localStorage.getItem('ria_vibe_ref')           || null,
+    vibeStrength:  parseFloat(localStorage.getItem('ria_vibe_strength') || '0.65'),
+    vibeFidelity:  parseFloat(localStorage.getItem('ria_vibe_fidelity') || '0.55'),
+  };
+}
+
+function clearPlayerData() {
+  if(confirm('플레이어 데이터를 초기화할까요?')) {
+    localStorage.removeItem('ria_v3');
+    showToast('✅ 플레이어 데이터 초기화됨');
+  }
+}
+
+async function clearImageData() {
+  if(!confirm('이미지 데이터를 모두 삭제할까요?')) return;
+  const d = await openDB();
+  const tx = d.transaction('images','readwrite');
+  tx.objectStore('images').clear();
+  await new Promise(r => tx.oncomplete = r);
+  IMG_CACHE = {};
+  const slotVals = Object.values(SLOTS);
+  for(const s of slotVals) {
+    if(s.type === 'character' || s.type === 'background') {
+      s.status = 'empty'; s.dataUrl = null;
+      await saveSlot(s);
+    }
+  }
+  showToast('✅ 이미지 데이터 초기화됨');
+}
+
+async function clearAll() {
+  if(!confirm('⚠️ 모든 데이터를 초기화합니다.\n정말 진행할까요?')) return;
+  if(db) { db.close(); db = null; }
+  await new Promise((res,rej) => {
+    const req = indexedDB.deleteDatabase('ria_db');
+    req.onsuccess = res; req.onerror = rej;
+  });
+  localStorage.clear();
+  showToast('✅ 전체 초기화됨 — 새로고침');
+  setTimeout(() => location.reload(), 1200);
+}
+
+// ═══════════════════════════════════════
+// 유틸
+// ═══════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function updateBadge(id, text) {
+  const el = document.getElementById(`badge-${id}`);
+  if(el) el.textContent = text;
+}
+
+function updateBadges() {
+  const imgSlots = Object.values(SLOTS).filter(s => s.type === 'character' || s.type === 'background');
+  const imgConf  = imgSlots.filter(s => s.status === 'confirmed').length;
+  updateBadge('image', `${imgConf}/${imgSlots.length}`);
+
+  const ttsSlots = Object.values(SLOTS).filter(s => s.type === 'tts');
+  const ttsConf  = ttsSlots.filter(s => s.status === 'confirmed').length;
+  updateBadge('tts', `${ttsConf}/${ttsSlots.length}`);
+
+  const bgmSlots = Object.values(SLOTS).filter(s => s.type === 'bgm');
+  const bgmConf  = bgmSlots.filter(s => s.status === 'confirmed').length;
+  updateBadge('bgm', `${bgmConf}/${bgmSlots.length}`);
+}
+
+// ═══════════════════════════════════════
+// Day 1 기본 시나리오
+// ═══════════════════════════════════════
+function getDay1Default() {
+  // 외부 JSON 파일에서 로드하거나 여기에 인라인
+  return {
+    "meta": { "version":"v1.0", "day":1, "theme":"첫 만남" },
+    "opening": { "type":"monologue", "lines":["H대 교환학생 첫날.","강의실에 들어왔는데","옆자리에 처음 보는 교환학생이 앉아있다.","외국인인가? 근데 되게 자연스럽게 앉아있네."] },
+    "utterances": [
+      {
+        "id":"D01_U01","time":"09:05","loc":"H대 인문관 강의실",
+        "bgm":"bgm_D01_morning","bg":"D01_bg_classroom",
+        "context":{"text":"가방에서 뭔가 찾는 것 같은데 표정이 좀... 당황한 것 같다.","monologue":""},
+        "beats":[
+          {"id":"D01_U01_B1","type":"npc","speaker":"PROFESSOR","img":"D01_U01_B1_professor","text":"Everyone, please take out your pencils.","tts":false,"img_prompt":{"base":"professor","mood":"","pose":"holding chalk, gesturing toward class"}},
+          {"id":"D01_U01_B2","type":"ria","speaker":"RIA","img":"D01_U01_B2_ria","text":"Wait... a pencil? It's literally the first day.","ctx":"가방을 뒤지고 있다.","tts":true,"img_prompt":{"base":"ria","mood":"embarrassed, caught off guard, flustered,","pose":"hand behind head, sheepish grin, sweat drop effect"}},
+          {"id":"D01_U01_B3","type":"target","speaker":"RIA","img":"D01_U01_B3_ria","text":"Oh — hi. Do you maybe have an extra pencil?","ctx":"초롱초롱한 눈으로 플레이어를 바라본다.","tts":true,"img_prompt":{"base":"ria","mood":"curious, hopeful, anticipating,","pose":"sparkling eyes, wide bright eyes, leaning slightly forward"},"cue":"Do you __________?","cueWords":["need","a pencil"],"correct":["do you need a pencil","need a pencil"],"cf":{"cf1":{"img":"D01_U01_CF1_ria","txt":"Hmm? Sorry, I didn't catch that.","tts":true,"img_prompt":{"base":"ria","mood":"flustered, startled,","pose":"eyes wide open, slightly open mouth"}},"cf2":{"img":"D01_U01_CF2_ria","txt":"auto","tts":true,"img_prompt":{"base":"ria","mood":"pensive, thoughtful,","pose":"head slightly tilted, eyes glancing sideways"}},"cf3":{"img":"D01_U01_CF3_ria","txt":"Oh, you mean... Do you need a pencil?","tts":true,"img_prompt":{"base":"ria","mood":"patient, gentle, warm,","pose":"soft smile, one hand raised, finger pointing upward"}}},"reward":{"img":"D01_U01_RW_ria","tts":true,"img_prompt":{"base":"ria","mood":"warm, joyful, bright,","pose":"bright smile, eyes curved happily"},"ri":{"delta":2,"emoji":"🌸"},"rc":{"delta":1,"emoji":"😊"}}},
+          {"id":"D01_U01_B4","type":"ria","speaker":"RIA","img":"D01_U01_RW_ria","text":"Oh! Thanks. I'm Ria, by the way.","ctx":"","tts":true}
+        ]
+      },
+      {
+        "id":"D01_U02","time":"10:35","loc":"H대 인문관 복도/계단",
+        "bgm":"bgm_D01_morning","bg":"D01_bg_corridor",
+        "context":{"text":"","monologue":"수업 끝. Ria가 짐을 잔뜩 들고 계단 쪽으로 가고 있다. 4층이다."},
+        "beats":[
+          {"id":"D01_U02_B1","type":"ria","speaker":"RIA","img":"D01_U02_B1_ria","text":"Ugh, four floors of this.","ctx":"짐을 양손 가득 들고 계단 앞에 서있다.","tts":true,"img_prompt":{"base":"ria","mood":"tired, exhausted, slightly frustrated,","pose":"both hands full carrying heavy bags, slouched, sweat drop"}},
+          {"id":"D01_U02_B2","type":"target","speaker":"RIA","img":"D01_U02_B2_ria","text":"Oh hey. You going down too?","ctx":"","tts":true,"img_prompt":{"base":"ria","mood":"neutral, casual, noticing someone,","pose":"hands full with bags, turning head, eye contact"},"cue":"Down to the __________?","cueWords":["first","floor"],"correct":["down to the first floor","first floor"],"cf":{"cf1":{"img":"D01_U02_CF1_ria","txt":"Hmm? What was that?","tts":true,"img_prompt":{"base":"ria","mood":"confused,","pose":"head tilted, bags in hands"}},"cf2":{"img":"D01_U02_CF2_ria","txt":"auto","tts":true,"img_prompt":{"base":"ria","mood":"thinking,","pose":"glancing sideways, lips pursed"}},"cf3":{"img":"D01_U02_CF3_ria","txt":"Oh, you mean... Down to the first floor?","tts":true,"img_prompt":{"base":"ria","mood":"patient,","pose":"soft smile, bags in hands"}}},"reward":{"img":"D01_U02_RW_ria","tts":true,"img_prompt":{"base":"ria","mood":"neutral, slightly warm,","pose":"brief nod, moving toward stairs"},"ri":{"delta":2,"emoji":"😊"},"rc":{"delta":1,"emoji":"😐"}}},
+          {"id":"D01_U02_B3","type":"ria","speaker":"RIA","img":"D01_U02_RW_ria","text":"Yeah. Come on.","ctx":"","tts":true}
+        ]
+      },
+      {
+        "id":"D01_U03","time":"11:10","loc":"H대 캠퍼스 벤치",
+        "bgm":"bgm_D01_afternoon","bg":"D01_bg_bench",
+        "context":{"text":"","monologue":"공강 시간. Ria가 벤치에서 이어폰 끼고 혼자 앉아있다. 할 말이 있는데..."},
+        "beats":[
+          {"id":"D01_U03_B1","type":"target","speaker":null,"img":"D01_U03_B1_ria","text":"","ctx":"이어폰을 끼고 딴 세상이다.","tts":false,"img_prompt":{"base":"ria","mood":"relaxed, in own world,","pose":"both earphones in, eyes slightly closed, music note effects"},"cue":"___________ !","cueWords":["Earphones","out"],"correct":["earphones out","earphones out!"],"cf":{"cf1":{"img":"D01_U03_CF1_ria","txt":"Sorry? I didn't get that.","tts":true,"img_prompt":{"base":"ria","mood":"startled,","pose":"one earphone half out, confused"}},"cf2":{"img":"D01_U03_CF2_ria","txt":"auto","tts":true,"img_prompt":{"base":"ria","mood":"thinking,","pose":"holding earphone, tilting head"}},"cf3":{"img":"D01_U03_CF3_ria","txt":"Oh, you mean... Earphones out?","tts":true,"img_prompt":{"base":"ria","mood":"patient,","pose":"pulling out earphones, soft smile"}}},"reward":{"img":"D01_U03_RW_ria","tts":true,"img_prompt":{"base":"ria","mood":"slightly surprised, open,","pose":"both earphones out, looking up"},"ri":{"delta":2,"emoji":"😊"},"rc":{"delta":1,"emoji":"😐"}}},
+          {"id":"D01_U03_B2","type":"ria","speaker":"RIA","img":"D01_U03_RW_ria","text":"Oh — sorry. What's up?","ctx":"","tts":true},
+          {"id":"D01_U03_B3","type":"ria","speaker":"RIA","img":"D01_U03_B3_ria","text":"Sorry, I had it on full volume.","ctx":"머쓱하게 웃는다.","tts":true,"img_prompt":{"base":"ria","mood":"slightly embarrassed, sheepish,","pose":"hand behind head, awkward smile, earphones around neck"}}
+        ]
+      },
+      {
+        "id":"D01_U04","time":"15:10","loc":"H대 중앙도서관 앞",
+        "bgm":"bgm_D01_afternoon","bg":"D01_bg_library",
+        "context":{"text":"","monologue":"오후. 도서관 앞을 지나가는데 Ria가 책을 양팔 가득 들고 반납함 앞에 서있다."},
+        "beats":[
+          {"id":"D01_U04_B1","type":"ria","speaker":"RIA","img":"D01_U04_B1_ria","text":"Ugh. I kept forgetting to return these and now they're all due today.","ctx":"양팔에 책이 가득하다.","tts":true,"img_prompt":{"base":"ria","mood":"tired, frustrated,","pose":"both arms full of books, slouched, sweat drop"}},
+          {"id":"D01_U04_B2","type":"target","speaker":"RIA","img":"D01_U04_B2_ria","text":"Oh — the drop box is literally right there.","ctx":"턱으로 반납함을 가리킨다.","tts":true,"img_prompt":{"base":"ria","mood":"relieved,","pose":"both hands full, chin pointing toward drop box"},"cue":"I'm gonna ___________ !","cueWords":["get","them","in"],"correct":["i'm gonna get them in","get them in"],"cf":{"cf1":{"img":"D01_U04_CF1_ria","txt":"Hmm? What do you mean?","tts":true,"img_prompt":{"base":"ria","mood":"confused,","pose":"books in arms, head tilted"}},"cf2":{"img":"D01_U04_CF2_ria","txt":"auto","tts":true,"img_prompt":{"base":"ria","mood":"thinking,","pose":"glancing at drop box"}},"cf3":{"img":"D01_U04_CF3_ria","txt":"Oh, you mean... I'm gonna get them in?","tts":true,"img_prompt":{"base":"ria","mood":"patient,","pose":"soft smile, books in arms"}}},"reward":{"img":"D01_U04_RW_ria","tts":true,"img_prompt":{"base":"ria","mood":"relieved, casual,","pose":"books returned, stretching arms"},"ri":{"delta":2,"emoji":"😌"},"rc":{"delta":1,"emoji":"😊"}}},
+          {"id":"D01_U04_B3","type":"ria","speaker":"RIA","img":"D01_U04_RW_ria","text":"There. Done. Thanks.","ctx":"","tts":true}
+        ]
+      },
+      {
+        "id":"D01_U05","time":"19:45","loc":"H대 캠퍼스 출구",
+        "bgm":"bgm_D01_evening","bg":"D01_bg_exit",
+        "context":{"text":"","monologue":"수업 다 끝났다. 캠퍼스 출구에서 Ria를 또 마주쳤다. ...펜 돌려달라고 했다. 같은 날에."},
+        "beats":[
+          {"id":"D01_U05_B1","type":"context","speaker":null,"img":null,"text":"...펜 돌려달라고 했다. 같은 날에.","ctx":"","tts":false},
+          {"id":"D01_U05_B2","type":"ria","speaker":"RIA","img":"D01_U05_B2_ria","text":"...The pen?","ctx":"뭐라고? 하는 표정으로 멈춘다.","tts":true,"img_prompt":{"base":"ria","mood":"surprised, confused, disbelieving,","pose":"stopped mid-walk, staring, eyebrows raised"}},
+          {"id":"D01_U05_B3","type":"target","speaker":"RIA","img":"D01_U05_B3_ria","text":"You want the pen back. Right now.","ctx":"이 사람이 진짜? 하는 눈빛.","tts":true,"img_prompt":{"base":"ria","mood":"disbelieving, amused, tsundere,","pose":"arms crossed, staring, one eyebrow raised, subtle smirk"},"cue":"Can I have ___________ ?","cueWords":["my","pen","back"],"correct":["can i have my pen back","my pen back"],"cf":{"cf1":{"img":"D01_U05_CF1_ria","txt":"Sorry?","tts":true,"img_prompt":{"base":"ria","mood":"confused,","pose":"staring blankly, arms crossed"}},"cf2":{"img":"D01_U05_CF2_ria","txt":"auto","tts":true,"img_prompt":{"base":"ria","mood":"thinking, almost laughing,","pose":"tilting head, eyebrow raised"}},"cf3":{"img":"D01_U05_CF3_ria","txt":"Oh, you mean... Can I have my pen back?","tts":true,"img_prompt":{"base":"ria","mood":"resigned, amused,","pose":"soft laugh, reaching into bag"}}},"reward":{"img":"D01_U05_RW_ria","tts":true,"img_prompt":{"base":"ria","mood":"tsundere, amused,","pose":"handing pen, looking away, suppressing smile"},"ri":{"delta":2,"emoji":"😏"},"rc":{"delta":1,"emoji":"😐"}}},
+          {"id":"D01_U05_B4","type":"ria","speaker":"RIA","img":"D01_U05_RW_ria","text":"...Here.","ctx":"말없이 펜을 내민다.","tts":true},
+          {"id":"D01_U05_B5","type":"ria","speaker":"RIA","img":"D01_U05_B5_ria","text":"You really like that pen, huh.","ctx":"근데 나쁘지 않은 표정이다.","tts":true,"img_prompt":{"base":"ria","mood":"amused, warm, tsundere,","pose":"piisk smile, looking away, slight blush"}}
+        ]
+      }
+    ],
+    "closing": { "type":"monologue", "lines":["...진짜 왜 그랬지.","펜 하나 때문에.","근데 걔가 웃었다.","Ria."] },
+    "bgm_slots": [
+      {"id":"bgm_D01_morning",   "type":"bgm","desc":"밝고 가벼운 피아노","suno_prompt":"bright cheerful piano, korean campus morning, light and fresh, lo-fi acoustic, 60 seconds loop"},
+      {"id":"bgm_D01_afternoon", "type":"bgm","desc":"잔잔한 어쿠스틱",   "suno_prompt":"calm acoustic guitar, peaceful afternoon, soft and warm, lo-fi chill, 60 seconds loop"},
+      {"id":"bgm_D01_evening",   "type":"bgm","desc":"조용한 앰비언트",   "suno_prompt":"quiet ambient, spring evening campus, slightly nostalgic, soft piano, lo-fi, 60 seconds loop"}
+    ],
+    "image_slots": [
+      {"id":"D01_bg_classroom","type":"background","removebg":false,"status":"empty"},
+      {"id":"D01_bg_corridor", "type":"background","removebg":false,"status":"empty"},
+      {"id":"D01_bg_bench",    "type":"background","removebg":false,"status":"empty"},
+      {"id":"D01_bg_library",  "type":"background","removebg":false,"status":"empty"},
+      {"id":"D01_bg_exit",     "type":"background","removebg":false,"status":"empty"},
+      {"id":"D01_U01_B1_professor","type":"character","character":"professor","removebg":true,"status":"empty"},
+      {"id":"D01_U01_B2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U01_B3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U01_CF1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U01_CF2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U01_CF3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U01_RW_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U02_B1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U02_B2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U02_CF1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U02_CF2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U02_CF3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U02_RW_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U03_B1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U03_B3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U03_CF1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U03_CF2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U03_CF3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U03_RW_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U04_B1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U04_B2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U04_CF1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U04_CF2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U04_CF3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U04_RW_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U05_B2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U05_B3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U05_B5_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U05_CF1_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U05_CF2_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U05_CF3_ria","type":"character","character":"ria","removebg":true,"status":"empty"},
+      {"id":"D01_U05_RW_ria","type":"character","character":"ria","removebg":true,"status":"empty"}
+    ]
+  };
+}
+
+// ═══════════════════════════════════════
+// Init
+// ═══════════════════════════════════════
+(async () => {
+  await openDB();
+  await loadScenario();
+  updateBadges();
+  showPage('scenario', document.querySelector('.nav-item'));
+})();
+</script>
+</body>
+</html>
